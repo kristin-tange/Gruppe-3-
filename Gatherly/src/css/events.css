@@ -17,7 +17,7 @@ main {
   padding: 0.5rem;
   font-size: 1rem;
   font-weight: 600;
-  color: var(--secondary-color);
+  color: white;
   text-shadow:
     -1px -1px 0 #000,
     1px -1px 0 #000,
@@ -101,7 +101,7 @@ main {
 .arrangementCard {
   display: flex;
   flex-direction: column;
-  background: white;
+  background: var(--header-color);
   border-radius: 1rem;
   width: 300px;
   min-height: 200px;

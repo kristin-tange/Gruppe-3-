@@ -12,7 +12,7 @@ body {
 }
 
 header {
-  background: #ffffff;
+  background: var(--header-color);
   display: flex;
   align-items: center;
   flex-direction: row;
