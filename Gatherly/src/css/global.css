@@ -1,0 +1,83 @@
+/* ---ROOT---- */
+
+:root {
+  /* FARGER */
+  --bg-color: #f6f6f6;
+  --primary-color: #4a90e2;
+  --primary-hover: ;
+  --secondary-color: #e6e6e6;
+  --secondary-hover: ;
+  --text-color: #161616;
+
+  /* KATEGORIFARGER */
+  --academia-cat: #4a90e2;
+  --entertainment-cat: #de2ebe;
+  --professional-cat: #e9e329;
+  --literature-cat: #7c3604;
+  --technology-cat: #0e8212;
+  --sports-cat: #e98009;
+
+  /* ARRANGEMENT-KORT */
+  --card-border: 3px solid;
+  --card-radius: 25px;
+  --card-bg: #fff;
+
+  /* FONT */
+  --text-font: roboto;
+
+  /* FORSLAG TIL SKRIFTSTØRRELSER MOBIL */
+  --h1: 28px;
+  --h2: 24px;
+  --h3: 20px;
+  --h4: 16px;
+  --main-text: 12px;
+
+  @media (min-width: 480px) {
+    /* SKRIFTSTØRRELSER DESKTOP */
+    --h1: 32px;
+    --h2: 28px;
+    --h3: 24px;
+    --h4: 20px;
+  }
+}
+
+/* ROBOTO-FONT: LINKEN MÅ LEGGES I HEAD PÅ ALLE HTML-FILER
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> */
+
+/* ---GLOBAL STYLING--- */
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: var(--text-font);
+}
+
+/* SKRIFTSTØRRELSER*/
+h1 {
+  font-size: var(--h1);
+}
+
+h2 {
+  font-size: var(--h2);
+}
+
+h3 {
+  font-size: var(--h3);
+}
+
+h4 {
+  font-size: var(--h4);
+}
+
+p {
+  font-size: var(--main-text);
+}
