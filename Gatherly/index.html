@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="nb">
   <head>
     <meta charset="UTF-8" />
@@ -12,7 +12,37 @@
       href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
+    <link
+      rel="shortcut icon"
+      href="./public/assets/icons/logo.png"
+      type="image/x-icon"
+    />
     <title>Gatherly</title>
   </head>
-  <body></body>
+  <body>
+    <header>
+      <div class="hamburger-backdrop"></div>
+      <button class="hamburger" aria-label="Åpne meny">
+        <div>
+          <img src="./public/assets/icons/menu.png" alt="" />
+        </div>
+      </button>
+      <div id="logoCon">
+        <a href="index.html"
+          ><img src="./public/assets/icons/logo.png" alt="logo" id="topLogo"
+        /></a>
+      </div>
+      <button class="login" aria-label="Logg inn">
+        <div><img src="./public/assets/icons/login.png" alt="" /></div>
+      </button>
+      <nav class="sideNav">
+        <ul>
+          <li><a href="index.html" class="active">Hjem</a></li>
+          <li><a href="">Arrangementer</a></li>
+          <li><a href="">Kontakt</a></li>
+        </ul>
+      </nav>
+    </header>
+    <script src="./src/js/burger.js"></script>
+  </body>
 </html>

@@ -1,0 +1,165 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Roboto, sans-serif;
+}
+
+nav ul {
+  list-style: none;
+}
+
+nav a {
+  text-decoration: none;
+  color: black;
+}
+
+body {
+  background: #f6f6f6;
+}
+
+header {
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.hamburger {
+  display: flex;
+  cursor: pointer;
+  background-color: transparent;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.hamburger img {
+  max-width: 110%;
+}
+
+#logoCon {
+  display: flex;
+}
+
+#topLogo {
+  margin: 1rem auto;
+  width: 5rem;
+}
+
+.login {
+  display: flex;
+  cursor: pointer;
+  background-color: transparent;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.sideNav {
+  top: 15rem;
+  left: -100%;
+  align-self: center;
+  position: fixed;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 15%;
+  padding: 0.5rem;
+  width: 60vw;
+  height: 30vh;
+  z-index: 1000;
+}
+
+.sideNav ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 100%;
+  height: 100%;
+  gap: 1rem;
+  border-radius: 1rem;
+  text-align: center;
+
+  background: #4a90e2;
+}
+
+.sideNav.active {
+  left: 20vw;
+}
+
+.sideNav a {
+  color: white;
+  padding: 0.75rem;
+  border-radius: 1rem;
+  margin: 1rem;
+}
+
+.sideNav a.active {
+  background: #e6e6e6;
+  color: black;
+}
+
+.sideNav a:hover {
+  background: #e6e6e6;
+  color: rgb(36, 36, 36);
+}
+
+.hamburger-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 120vw;
+  height: 120vh;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 999;
+  display: none;
+}
+
+.hamburger-backdrop.active {
+  display: block;
+}
+
+@media (min-width: 769px) {
+  .sideNav {
+    width: 200px;
+    height: 100vh;
+    top: 0;
+  }
+  .sideNav ul {
+    border-radius: 0;
+    justify-content: start;
+    gap: 2rem;
+    text-align: end;
+    padding-top: 2rem;
+  }
+  .sideNav.active {
+    left: 0;
+    padding: 0;
+  }
+
+  .sideNav a {
+    margin-right: 0;
+  }
+
+  .sideNav a.active {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  .sideNav a:hover {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+}
