@@ -1,0 +1,137 @@
+main {
+  max-width: 1500px;
+  display: block;
+  margin: auto;
+}
+
+#filterContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin: 1rem 0.1rem 0;
+}
+
+.category {
+  border: none;
+  padding: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--secondary-color);
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 1.5rem;
+  text-align: center;
+}
+
+.filterAll {
+  background: darkgrey;
+}
+
+.filterAcademia {
+  background: var(--academia-cat);
+}
+
+.filterEntertainment {
+  background: var(--entertainment-cat);
+}
+
+.filterProfessional {
+  background: var(--professional-cat);
+}
+
+.filterLiterature {
+  background: var(--literature-cat);
+}
+
+.filterTechnology {
+  background: var(--technology-cat);
+}
+
+.filterSports {
+  background: var(--sports-cat);
+}
+
+.filterExample {
+  background: purple;
+}
+
+.filterAll.active {
+  color: var(--secondary-color);
+  background: darkgrey;
+}
+
+.filterAcademia.active {
+  background: var(--academia-cat);
+}
+
+.filterEntertainment.active {
+  background: var(--entertainment-cat);
+}
+
+.filterProfessional.active {
+  background: var(--professional-cat);
+}
+
+.filterLiterature.active {
+  background: var(--literature-cat);
+}
+
+.filterTechnology.active {
+  background: var(--technology-cat);
+}
+
+.filterSports.active {
+  background: var(--sports-cat);
+}
+
+#arrangements {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.arrangementCard {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 1rem;
+  width: 300px;
+  min-height: 200px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.arrangementCard div {
+  margin: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.arrangementCard img {
+  width: 100%;
+  margin-bottom: 0;
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+}
+
+.tag {
+  max-width: 100px;
+  align-self: flex-end;
+  height: 1.5rem;
+  min-width: 50px;
+  justify-content: center;
+}
+
+@media (min-width: 769px) {
+  .category {
+    padding: 1rem;
+  }
+}
