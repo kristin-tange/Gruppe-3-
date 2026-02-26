@@ -1,1 +1,79 @@
-/* sjekke at det funker */
+footer {
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+  background-color: var(--primary-color);
+  color: #ffffff;
+  padding: 10px 20px;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  margin-top: calc(100vh - 158px);
+}
+
+footer .left {
+  grid-column: 1;
+  justify-self: start;
+  text-align: left;
+  font-size: 14px;
+}
+
+footer .center {
+  grid-column: 2;
+  justify-self: center;
+  text-align: center;
+  font-size: 20px;
+}
+
+footer .right {
+  grid-column: 3;
+  justify-self: end;
+  display: flex;
+  gap: 10px;
+}
+
+footer .social-btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  color: #00694b;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.2s;
+}
+
+footer .social-btn:hover {
+  background-color: #004d36;
+  color: #ffffff;
+  transform: scale(1.1);
+}
+
+footer .right {
+  grid-column: 3;
+  justify-self: end;
+  display: flex;
+  gap: 12px;
+}
+
+footer .icon {
+  width: 30px;
+  height: 30px;
+  filter: brightness(0) invert(1);
+  transition: 0.2s ease;
+}
+
+footer .icon:hover {
+  transform: scale(1.1);
+  filter: brightness(1) invert(0);
+}
+
+footer p {
+  font-size: 16px;
+  font-weight: 700;
+}
