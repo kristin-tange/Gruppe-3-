@@ -6,7 +6,7 @@
     <meta name="description" content="Arrangementinformasjon" />
     <meta name="author" content="Kristin Tange" />
     <link rel="stylesheet" href="/src/css/style.css" />
-    <link rel="stylesheet" href="/src/css/singleEvent.css" />
+    <!-- <link rel="stylesheet" href="/src/css/singleEvent.css" /> -->
 
     <!-- ROBOTO-FONT -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -20,16 +20,6 @@
   </head>
   <body>
     <!-- HEADER -->
-    <header>
-      <nav>
-        <ul>
-          <li><a href=""></a></li>
-          <li><a href=""></a></li>
-          <li><a href=""></a></li>
-          <li><a href=""></a></li>
-        </ul>
-      </nav>
-    </header>
 
     <!-- HOVEDINNHOLD -- ENKELTARRANGEMENT -->
 
@@ -38,11 +28,39 @@
         <h1>Tittel på arrangement</h1>
         <img src="" alt="" widt="" height="auto" />
         <p class="event-date">Tidspunkt for arrangement</p>
+        <p class="event-place">Sted</p>
         <p class="event-price">Kr</p>
+        <p class="event-tags">tag</p>
       </section>
       <section class="event-info">
         <h2></h2>
         <p></p>
+        <button class="sign-up-btn">Meld deg på</button>
+        <p class="event-capasity">Antall ledige plasser: 150</p>
+      </section>
+  
+      <aside class="post-section">
+         <h3>Opprett innlegg</h3>
+        <form>
+          <label for="post-name">Tittel:</label>
+          <input type="text" id="post-name" name="post-name"> <br>
+          <label for="post">Ditt innlegg:</label> <br>
+          <textarea id="post" name="post" rows="4"></textarea><br>
+          <button type="submit"> Publiser innlegg</button><br>
+        </form>
+
+        <article class="post">
+          <h4 class="post-name">Tittel på innlegg</h4>
+
+        </article>
+
+        <h4>Legg til kommentar</h3>
+    
+        <form>
+          <label for="kommentar">Kommentar:</label><br>
+          <textarea id="kommentar" name="kommentar" rows="4"></textarea><br>
+          <button type="submit">Kommenter</button>
+        </form>
       </section>
     </main>
 
@@ -50,5 +68,7 @@
     <footer>
       <p>&copy;2025 Gatherly</p>
     </footer>
+    <script type="module" src="singleEvent.ts"></script>
+  </body>
   </body>
 </html>
