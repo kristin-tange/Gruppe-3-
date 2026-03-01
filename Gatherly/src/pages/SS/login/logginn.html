@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logginn page</title>
+   
+    <!-- ROBOTO-FONT -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../../src/css/style.css" />
+    <link rel="shortcut icon" href="../../../../public/assets/icons/logo.png" type="image/x-icon" />
+    <link rel="stylesheet" href="../../../../src/css/login.css" />
+    <link rel="stylesheet" href="../../../../src/css/header.css" />
+    <link rel="stylesheet" href="../../../../src/css/footer.css" />
+    <link rel="stylesheet" href="../../../../src/css/burger.css" />
+
+</head>
+<body>
+   <header>
+      <div class="hamburger-backdrop"></div>
+      <button class="hamburger" aria-label="Åpne meny">
+        <div>
+          <img src="../../../../public/assets/icons/menu.png" alt="" />
+        </div>
+      </button>
+      <div id="logoCon">
+        <a href="index.html"
+          ><img src="../../../../public/assets/icons/logo.png" alt="logo" id="topLogo"
+        /></a>
+      </div>
+      <!--login icon links to login page-->
+      <a href="../../../../src/pages/SS/login/logginn.html" class="login" aria-label="Logg inn" > 
+        <div> <img src="../../../../public/assets/icons/login.png" alt="login icon" /> </div> </a>
+      <nav class="sideNav">
+        <ul>
+          <li><a href="../../../../index.html" class="active">Hjem</a></li>
+          <li><a href="../../../../src/pages/events/events.html">Arrangementer</a></li>
+          <li><a href="">Kontakt</a></li>
+        </ul>
+      </nav>
+    </header>
+     <footer>
+    <p class="left">
+   
+    </p>
+
+    <p class="center">© Gatherly 2026</p>
+
+    <nav class="right" aria-label="Linker til sosiale medier">
+      <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
+       <img src="../../../public/assets/icons/facebook.png" class="icon" alt="Facebook">
+
+      </a>
+      <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
+        <img src="../../../public/assets/icons/instagram.png" alt="Instagram" class="icon" />
+      </a>
+      <a href="mailto:post@gatherly.no">
+        <img src="../../../public/assets/icons/mail.png" alt="E-post" class="icon" />
+      </a>
+    </nav>
+  </footer>
+  <script src="../../../../src/js/burger.js"></script>
+  <script type="module" src="../../../../index.ts"></script>
+</body>
+</html>
+ 
