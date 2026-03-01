@@ -19,6 +19,11 @@
     />
     <title>Gatherly</title>
   </head>
+
+  <button class="support-btn" aria-label="Send inn en support-ticket">
+    💬
+  </button>
+
   <body>
     <header>
       <div class="hamburger-backdrop"></div>
@@ -32,9 +37,9 @@
           ><img src="./public/assets/icons/logo.png" alt="logo" id="topLogo"
         /></a>
       </div>
-      <!--login icon links to login page-->
-      <a href="./src/pages/SS/login/logginn.html" class="login" aria-label="Logg inn" > 
-        <div> <img src="./public/assets/icons/login.png" alt="login icon" /> </div> </a>
+      <button class="login" aria-label="Logg inn">
+        <div><img src="./public/assets/icons/login.png" alt="" /></div>
+      </button>
       <nav class="sideNav">
         <ul>
           <li><a href="index.html" class="active">Hjem</a></li>
@@ -43,6 +48,110 @@
         </ul>
       </nav>
     </header>
+
+    <main>
+        <section class="hero">
+            <h1>Arrangement</h1>
+            <div class="container">
+            <div class="hero-content">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. <br>
+                Sed do eiusmod tempor incididunt.
+            </p>
+            <a class="arrangement-link" href="#">Utforsk</a>
+            </div>
+            </div>
+        </section>
+
+        <section class="categories">
+            
+            
+                <h2>Kategorier</h2>
+
+                <ul class="category-grid">
+                    <li>
+                        <a href="./src/pages/events/events.html" class="category-card academia" aria-label="Utforsk kategorien Akademisk">
+                            <h3>Akademisk</h3>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="./src/pages/events/events.html" class="category-card entertainment" aria-label="Utforsk kategorien Underholdning">
+                            <h3>Underholdning</h3>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="./src/pages/events/events.html" class="category-card professional" aria-label="Utforsk kategorien Profesjonell">
+                            <h3>Profesjonell</h3>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="./src/pages/events/events.html" class="category-card literature" aria-label="Utforsk kategorien Litteratur">
+                            <h3>Litteratur</h3>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="./src/pages/events/events.html" class="category-card technology" aria-label="Utforsk kategorien Teknologi">
+                            <h3>Teknologi</h3>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="./src/pages/events/events.html" class="category-card sports" aria-label="Utforsk kategorien Sport">
+                            <h3>Sport</h3>
+                        </a>
+                    </li>
+                </ul>
+
+
+
+
+           
+        </section>
+
+        <section class="how-it-works">
+            
+                <h2>Hvordan fungerer Gatherly?</h2>
+
+                <ol class="steps">
+                    <li class="step">
+                        <div class="step-icon">🔍</div>
+                        <div class="step-text">
+                        <h3>Finn arrangementer</h3>
+                        <p>Utforsk ulike kategorier og oppdag arrangementer som passer for deg.</p>
+                        </div>
+                    </li>
+                    <li class="step">
+                        <div class="step-icon">📅</div>
+                        <div class="step-text">
+                        <h3>Opprett arrangement</h3>
+                        <p>Arrangører kan enkelt publisere og administrere sine egne arrangementer</p>
+                        </div>
+                    </li>
+                    <li class="step">
+                        <div class="step-icon">🎫</div>
+                        <div class="step-text">
+                        <h3>Meld deg på</h3>
+                        <p>Ser du et arrangement du liker? Meld deg enkelt på med et klikk!</p>
+                        </div>
+                    </li>
+                    <li class="step">
+                        <div class="step-icon">👥</div>
+                        <div class="step-text">
+                        <h3>Engasjer deg</h3>
+                        <p>Delta i kommentarfelt, eller publiser artikler for å dele dine tanker</p>
+                        </div>
+                    </li>
+
+                  </ol>
+        </section>
+
+    </main>
+
+
+
+
+
+
+
+
     <script src="./src/js/burger.js"></script>
     <script type="module" src="index.ts"></script>
   </body>
