@@ -100,13 +100,10 @@ p {
   border: none;
   font-size: var(--main-text);
   cursor: pointer; 
-  display: inline-block; 
+  display: inline-block;
+  text-decoration: none; 
 }
-.btn-group {
-    display: flex;
-    gap: 20px;
-    justify-content: center; 
-}
+
 /* ---PRIMARY BUTTON--- */
  .btn-primary {
   background: var(--primary-color);
