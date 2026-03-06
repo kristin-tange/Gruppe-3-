@@ -50,11 +50,8 @@
     <!-- HERO -->
     <main>
       <section class="event-hero">
-        <img
-          src="/Gatherly/public/assets/img/event-placeholder.jpg"
-          alt=""
-          id="event-img"
-        />
+        <div id="event-img"></div>
+
         <div class="event-overlay">
           <h1 class="event-title">Tech-meetup</h1>
 
@@ -119,7 +116,6 @@
 
         <!-- EKSEMPELINNLEGG -->
 
-        <!-- FIKSE ID/KLASSE I POST-SECTION -->
         <article class="published-post section-grid">
           <div class="first-row">
             <img
@@ -149,8 +145,6 @@
             ea commodo consequat.
           </p>
 
-          <!-- PLASSERE KNAPPER KNYTTET TIL INNLEGG PÅ SAMME LINJE  -->
-
           <div class="reaction-btns">
             <div class="likes">
               <button class="post-icons like-btn" type="button">
@@ -159,7 +153,7 @@
                   width="20px"
                 />
               </button>
-              <span class="likes-counter muted">x</span>
+              <span class="likes-counter muted">12</span>
             </div>
             <div class="dislikes">
               <button class="post-icons dislike-btn" type="button">
@@ -168,7 +162,7 @@
                   width="20px"
                 />
               </button>
-              <span class="dislikes-counter muted">x</span>
+              <span class="dislikes-counter muted">0</span>
             </div>
             <div class="comments">
               <button class="post-icons comment-btn" type="button">
@@ -177,19 +171,19 @@
                   width="20px"
                 />
               </button>
-              <span class="comments-counter muted">x</span>
+              <span class="comments-counter muted">0</span>
             </div>
           </div>
 
           <section class="comment-section">
             <form class="comment">
               <div class="comment-box">
-                <textarea id="comment" name="kommentar" rows="4"></textarea
+                <textarea class="comment" name="kommentar" rows="4"></textarea
                 ><br />
-                <button id="post-btn" class="btn btn-primary" type="submit">
+                <button class="post-btn btn btn-primary" type="submit">
                   Send
                 </button>
-                <button id="exit-btn" class="btn btn-secondary" type="button">
+                <button class="exit-btn btn btn-secondary" type="button">
                   Avbryt
                 </button>
               </div>
