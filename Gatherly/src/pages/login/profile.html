@@ -4,21 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
-    <link rel="stylesheet" href="src/css/style.css" />
-
+    
     <!-- ROBOTO-FONT -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../../../css/style.css" />
+    <link rel="stylesheet" href="../../../src/css/style.css" />
+    <link rel="stylesheet" href="../../../src/css/profileandlogginn.css" />
+    
+    <!-- Favicon -->
     <link rel="shortcut icon" href="../../../public/assets/icons/logo.png" type="image/x-icon" />
-    <link rel="stylesheet" href="../../../css/login.css" />
-    <link rel="stylesheet" href="../../../css/header.css" />
-    <link rel="stylesheet" href="../../../css/footer.css" />
-    <link rel="stylesheet" href="../../../css/burger.css" />
-
 </head>
 <body>
   <header>
@@ -34,17 +31,61 @@
         /></a>
       </div>
       <!--login icon links to login page-->
-      <a href="./src/pages/login/logginn.html" class="login" aria-label="Logg inn" > 
+      <a href="logginn.html" class="login" aria-label="Logg inn" > 
         <div> <img src="../../../public/assets/icons/login.png" alt="login icon" /> </div> </a>
       <nav class="sideNav">
         <ul>
-          <li><a href="index.html" class="active">Hjem</a></li>
+          <li><a href="../../../index.html" class="active">Hjem</a></li>
           <li><a href="../events/events.html">Arrangementer</a></li>
           <li><a href="">Kontakt</a></li>
         </ul>
       </nav>
     </header>
-    <footer>
+    <main>
+      <div class="account-page-wrapper">
+        <div class="account-container">
+           <h2 class="name">profil side</h2>
+           <div class="profile-picture-wrapper">
+             <img src="../../../public/assets/img/profile picture.png" class="profile-picture" alt="Profilbilde">
+             </div> 
+         
+          <form id="accountForm">
+           <div class="form-group">
+              <label for="username">Fornavn</label>
+              <input type="text" id="username">
+          </div>
+            <div class="form-group">
+                <label for="lastname">Etternavn</label>
+                <input type="text" id="lastname">
+            </div>
+            <div class="form-group">
+                <label for="phone">Telefonnummer</label>
+                <input type="tel" id="phone">
+            </div>
+            <div class="form-group">
+                <label for="location">Sted</label>
+                <input type="text" id="location">
+            </div>
+            <div class="form-group">
+                <label for="email">E-post</label>
+                <input type="email" id="email">
+              </div>
+            <div class="form-group">
+              <label for="date of birth">Fødselsdato</label><br>
+              <input type="date" placeholder="Fødselsdato">
+            </div>
+
+              <div class="button-group">
+                 <button type="button" class="btn btn-secondary">Rediger Profil</button>
+                 <button type="button" class="btn btn-secondary">Slett konto</button>
+                 <button type="button" class="btn btn-primary">lagre endringer</button> 
+              </div>
+          </form> 
+        </div>
+  </div>
+  </main>                
+</body>
+<footer>
     <p class="left">
    
     </p>
@@ -54,7 +95,6 @@
     <nav class="right" aria-label="Linker til sosiale medier">
       <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">
        <img src="../../../public/assets/icons/facebook.png" class="icon" alt="Facebook">
-
       </a>
       <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">
         <img src="../../../public/assets/icons/instagram.png" alt="Instagram" class="icon" />
@@ -64,9 +104,7 @@
       </a>
     </nav>
   </footer>
-    <script src="../../../js/burger.js"></script>
-    Gatherly/src/pages/SS/userProfile/userProfile.ts
+    <script src="../../../src/js/burger.js"></script>
     
     
-</body>
 </html>
