@@ -20,9 +20,7 @@
     <title>Gatherly</title>
   </head>
 
-  <button class="support-btn" aria-label="Send inn en support-ticket">
-    💬
-  </button>
+
 
   <body>
     <header>
@@ -51,15 +49,41 @@
 
     <main>
         <section class="hero">
-            <h1>Arrangement</h1>
-            <div class="container">
+
+          <div class="hero-slide active">
             <div class="hero-content">
+              <h1>Arrangement</h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. <br>
                 Sed do eiusmod tempor incididunt.
             </p>
             <a class="arrangement-link" href="#">Utforsk</a>
             </div>
             </div>
+
+
+              <div class="hero-slide">
+            <div class="hero-content">
+              <h1>Arrangement 2</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. <br>
+                Sed do eiusmod tempor incididunt.
+            </p>
+            <a class="arrangement-link" href="#">Utforsk</a>
+            </div>
+            </div>
+
+
+              <div class="hero-slide">
+            <div class="hero-content">
+              <h1>Arrangement 3</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. <br>
+                Sed do eiusmod tempor incididunt.
+            </p>
+            <a class="arrangement-link" href="#">Utforsk</a>
+            </div>
+            </div>
+
+            <button class="hero-prev">←</button>
+            <button class="hero-next">→</button>
         </section>
 
         <section class="categories">
@@ -145,13 +169,45 @@
 
     </main>
 
+  <button id="support-btn" aria-label="Send inn en support-ticket">
+    💬
+  </button>
+
+  <div id="support-box">
+
+    <div class="support-content">
+
+    <div class="support-header">
+      <h2>Support</h2>
+      <button id="close-support-btn" aria-label="Lukk support-boksen">x</button>
+    </div>
+
+    <form id="support-form">
+
+      <label for="name">Navn:</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="email">E-post:</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="message">Hva gjelder saken?</label>
+      <textarea id="message" name="message" rows="4" required></textarea>
+
+      <button type="submit" id="submit-support-btn">Send inn</button>
+
+    </form>
+
+  </div>
+
+  </div>
 
 
 
 
 
 
-
+<script src="./src/js/hero-slider.js"></script>
+<script src="./src/js/support.js"></script>
     <script src="./src/js/burger.js"></script>
     <script type="module" src="index.ts"></script>
   </body>
