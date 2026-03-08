@@ -89,7 +89,7 @@ main {
   background: var(--sports-cat);
 }
 
-#arrangements {
+#events-container {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
