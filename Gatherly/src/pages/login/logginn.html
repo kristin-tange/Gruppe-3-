@@ -13,11 +13,8 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../../../src/css/style.css" />
-    <link rel="stylesheet" href="../../../src/css/logginn.css" />
-    <link rel="stylesheet" href="../../../src/css/header.css" />
-    <link rel="stylesheet" href="../../../src/css/footer.css" />
-   
-
+    <link rel="stylesheet" href="../../../src/css/profileandlogginn.css" />
+    
     <!-- Favicon -->
     <link rel="shortcut icon" href="../../../public/assets/icons/logo.png" type="image/x-icon" />
 </head>
@@ -35,8 +32,9 @@
         /></a>
       </div>
       <!--login icon links to login page-->
-      <a href="logginn.html" class="login" aria-label="Logg inn" > 
-        <div> <img src="../../../public/assets/icons/login.png" alt="login icon" /> </div> </a>
+      <a href="./logginn.html" class="login" aria-label="Logg inn" > 
+        <div> <img src="../../../public/assets/icons/login.png" alt="login icon" /> </div> 
+      </a>
       <nav class="sideNav">
         <ul>
           <li><a href="../../../index.html" class="active">Hjem</a></li>
@@ -47,24 +45,28 @@
     </header>
     <body>
       <main>
-        <div class="login-container">
-          <h2>Logg inn</h2>
-
-         <form id ="loginForm">
+      <div class="account-page-wrapper">
+        <div class="account-container">
+          <h2 >Logg inn</h2>
+         <form id ="accountForm">
           <div class="form-group">
             <label for="username">Brukernavn</label>
-             <input type="text" placeholder="Brukernavn">
+             <input type="text" placeholder="Brukernavn" required>
           </div>
           <div class="form-group">
           <label for="password">Passord</label>
           <input type="password" placeholder="Passord">
           </div>
-          <button class="login-button">Logg inn</button>
-          <button class="register-button">Registrer deg</button>
+         <div class="button-group">
+          <button type="button" class="btn btn-primary">Logg inn</button>
+          <a class="btn btn-secondary" href="../../pages/login/profile.html">Registrer deg</a>
+          <!-- <button id="themeToggle">🌙</button> -->
+         </div> 
          </form>
         </div>
-
-    </body>
+      </div>
+    </main>
+   </body> 
      <footer>
     <p class="left">
    
@@ -86,8 +88,6 @@
     </nav>
   </footer>
   <script src="../../../src/js/burger.js"></script>
-  
-  
-</body>
+
 </html>
  
