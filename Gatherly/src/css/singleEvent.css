@@ -15,12 +15,12 @@ body {
 }
 
 #event-img {
-  background-image: url("/Gatherly/public/assets/img/example.jpg");
+  background-image: url("/Gatherly/public/assets/img/event-placeholder.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   width: 100%;
-  max-width: 800px;
+  max-width: 1400px;
   height: 50vh;
   margin: 0 auto;
 }
@@ -49,6 +49,7 @@ body {
   border-radius: 4px;
   width: fit-content;
   justify-self: flex-start;
+  margin-left: 0.8rem;
 }
 
 .under-hero {
@@ -307,6 +308,14 @@ body {
 }
 
 #close-btn {
-  width: max-content;
+  max-width: fit-content;
   padding: 0.5rem;
+}
+
+.like-btn.active img {
+  content: url(/Gatherly/public/assets/icons/like-pressed.png);
+}
+
+.dislike-btn.active img {
+  content: url(/Gatherly/public/assets/icons/dislike-pressed.png);
 }

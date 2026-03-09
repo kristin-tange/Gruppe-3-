@@ -10,10 +10,10 @@ closeBtn.addEventListener("click", () => {
   postOverlay.style.display = "none";
 });
 
-const commentBtn = document.querySelectorAll("comment-btn");
-const postBtn = document.querySelectorAll("post-btn");
-const exitBtn = document.querySelectorAll("exit-btn");
-const commentBox = document.querySelectorAll(".comment-box");
+const commentBtn = document.querySelector(".comment-btn");
+const postBtn = document.querySelector(".post-btn");
+const exitBtn = document.querySelector(".exit-btn");
+const commentBox = document.querySelector(".comment-box");
 
 commentBtn.addEventListener("click", () => {
   commentBox.classList.toggle("comment-box");
@@ -24,20 +24,45 @@ exitBtn.addEventListener("click", () => {
 });
 
 // REAKSJONER
-//Like-btn: like/unlike innlegg
-//Dislike-btn: dislike/undislike innlegg
+// TODO: reaction-btns: reagere/avreagere på innlegg
+// TODO: oppdatere counter med antall reaksjoner
 
-const likeBtn = document.querySelectorAll("like-btn");
-const dislikeBtn = document.querySelectorAll("dislike-btn");
-const likesCounter = document.querySelectorAll("likes-counter");
-const dislikesCounter = document.querySelectorAll("dislikes-counter");
+const likeBtn = document.querySelector(".like-btn");
+const dislikeBtn = document.querySelector(".dislike-btn");
+const dislikesCounter = document.querySelector(".dislikes-counter");
+const likesCounter = document.querySelector(".likes-counter");
+let likeCount = 12;
+let dislikeCount = 0;
 
-likeBtn.addEventListener("click", () => {});
+// OBS: må kobles til API med flere brukere og innlegg senere
+
+likeBtn.addEventListener("click", () => {
+  likeBtn.classList.toggle("active");
+
+  if (likeBtn.classList.contains("active")) {
+    likeCount++;
+  } else {
+    likeCount--;
+  }
+  likesCounter.textContent = likeCount;
+});
+
+dislikeBtn.addEventListener("click", () => {
+  dislikeBtn.classList.toggle("active");
+
+  if (dislikeBtn.classList.contains("active")) {
+    dislikeCount++;
+  } else {
+    dislikeCount--;
+  }
+  dislikesCounter.textContent = dislikeCount;
+});
+
 // KOMMENTARER
 // Send-btn: poste kommentar på innlegg
 
-const commentsCounter = document.querySelectorAll("comments-counter");
-postBtn;
+// const commentsCounter = document.querySelectorAll("comments-counter");
+// postBtn;
 
 // ANNEN FUNKSJONALITET (SENERE)
 // Alert ved trykk på påmeldings-knapp
