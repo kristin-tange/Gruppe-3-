@@ -44,47 +44,51 @@
     <main>
       <div class="account-page-wrapper">
         <div class="account-container">
-           <h2 class="name">profil side</h2>
+           <h2 class="name">profilside</h2>
            <div class="profile-picture-wrapper">
-             <img src="../../../public/assets/img/profile picture.png" class="profile-picture" alt="Profilbilde">
+             <img src="../../../public/assets/img/profilepicture.png" class="profile-picture" alt="Profilbilde">
              </div> 
          
-          <form id="accountForm">
+        <form id="accountForm">
            <div class="form-group">
               <label for="username">Fornavn</label>
-              <input type="text" id="username">
+              <input type="text" id="username" disabled>
           </div>
             <div class="form-group">
                 <label for="lastname">Etternavn</label>
-                <input type="text" id="lastname">
+                <input aria-label="Etternavn" type="text" id="lastname" disabled>
             </div>
             <div class="form-group">
                 <label for="phone">Telefonnummer</label>
-                <input type="tel" id="phone">
+                <input aria-label="Telefonnummer" type="tel" id="phone" disabled>
             </div>
             <div class="form-group">
                 <label for="location">Sted</label>
-                <input type="text" id="location">
+                <input aria-label="Sted" type="text" id="location" disabled>
             </div>
             <div class="form-group">
                 <label for="email">E-post</label>
-                <input type="email" id="email">
+                <input aria-label="E-post" type="email" id="email" disabled>
               </div>
             <div class="form-group">
-              <label for="date of birth">Fødselsdato</label><br>
-              <input type="date" placeholder="Fødselsdato">
+              <label for="date of birth">Fødselsdato</label>
+              <input aria-label="Fødselsdato"  type="date" id="dob" disabled>
             </div>
-
+            <div class="form-group">
+              <label for="bio">Biografi</label>
+              <input aria-label="Biografi" type="text" id="bio" disabled>
+            </div>
               <div class="button-group">
-                 <button type="button" class="btn btn-secondary">Rediger Profil</button>
-                 <button type="button" class="btn btn-secondary">Slett konto</button>
-                 <button type="button" class="btn btn-primary">lagre endringer</button> 
+                 <button type="button" id="editbtn" class="btn btn-secondary">Rediger Profil</button>
+                 <button type="button" id="deletebtn" class="btn btn-secondary">Slett konto</button>
+                 <button type="button" id="savebtn" class="btn btn-primary">lagre endringer</button> 
               </div>
-          </form> 
+         </form> 
         </div>
   </div>
-  </main>                
-</body>
+  </main>
+  
+
 <footer>
     <p class="left">
    
@@ -105,6 +109,7 @@
     </nav>
   </footer>
     <script src="../../../src/js/burger.js"></script>
+    <script src="../../../src/js/profile.js"></script>
     
-    
+ </body>   
 </html>
