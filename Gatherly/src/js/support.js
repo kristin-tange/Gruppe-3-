@@ -15,3 +15,14 @@ window.addEventListener("click", (e) => {
         supportBox.classList.remove("active");
     }
 });
+
+const supportForm = document.getElementById("support-form");
+
+supportForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    alert("Support-saken din er sendt inn!");
+
+    supportForm.reset();
+    supportBox.classList.remove("active");
+})

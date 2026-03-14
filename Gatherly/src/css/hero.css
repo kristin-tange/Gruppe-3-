@@ -175,6 +175,11 @@
     gap: 1rem;
 }
 
+#support-form input,
+#support-form textarea {
+    border-radius: 10px;
+}
+
 
 
 
@@ -206,7 +211,7 @@
         height: 40px;
      }
 
-    .support-btn {
+    #support-btn {
         width: 90px;
         height: 90px;
         font-size: 32px;
