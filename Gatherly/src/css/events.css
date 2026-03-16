@@ -28,68 +28,45 @@ main {
   text-align: center;
 }
 
-.filterAll {
+button:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  transition: transform 0.2s;
+}
+
+#filterAll {
   background: darkgrey;
 }
 
-.filterAcademia {
+#filterAcademia {
   background: var(--academia-cat);
 }
 
-.filterEntertainment {
+#filterEntertainment {
   background: var(--entertainment-cat);
 }
 
-.filterProfessional {
+#filterProfessional {
   background: var(--professional-cat);
 }
 
-.filterLiterature {
+#filterLiterature {
   background: var(--literature-cat);
 }
 
-.filterTechnology {
+#filterTechnology {
   background: var(--technology-cat);
 }
 
-.filterSports {
+#filterSports {
   background: var(--sports-cat);
 }
 
-.filterExample {
+#filterExample {
   background: purple;
 }
 
-.filterAll.active {
-  color: var(--secondary-color);
-  background: darkgrey;
-}
-
-.filterAcademia.active {
-  background: var(--academia-cat);
-}
-
-.filterEntertainment.active {
-  background: var(--entertainment-cat);
-}
-
-.filterProfessional.active {
-  background: var(--professional-cat);
-}
-
-.filterLiterature.active {
-  background: var(--literature-cat);
-}
-
-.filterTechnology.active {
-  background: var(--technology-cat);
-}
-
-.filterSports.active {
-  background: var(--sports-cat);
-}
-
-#arrangements {
+#events-container {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -108,6 +85,12 @@ main {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.arrangementCard:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  transition: transform 0.5s;
+}
+
 .arrangementCard div {
   margin: 1rem;
   display: flex;
@@ -123,7 +106,7 @@ main {
 }
 
 .tag {
-  max-width: 100px;
+  max-width: fit-content;
   align-self: flex-end;
   height: 1.5rem;
   min-width: 50px;
@@ -133,5 +116,9 @@ main {
 @media (min-width: 769px) {
   .category {
     padding: 1rem;
+  }
+
+  main {
+    max-width: 95vw;
   }
 }
