@@ -184,7 +184,7 @@ body {
 
 /* INNLEGG-SEKSJON */
 
-#create-btn {
+#open-overlay-btn {
   display: flex;
   justify-content: space-between;
   background-color: var(--secondary-color);
@@ -193,7 +193,10 @@ body {
   width: 100%;
   margin-bottom: 2rem;
 }
-
+#publish-btn {
+  width: fit-content;
+  align-self: center;
+}
 #create-post {
   background-color: var(--header-color);
   text-align: start;
@@ -334,7 +337,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
-  width: fit-content;
+  width: max-content;
   padding: 0.5rem;
 }
 
@@ -376,10 +379,25 @@ textarea::placeholder {
   gap: 0.5rem;
   display: flex;
   flex-direction: column;
-  min-width: 30%;
+  min-width: 60%;
+
+  @media (width > 700px) {
+    min-width: 40%;
+  }
+  @media (width > 1000px) {
+    min-width: 30%;
+  }
+  @media (width > 1500px) {
+    min-width: 20%;
+  }
 }
 
-.post-btn {
+#close-btn {
+  width: fit-content;
+  padding: 10px;
+}
+
+#post-btn {
   width: fit-content;
   align-self: center;
 }

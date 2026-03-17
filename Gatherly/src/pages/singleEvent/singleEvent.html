@@ -109,12 +109,12 @@
           Skriv et innlegg til arrangøren eller andre som er interessert i dette
           arrangementet.
         </p>
-        <button id="create-btn" class="btn btn-secondary" type="button">
+        <button id="open-overlay-btn" class="btn btn-secondary" type="button">
           <span id="create-post">Opprett innlegg</span>
           <img src="/Gatherly/public/assets/icons/pil.svg" />
         </button>
 
-        <h4>Innlegg <span class="highlight">4</span></h4>
+        <h4>Innlegg <span id="post-counter" class="highlight">4</span></h4>
         <!-- EKSEMPELINNLEGG -->
 
         <article class="published-post section-grid">
@@ -260,11 +260,11 @@
               />
             </button>
             <h3>Opprett innlegg</h3>
-            <label for="post_name">Tittel:</label>
-            <input type="text" id="post_name" name="post-name" />
-            <label for="post">Ditt innlegg:</label>
-            <textarea id="post" name="post" rows="6"></textarea><br />
-            <button id="post-btn" class="btn btn-primary" type="submit">
+            <label for="postName">Tittel:</label>
+            <input type="text" id="postName" name="post-name" />
+            <label for="postTxt">Ditt innlegg:</label>
+            <textarea id="postTxt" name="text" rows="6"></textarea><br />
+            <button id="publish-btn" class="btn btn-primary" type="submit">
               Publiser
             </button>
           </form>

@@ -1,31 +1,33 @@
-const createBtn = document.getElementById("create-btn");
-const closeBtn = document.getElementById("close-btn");
+// ÅPNE OG LUKKE OVERLAY: INNLEGG
+const overlayBtn = document.getElementById("open-overlay-btn");
+const closeOverlayBtn = document.getElementById("close-btn");
 const postOverlay = document.getElementById("post-overlay");
 
-createBtn.addEventListener("click", () => {
+overlayBtn.addEventListener("click", () => {
   postOverlay.style.display = "block";
 });
 
-closeBtn.addEventListener("click", () => {
+closeOverlayBtn.addEventListener("click", () => {
   postOverlay.style.display = "none";
 });
+
+// ÅPNE OG LUKKE KOMMENTARFELT
 
 const commentBtn = document.querySelector(".comment-btn");
 const postBtn = document.querySelector(".post-btn");
 const exitBtn = document.querySelector(".exit-btn");
-const commentBox = document.querySelector(".comment-box");
+const commentBox = document.querySelector(".hide-comment");
 
 commentBtn.addEventListener("click", () => {
-  commentBox.classList.toggle("comment-box");
+  commentBox.classList.toggle("hide-comment");
 });
 
 exitBtn.addEventListener("click", () => {
-  commentBox.classList.add("comment-box");
+  commentBox.classList.add("hide-comment");
 });
 
 // REAKSJONER
-// TODO: reaction-btns: reagere/avreagere på innlegg
-// TODO: oppdatere counter med antall reaksjoner
+// OBS: må kobles til API med flere brukere og innlegg senere
 
 const likeBtn = document.querySelector(".like-btn");
 const dislikeBtn = document.querySelector(".dislike-btn");
@@ -33,8 +35,6 @@ const dislikesCounter = document.querySelector(".dislikes-counter");
 const likesCounter = document.querySelector(".likes-counter");
 let likeCount = 12;
 let dislikeCount = 0;
-
-// OBS: må kobles til API med flere brukere og innlegg senere
 
 likeBtn.addEventListener("click", () => {
   likeBtn.classList.toggle("active");
@@ -58,11 +58,19 @@ dislikeBtn.addEventListener("click", () => {
   dislikesCounter.textContent = dislikeCount;
 });
 
+// INNLEGG
+// post-btn
+const postName = document.getElementById("postName");
+const postTxt = document.getElementById("postTxt");
+const publishBtn = document.getElementById("publish-btn");
+
+function createPost() {
+  const newPost = document.createElement("article");
+  newPost;
+}
+
 // KOMMENTARER
 // Send-btn: poste kommentar på innlegg
-
-// const commentsCounter = document.querySelectorAll("comments-counter");
-// postBtn;
 
 // ANNEN FUNKSJONALITET (SENERE)
 // Alert ved trykk på påmeldings-knapp
