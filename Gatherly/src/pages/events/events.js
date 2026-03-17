@@ -1,18 +1,21 @@
-let events = [];
+const BASE_URL = "http://localhost:3000/api";
+const API_KEY = "1000";
 
-async function fetchEvents() {
-  const response = await fetch("/Gatherly/testAPI.json");
-  if (!response.ok) throw new Error("Failed to fetch events");
+let meetups = [];
+
+async function fetchMeetups() {
+  const response = await fetch(`${BASE_URL}/meetups`);
+  if (!response.ok) throw new Error("Failed to fetch meetups");
   const data = await response.json();
-  events = data.events;
-  return events;
+  meetups = data;
+  return meetups;
 }
 
-function displayEvents(list = events) {
+function displayMeetups(list = meetups) {
   const eventsContainer = document.getElementById("events-container");
   eventsContainer.innerHTML = "";
 
-  list.forEach((event) => {
+  list.forEach(event => {
     const div = document.createElement("div");
 
     div.innerHTML = `
@@ -30,39 +33,39 @@ function displayEvents(list = events) {
 }
 
 async function init() {
-  await fetchEvents();
+  await fetchMeetups();
 
-  displayEvents();
+  displayMeetups();
 }
 
-function filterEvents(category) {
-  const filtered = events.filter((event) => event.category === category);
-  displayEvents(filtered);
+function filterMeetups(category) {
+  const filtered = meetups.filter(event => event.category === category);
+  displayMeetups(filtered);
 }
 
 document
   .getElementById("filterAll")
-  .addEventListener("click", () => displayEvents());
+  .addEventListener("click", () => displayMeetups());
 document
   .getElementById("filterAcademia")
-  .addEventListener("click", () => filterEvents("Academia"));
+  .addEventListener("click", () => filterMeetups("Academia"));
 document
   .getElementById("filterEntertainment")
-  .addEventListener("click", () => filterEvents("Entertainment"));
+  .addEventListener("click", () => filterMeetups("Entertainment"));
 document
   .getElementById("filterProfessional")
-  .addEventListener("click", () => filterEvents("Professional"));
+  .addEventListener("click", () => filterMeetups("Professional"));
 document
   .getElementById("filterLiterature")
-  .addEventListener("click", () => filterEvents("Literature"));
+  .addEventListener("click", () => filterMeetups("Literature"));
 document
   .getElementById("filterTechnology")
-  .addEventListener("click", () => filterEvents("Technology"));
+  .addEventListener("click", () => filterMeetups("Technology"));
 document
   .getElementById("filterSports")
-  .addEventListener("click", () => filterEvents("Sports"));
+  .addEventListener("click", () => filterMeetups("Sports"));
 document
   .getElementById("filterExample")
-  .addEventListener("click", () => filterEvents("Example"));
+  .addEventListener("click", () => filterMeetups("Example"));
 
 init();
