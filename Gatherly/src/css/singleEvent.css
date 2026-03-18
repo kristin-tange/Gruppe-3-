@@ -44,21 +44,16 @@ body {
   margin: 0 auto;
 }
 
-.event-tag {
+.category-tag {
   color: var(--header-color);
   background-color: var(--technology-cat);
+  /* Hvordan endre farge basert på kategori? */
   padding: 0.3rem;
+  grid-area: icon;
+  justify-self: end;
+  align-self: center;
   border-radius: 4px;
   width: fit-content;
-  justify-self: flex-start;
-  margin-left: 0.8rem;
-}
-
-.under-hero {
-  display: flex;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 0.3rem;
 }
 .event-title {
   color: var(--primary-color);
