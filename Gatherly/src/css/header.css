@@ -41,6 +41,12 @@ header {
   display: flex;
 }
 
+#logoCon:hover {
+  cursor: pointer;
+  transform: scale(1.2);
+  transition: transform 0.5s;
+}
+
 #topLogo {
   margin: 1rem auto;
   width: 5rem;

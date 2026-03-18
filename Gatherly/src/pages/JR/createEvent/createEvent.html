@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/Gatherly/src/css/style.css" />
-    <link rel="stylesheet" href="/Gatherly/src/css/events.css" />
-    <link rel="stylesheet" href="/Gatherly/src/css/footer.css">
 
     <!-- ROBOTO-FONT -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -48,6 +46,86 @@
         </ul>
       </nav>
     </header>
+
+    <main class="create-event-page">
+  <form class="create-event-form">
+
+    <section class="form-section general-info-section">
+      <div class="section-title-box">
+        <h1>Opprett arrangement</h1>
+      </div>
+
+      <div class="general-info-content">
+        <div class="general-info-left">
+          <label for="event-title">Navn på arrangement</label>
+          <input type="text" id="event-title" name="event-title" />
+
+          <label for="short-description">Kort beskrivelse</label>
+          <input type="text" id="short-description" name="short-description" />
+
+          <div class="row-fields">
+            <div class="field-group">
+              <label for="category">Kategori</label>
+              <input type="text" id="category" name="category" />
+            </div>
+
+            <div class="field-group">
+              <label for="tags">Tags</label>
+              <input type="text" id="tags" name="tags" />
+            </div>
+          </div>
+        </div>
+
+        <div class="general-info-right">
+          <label for="event-image">Bilde</label>
+          <div class="image-placeholder">
+            <span>Bilde kommer her</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="form-section time-location-section">
+      <div class="section-title-box">
+        <h2>Tid og lokasjon</h2>
+      </div>
+
+      <div class="time-location-content">
+        <div class="row-fields">
+          <div class="field-group">
+            <label for="date">Dato</label>
+            <input type="date" id="date" name="date" />
+          </div>
+
+          <div class="field-group">
+            <label for="time">Klokkeslett</label>
+            <input type="time" id="time" name="time" />
+          </div>
+        </div>
+
+        <div class="field-group location-field">
+          <label for="location">Lokasjon</label>
+          <input type="text" id="location" name="location" />
+        </div>
+      </div>
+    </section>
+
+    <section class="form-section description-section">
+      <div class="section-title-box">
+        <h2>Beskrivelse</h2>
+      </div>
+
+      <label for="description" class="sr-only">Beskrivelse</label>
+      <textarea id="description" name="description" rows="10"></textarea>
+    </section>
+
+    <section class="action-section">
+      <button type="submit" class="publish-btn">Publiser</button>
+      <button type="button" class="icon-btn">Slett</button>
+    </section>
+
+  </form>
+</main>
     
 
 
