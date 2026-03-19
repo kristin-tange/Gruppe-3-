@@ -2,12 +2,13 @@
 
 :root {
   /* FARGER */
-  --bg-color: #d7d7c9;
+  --bg-color: #f6f6f6;
   --primary-color: #4a90e2;
-  --primary-hover:  #3a78c2;
+  --primary-hover: #3a78c2;
   --secondary-color: #e6e6e6;
-  --secondary-hover: #d0d0d0; 
+  --secondary-hover: #d0d0d0;
   --text-color: #161616;
+  --muted-text: #16161696;
   --header-color: white;
 
   /* KATEGORIFARGER */
@@ -96,30 +97,37 @@ p {
 .btn {
   width: auto;
   padding: 10px 20px;
-  border-radius: 8px; 
+  border-radius: 8px;
   border: none;
   font-size: var(--main-text);
+  cursor: pointer;
+  display: inline-block;
+}
+.btn-group {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
   cursor: pointer; 
   display: inline-block;
   text-decoration: none; 
 }
 
 /* ---PRIMARY BUTTON--- */
- .btn-primary {
+.btn-primary {
   background: var(--primary-color);
   color: white;
- }
+}
 
- .btn-primary:hover { 
-    background: var(--primary-hover);
- }
+.btn-primary:hover {
+  background: var(--primary-hover);
+}
 /* ---SECONDARY BUTTON--- */
-.btn-secondary { 
+.btn-secondary {
   background: var(--secondary-color);
   border: 2px solid var(--secondary-color);
   color: var(--text-color);
-} 
-.btn-secondary:hover { 
+}
+.btn-secondary:hover {
   background: var(--secondary-hover);
   border-color: var(--secondary-hover);
 }
