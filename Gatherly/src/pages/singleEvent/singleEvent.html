@@ -59,8 +59,8 @@
 
         <p class="event-date hero-textbox">Onsdag 04.mars 2026</p>
         <div class="event-info hero-textbox">
-          <p class="event-place">Bølgen Kulturhus</p>
-          <p class="event-time">Kl 18.00-20.00</p>
+          <p class="event-place">Bølgen Kulturhus /</p> 
+          <p class="event-time">Kl 18.00-20.00 /</p>
           <p class="event-price">150 kr</p>
         </div>
         <p class="category-tag">Teknologi</p>
@@ -77,7 +77,7 @@
           </div> -->
     </section>
     <main>
-      <div id="event-container">
+      <!-- <div id="event-container"> -->
         <!-- INFORMASJON OM ARRANGEMENT -->
 
         <section class="event-description section-grid">
@@ -125,64 +125,69 @@
         <!-- EKSEMPELINNLEGG -->
 
         <article class="published-post">
-          <div class="first-row">
-            <div>
-              <img
-                src="/Gatherly/public/assets/img/placeholder-profile.png"
-                alt="profilbilde"
-                class="placeholder-profile"
-                width="32px"
-              />
-              <span class="user-name">Brukernavn</span>
+          <div class="post-grid">
+            <div class="first-row">
+              <div class="user">
+                <img
+                  src="/Gatherly/public/assets/img/placeholder-profile.png"
+                  alt="profilbilde"
+                  class="placeholder-profile"
+                  width="32px"
+                />
+                <span class="user-name">Brukernavn</span>
+              </div>
+              <h4 class="post-name">Eksempelinnlegg</h4>
             </div>
-            <h4 class="post-name">Eksempelinnlegg</h4>
-          </div>
-          <div class="post-btns">
-            <button type="button" id="edit-post" class="post-icons">
-              <img src="/Gatherly/public/assets/icons/edit.png" width="16px" />
-            </button>
-            <button type="button" id="delete-post" class="post-icons">
-              <img
-                src="/Gatherly/public/assets/icons/delete.png"
-                width="16px"
-              />
-            </button>
-          </div>
-          <p class="post-text">
-            Dette blir så gøy! Jeg gleder meg veldig til å høre mer om... "Lorem
-            ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-            ea commodo consequat.
-          </p>
+            <div class="post-btns">
+              <button type="button" id="edit-post" class="post-icons">
+                <img
+                  src="/Gatherly/public/assets/icons/edit.png"
+                  width="16px"
+                />
+              </button>
+              <button type="button" id="delete-post" class="post-icons">
+                <img
+                  src="/Gatherly/public/assets/icons/delete.png"
+                  width="16px"
+                />
+              </button>
+            </div>
+            <p class="post-text">
+              Dette blir så gøy! Jeg gleder meg veldig til å høre mer om...
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat.
+            </p>
 
-          <div class="reaction-btns">
-            <div class="likes">
-              <button class="post-icons like-btn" type="button">
-                <img
-                  src="/Gatherly/public/assets/icons/like.png"
-                  width="20px"
-                />
-              </button>
-              <span class="likes-counter muted">12</span>
-            </div>
-            <div class="dislikes">
-              <button class="post-icons dislike-btn" type="button">
-                <img
-                  src="/Gatherly/public/assets/icons/dislike.png"
-                  width="20px"
-                />
-              </button>
-              <span class="dislikes-counter muted">0</span>
-            </div>
-            <div class="comments">
-              <button class="post-icons comment-btn" type="button">
-                <img
-                  src="/Gatherly/public/assets/icons/comment.png"
-                  width="20px"
-                />
-              </button>
-              <span class="comments-counter muted">0</span>
+            <div class="reaction-btns">
+              <div class="likes">
+                <button class="post-icons like-btn" type="button">
+                  <img
+                    src="/Gatherly/public/assets/icons/like.png"
+                    width="20px"
+                  />
+                </button>
+                <span class="likes-counter muted">12</span>
+              </div>
+              <div class="dislikes">
+                <button class="post-icons dislike-btn" type="button">
+                  <img
+                    src="/Gatherly/public/assets/icons/dislike.png"
+                    width="20px"
+                  />
+                </button>
+                <span class="dislikes-counter muted">0</span>
+              </div>
+              <div class="comments">
+                <button class="post-icons comment-btn" type="button">
+                  <img
+                    src="/Gatherly/public/assets/icons/comment.png"
+                    width="20px"
+                  />
+                </button>
+                <span class="comments-counter muted">0</span>
+              </div>
             </div>
           </div>
 
@@ -190,7 +195,7 @@
             <form class="hide-comment">
               <div class="comment-container">
                 <div class="post-comments">
-                  <div>
+                  <div class="user">
                     <img
                       src="/Gatherly/public/assets/img/placeholder-profile.png"
                       alt="profilbilde"
@@ -228,7 +233,7 @@
               <article class="published-comment">
                 <div class="comment-container">
                   <div class="first-row">
-                    <div>
+                    <div class="user">
                       <img
                         src="/Gatherly/public/assets/img/placeholder-profile.png"
                         alt="profilbilde"
@@ -263,7 +268,7 @@
 
         <!-- OVERLAY VED KLIKK PÅ OPPRETT INNLEGG -->
         <aside id="post-overlay" aria-label="Opprett innlegg">
-          <form id="overlay-content">
+          <form id="overlay-content" class="account-container">
             <button
               id="close-btn"
               class="btn btn-secondary"
