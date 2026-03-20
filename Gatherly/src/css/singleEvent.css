@@ -14,17 +14,20 @@ body {
 
 .event-hero {
   position: relative;
-}
-
-#event-img {
-  background-image: url("/Gatherly/public/assets/img/event-placeholder.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background: linear-gradient(
+      rgba(207, 207, 207, 0.55),
+      rgba(131, 131, 131, 0.55)
+    ),
+    url(/Gatherly/public/assets/img/event-placeholder.jpg) center / cover
+      no-repeat;
+  /* aspect-ratio: 16 / 9; */
   width: 100%;
-  max-width: 1400px;
-  height: 50vh;
+  min-height: 30vh;
   margin: 0 auto;
+
+  @media (width > 700px) {
+    height: 50vh;
+  }
 }
 
 .event-overlay {
@@ -39,8 +42,9 @@ body {
     "date date none"
     "info info icon";
   padding: 1rem;
+  gap: 0.5rem;
   width: 100%;
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
@@ -55,14 +59,20 @@ body {
   border-radius: 4px;
   width: fit-content;
 }
+
 .event-title {
   color: var(--primary-color);
   background-color: var(--header-color);
   grid-area: title;
   justify-self: center;
   align-self: start;
-  padding: 0.5rem;
+  padding: 0.4rem;
   margin-top: 1rem;
+  border-radius: 12px;
+
+  @media (width < 450px) {
+    font-size: 20px;
+  }
 }
 
 .hero-textbox {
@@ -82,12 +92,13 @@ body {
   display: flex;
 }
 
+.event-date,
 .event-place,
 .event-time,
 .event-price {
   font-size: 10px;
 
-  @media (width > 393px) {
+  @media (width > 500px) {
     font-size: 12px;
   }
 }
@@ -135,7 +146,7 @@ body {
   display: grid;
   gap: 1rem;
   padding: 2rem;
-  max-width: 700px;
+  max-width: 1000px;
   margin: 0 auto;
   justify-items: center;
 
@@ -168,6 +179,14 @@ body {
   font-size: var(--main-text);
   display: flex;
   justify-self: end;
+}
+
+.user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  height: fit-content;
 }
 
 #sign-up-btn {
@@ -218,15 +237,21 @@ body {
 
 .highlight {
   background-color: var(--secondary-hover);
-  padding: 0.5rem;
-  border-radius: 50%;
+  min-width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 6px;
+  border-radius: 999px;
+  line-height: 1;
 }
 
 /* EKSEMPELINNLEGG */
 .post-info {
   justify-self: center;
 }
-.published-post {
+.post-grid {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
   grid-template-rows: 1fr 2fr 1fr;
@@ -235,6 +260,8 @@ body {
     "post-text post-text post-text"
     "reaction-btns reaction-btns reaction-btns";
   gap: 0.5rem;
+}
+.published-post {
   background-color: var(--card-bg);
   border-radius: var(--card-radius);
   border: var(--card-border) var(--secondary-color);
@@ -253,6 +280,7 @@ body {
   border-radius: 50%;
   border: 2px solid var(--primary-color);
   height: fit-content;
+  justify-self: center;
 }
 
 .post-name {
@@ -269,11 +297,9 @@ body {
   max-width: 600px;
 }
 .post-btns {
-  gap: 1rem;
   grid-area: post-btns;
   justify-self: end;
   align-self: end;
-  padding-right: 1rem;
 }
 
 .post-icons {
@@ -339,6 +365,8 @@ body {
 }
 
 .comment-section {
+  display: flex;
+  flex-direction: column;
   justify-self: flex-start;
   align-self: flex-start;
 }
@@ -346,7 +374,7 @@ body {
 .comment-container {
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: 0.5rem;
   width: max-content;
   padding: 0.5rem;
 }
@@ -400,11 +428,6 @@ textarea::placeholder {
   @media (width > 1500px) {
     min-width: 20%;
   }
-}
-
-.input-style {
-  border-radius: 20px;
-  padding: 1rem;
 }
 
 #close-btn {
