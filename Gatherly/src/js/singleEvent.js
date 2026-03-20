@@ -35,6 +35,17 @@ function renderEvents(event) {
   eventContainer.innerHTML = "";
 }
 
+// MIDLERTIDIG "PÅMELDING"
+//TODO - nice to have: påmeldingsskjema
+// TODO - nice to have: vise pop-up med informasjon fra påmelding
+// TODO - nice to have: ikon og counter med antall påmeldte
+
+const signUpBtn = document.getElementById("sign-up-btn");
+
+signUpBtn.addEventListener("click", () => {
+  alert("Din påmelding er registrert.");
+});
+
 // TODO: oppdatere dokumenttittel ut fra hvilket event det er
 // ÅPNE OG LUKKE OVERLAY: INNLEGG
 const overlayBtn = document.getElementById("open-overlay-btn");
