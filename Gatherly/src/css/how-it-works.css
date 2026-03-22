@@ -1,11 +1,13 @@
 .how-it-works { 
     padding: 4rem 1.5rem;
-    margin-top: 2rem;
 }
 
 .how-it-works h2 {
     text-align: center;
-    margin-bottom: 3rem;
+}
+
+.steps-wrapper {
+    margin-top: 4rem;
 }
 
 .steps {
@@ -19,7 +21,6 @@
     align-items: flex-start;
    display: flex;
    gap: 2rem;
-
 }
 
 .step-icon {
@@ -59,6 +60,12 @@
 
 
 @media (min-width: 1024px) {
+
+    .step {
+        width: 550px;
+        height: 300px;
+    }
+
     .step-icon {
         font-size: 58px;
     }

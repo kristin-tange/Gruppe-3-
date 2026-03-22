@@ -5,11 +5,10 @@
     text-align: center;
 }
 
-.categories h2 {
-    margin-bottom: 2rem;
-}
+
 
 .category-grid {
+    margin-top: 2rem;
     display: grid;
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -19,45 +18,53 @@
 .category-card {
     height: 80px;
     border-radius: var(--card-radius);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
     display: flex;
     align-items: center;
     justify-content: center;
     
-
     text-decoration: none;
-    color: var(--text-color);
+}
+
+.category-card:hover {
+  cursor: pointer;
+  transform: scale(1.05);
+  transition: transform 0.2s;
 }
 
 
 .category-grid h3{
     font-size: 18px;
- 
+    color: white;
+    text-shadow:  -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;;
 }
 
 .academia {
-    background: linear-gradient(135deg, white 5%, var(--academia-cat) 100%);
+    background: var(--academia-cat);
 }
 
 .entertainment {
-    background: linear-gradient(135deg, white 5%, var(--entertainment-cat) 100%);
+    background: var(--entertainment-cat);
 }
 
 .professional {
-    background: linear-gradient(135deg, white 5%, var(--professional-cat) 100%);
+    background: var(--professional-cat);
 }
 
 .literature {
-    background: linear-gradient(135deg, white 5%, var(--literature-cat) 100%);
+    background: var(--literature-cat);
 }
 
 .technology {
-    background: linear-gradient(135deg, white 5%, var(--technology-cat) 100%);
+    background: var(--technology-cat);
 }
 
 .sports {
-    background: linear-gradient(135deg, white 5%, var(--sports-cat) 100%);
+    background: var(--sports-cat);
 }   
 
 
