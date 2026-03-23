@@ -21,33 +21,7 @@
     <title>Arrangementinformasjon</title>
   </head>
   <body>
-    <!-- HEADER -->
-    <header>
-      <div class="hamburger-backdrop"></div>
-      <button class="hamburger" aria-label="Åpne meny">
-        <div>
-          <img src="/Gatherly/public/assets/icons/menu.png" alt="" />
-        </div>
-      </button>
-      <div id="logoCon">
-        <a href="index.html"
-          ><img
-            src="/Gatherly/public/assets/icons/logo.png"
-            alt="logo"
-            id="topLogo"
-        /></a>
-      </div>
-      <button class="login" aria-label="Logg inn">
-        <div><img src="/Gatherly/public/assets/icons/login.png" alt="" /></div>
-      </button>
-      <nav class="sideNav">
-        <ul>
-          <li><a href="index.html" class="active">Hjem</a></li>
-          <li><a href="./src/pages/events/events.html">Arrangementer</a></li>
-          <li><a href="">Kontakt</a></li>
-        </ul>
-      </nav>
-    </header>
+    <header></header>
 
     <!-- HERO -->
 
@@ -59,7 +33,7 @@
 
         <p class="event-date hero-textbox">Onsdag 04.mars 2026</p>
         <div class="event-info hero-textbox">
-          <p class="event-place">Bølgen Kulturhus /</p> 
+          <p class="event-place">Bølgen Kulturhus /</p>
           <p class="event-time">Kl 18.00-20.00 /</p>
           <p class="event-price">150 kr</p>
         </div>
@@ -77,7 +51,7 @@
           </div> -->
     </section>
     <main>
-      <!-- <div id="event-container"> -->
+      <div id="event-container">
         <!-- INFORMASJON OM ARRANGEMENT -->
 
         <section class="event-description section-grid">
@@ -334,11 +308,9 @@
         </a>
       </nav>
     </footer>
-    <!-- <script
-      type="module"
-      src="/Gatherly/src/pages/singleEvent/singleEvent.ts"
-    ></script> -->
-    <script type="module" src="/Gatherly/src/js/singleEvent.js"></script>
+
+    <script type="module" src="/Gatherly/src/js/header.js"></script>
     <script type="module" src="/Gatherly/src/js/burger.js"></script>
+    <script type="module" src="/Gatherly/src/js/singleEvent.js"></script>
   </body>
 </html>
