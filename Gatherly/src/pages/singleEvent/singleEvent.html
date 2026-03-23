@@ -109,11 +109,12 @@
           Skriv et innlegg til arrangøren eller andre som er interessert i dette
           arrangementet.
         </p>
-        <button id="create-btn" class="btn btn-secondary" type="button">
-          <p>Opprett innlegg</p>
+        <button id="open-overlay-btn" class="btn btn-secondary" type="button">
+          <span id="create-post">Opprett innlegg</span>
           <img src="/Gatherly/public/assets/icons/pil.svg" />
         </button>
 
+        <h4>Innlegg <span id="post-counter" class="highlight">4</span></h4>
         <!-- EKSEMPELINNLEGG -->
 
         <article class="published-post section-grid">
@@ -127,10 +128,10 @@
             <h4 class="post-name">Eksempelinnlegg</h4>
           </div>
           <div class="post-btns">
-            <button type="button edit-btn" class="post-icons">
+            <button type="button" id="edit-post" class="post-icons">
               <img src="/Gatherly/public/assets/icons/edit.png" width="16px" />
             </button>
-            <button type="button delete-btn" class="post-icons">
+            <button type="button" id="delete-post" class="post-icons">
               <img
                 src="/Gatherly/public/assets/icons/delete.png"
                 width="16px"
@@ -176,18 +177,70 @@
           </div>
 
           <section class="comment-section">
-            <form class="comment">
-              <div class="comment-box">
-                <textarea class="comment" name="kommentar" rows="4"></textarea
-                ><br />
-                <button class="post-btn btn btn-primary" type="submit">
-                  Send
-                </button>
-                <button class="exit-btn btn btn-secondary" type="button">
-                  Avbryt
-                </button>
+            <form class="hide-comment">
+              <div class="comment-container">
+                <div class="post-comments">
+                  <img
+                    src="/Gatherly/public/assets/img/placeholder-profile.png"
+                    alt="profilbilde"
+                    class="placeholder-profile"
+                    width="32px"
+                  />
+                  <textarea
+                    class="comment"
+                    name="kommentar"
+                    rows="4"
+                    cols="30"
+                    placeholder="Legg til kommentar..."
+                  ></textarea>
+                </div>
+                <div class="btns">
+                  <button class="post-btn btn btn-primary" type="submit">
+                    Send
+                  </button>
+                  <button class="exit-btn btn btn-secondary" type="button">
+                    Avbryt
+                  </button>
+                </div>
               </div>
             </form>
+
+            <h5>Kommentarer</h5>
+
+            <!-- KOMMENTARFELT -->
+            <div class="comment-list">
+              <!-- Her kommer postede kommentarer -->
+              <!-- EKSEMPELKOMMENTAR -->
+              <article class="published-comment">
+                <div class="comment-container">
+                  <div class="first-row">
+                    <img
+                      src="/Gatherly/public/assets/img/placeholder-profile.png"
+                      alt="profilbilde"
+                      class="placeholder-profile"
+                      width="32px"
+                    />
+                    <p class="comment-text">Enig! Vi ses der.</p>
+                  </div>
+                  <div class="second-row">
+                    <button
+                      type="button"
+                      id="edit-comment"
+                      class="comment-btns"
+                    >
+                      Rediger
+                    </button>
+                    <button
+                      type="button"
+                      id="delete-comment"
+                      class="comment-btns"
+                    >
+                      Slett
+                    </button>
+                  </div>
+                </div>
+              </article>
+            </div>
           </section>
         </article>
 
@@ -207,13 +260,13 @@
               />
             </button>
             <h3>Opprett innlegg</h3>
-            <label for="post_name">Tittel:</label>
-            <input type="text" id="post_name" name="post-name" />
-            <label for="post">Ditt innlegg:</label>
-            <textarea id="post" name="post" rows="6"></textarea><br />
-            <button id="post-btn" class="btn btn-primary" type="submit">
-              Publiser</button
-            ><br />
+            <label for="postName">Tittel:</label>
+            <input type="text" id="postName" name="post-name" />
+            <label for="postTxt">Ditt innlegg:</label>
+            <textarea id="postTxt" name="text" rows="6"></textarea><br />
+            <button id="publish-btn" class="btn btn-primary" type="submit">
+              Publiser
+            </button>
           </form>
         </aside>
       </section>

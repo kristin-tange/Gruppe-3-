@@ -43,8 +43,7 @@
   }
 }
 
-/* ---DARK MODE--- 
-@media (prefers-color-scheme: dark) {
+---DARK MODE--- @media (prefers-color-scheme: dark) {
   :root {
     --bg-color: #121212;
     --text-color: #d7d7c9;
@@ -107,9 +106,9 @@ p {
   display: flex;
   gap: 20px;
   justify-content: center;
-  cursor: pointer; 
+  cursor: pointer;
   display: inline-block;
-  text-decoration: none; 
+  text-decoration: none;
 }
 
 /* ---PRIMARY BUTTON--- */
@@ -132,43 +131,44 @@ p {
   border-color: var(--secondary-hover);
 }
 .button-group {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 20px;
 }
 .account-page-wrapper {
-   display: flex; 
-   justify-content: center;
-   align-items: center; 
-   flex: 1; 
-   margin: 20px; 
-   }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  margin: 20px;
+}
 .account-container {
-   background: var(--card-bg);
-   border-radius: var(--card-radius);
-   border: none;
-   padding: 20px;
-   width: auto;
-   margin-bottom: 10px;
-   height: auto;
-   justify-content: center;
-   justify-items: center;
-   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);   
+  background: var(--card-bg);
+  border-radius: var(--card-radius);
+  border: none;
+  padding: 20px;
+  width: auto;
+  margin-bottom: 10px;
+  height: auto;
+  justify-content: center;
+  justify-items: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 h2 {
   margin-bottom: 20px;
   text-align: center;
 }
 .account-container input {
-  width: auto; 
-  padding: 12px; 
+  width: auto;
+  padding: 12px;
   margin: 10px 0;
   border: 1px solid #ccc;
   border-radius: 6px;
-  font-size: 16px; }
-input:focus { 
-  border-color:  var(--primary-color);
+  font-size: 16px;
+}
+input:focus {
+  border-color: var(--primary-color);
 }
 .form-group {
   display: block;
@@ -178,4 +178,60 @@ input:focus {
   width: 100%;
   padding: 10px;
 }
-  
+
+/* category buttons */
+.category {
+  border: none;
+  padding: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 1.5rem;
+  text-align: center;
+}
+
+.tag {
+  max-width: fit-content;
+  align-self: flex-end;
+  height: 1.5rem;
+  min-width: 50px;
+  justify-content: center;
+}
+
+#filterAll {
+  background: darkgrey;
+}
+
+#filterAcademia {
+  background: var(--academia-cat);
+}
+
+#filterEntertainment {
+  background: var(--entertainment-cat);
+}
+
+#filterProfessional {
+  background: var(--professional-cat);
+}
+
+#filterLiterature {
+  background: var(--literature-cat);
+}
+
+#filterTechnology {
+  background: var(--technology-cat);
+}
+
+#filterSports {
+  background: var(--sports-cat);
+}
+
+#filterExample {
+  background: purple;
+}
