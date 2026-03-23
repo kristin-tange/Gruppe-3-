@@ -5,11 +5,18 @@
 const BASE_URL = "http://localhost:3000/api";
 const API_KEY = "12345";
 let users = [];
-let events = [];
 let posts = [];
-let eventId = [];
+const eventId = 1;
 let postId = null;
 let commentId = null;
+
+const eventTitle = document.getElementById("event-title");
+const eventDate = document.getElementById("event-date");
+const eventPlace = document.getElementById("event-place");
+const eventTime = document.getElementById("event-time");
+const eventPrice = document.getElementById("event-price");
+const category = document.getElementById("category-tag");
+const eventContainer = document.getElementById("event-container");
 
 async function fetchUsers() {
   const response = await fetch(`${BASE_URL}/users`);
@@ -17,23 +24,28 @@ async function fetchUsers() {
   return users;
 }
 
-async function fetchEvents() {
-  const response = await fetch(`${BASE_URL}/meetups`);
-  events = await response.json();
-  renderEvents(events);
+async function fetchSingleEvent() {
+  const params = new URLSearchParams(window.location.search);
+  const eventId = params.get("id");
+  const response = await fetch(`${BASE_URL}/meetups/${eventId}`);
+  const event = await response.json();
+
+  console.log(event);
+  // showSingleEvent(event);
 }
 
-async function fetchPosts() {
-  const response = await fetch(`${BASE_URL}/posts`);
-  posts = await response.json();
-  console.log(posts);
-}
+// async function fetchPosts() {
+//   const response = await fetch(`${BASE_URL}/posts`);
+//   posts = await response.json();
+//   console.log(posts);
+// }
+
+// TODO: function getUserName (innlegg og kommentarer)
 
 // VISE EVENTER/MEETUPS
-function renderEvents(event) {
-  const eventContainer = document.getElementById("event-container");
-  eventContainer.innerHTML = "";
-}
+// function showSingleEvent(event) {
+//   eventContainer.innerHTML = ;
+// }
 
 // MIDLERTIDIG "PÅMELDING"
 //TODO - nice to have: påmeldingsskjema
@@ -134,7 +146,7 @@ function createPost() {
 
 async function init() {
   await fetchUsers();
-  await fetchEvents();
+  await fetchSingleEvent();
   await fetchPosts();
 }
 
