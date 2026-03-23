@@ -1,48 +1,95 @@
-document.getElementById("registrerdeg").addEventListener("click",()=> {
-  localStorage.setItem("newUser","true");
-  window.location.href ="profile.html";
-})
 
-/*const loggedInUser =JSON.parse(localStorage.getItem("currentUser"));
-const newUser =localStorage.getItem("newUser");
 
-if (!loggedInUser && !newUser) {
-  window.location.href = "logginn.html";
 
-}*/
 
- async function loginUser(event) {
-  event.preventDefault();
 
-  // 1. Get input
-  const email = document.getElementById("email").value.trim();
-  const password = document.getElementById("password").value.trim();
 
-  if (!email || !password) {
-    alert("Please enter both email and password");
-    return;
-  }
 
-  try {
-    // 2. Call API (dummy user 1)
-    const response = await fetch("http://localhost:3000/users");
-    const users = await response.json();
 
-    const user = users.find(
-      (u) => u.email === email && u.password === password,
-    );
 
-    if (!user) {
-      alert("Incorrect email or password");
-      return;
+
+
+
+
+
+
+
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  const loginForm = document.getElementById("loginBtn");
+  const registrerBtn = document.getElementById("registrer");
+
+  const API_URL = "http://localhost:3000/api/users";
+  const API_KEY = "api123"; // your API key
+
+  // -----------------------
+  // Login existing user
+  // -----------------------
+   alert(API_URL);
+  loginForm.addEventListener("click",  async(event) => {
+    event.preventDefault();
+      alert(" login ddd");
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+
+
+    try {
+      // Fetch users from backend (json-server)
+      const res = await fetch("http://localhost:3000/api/users");
+      const users = await res.json();
+
+      // Find user with matching email & password
+      const user = users.find(u => u.email === email && u.password === password);
+
+      if (!user) {
+        alert("Feil e-post eller passord");
+        return;
+      }
+
+      // Save user to localStorage
+      localStorage.setItem("currentUser", JSON.stringify(user));
+      localStorage.setItem("isLoggedIn", "true");
+  
+      // Navigate to index page
+      window.location.href = "../../../index.html";
+
+    } catch (err) {
+      alert("Kunne ikke logge inn: " + err.message);
     }
-    localStorage.setItem("currentUser", JSON.stringify(user));
+  });
 
+  // -----------------------
+  // New user registration
+  // -----------------------
+  
+  registrerBtn.addEventListener("click", (event) => {
+    event.preventDefault();
+    alert("reg");
+    // Create empty new user
+    const newUser = {
+      firstname:"",
+      lastname: "",
+      email: "",
+      password: "",
+      phone: "",
+      location: "",
+      description: "",
+      age: "",
+    };
+
+    localStorage.setItem("currentUser", JSON.stringify(newUser));
+    localStorage.setItem("isNewUser", "true");
     
-    setTimeout(() => {
-      window.location.href = "profile.html";
-    }, 50);
-  } catch (error) {
-    alert("Login failed: " + error.message);
-  }
-}
+    // Navigate to profile page
+    window.location.href = "profile.html";
+  });
+
+
+
+
+  });
