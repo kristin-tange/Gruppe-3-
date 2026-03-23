@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/Gatherly/src/css/style.css" />
     <link rel="stylesheet" href="/Gatherly/src/css/events.css" />
+    <meta name="author" content="Oscar Wirum" />
 
     <!-- ROBOTO-FONT -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -21,33 +22,8 @@
     <title>Gatherly</title>
   </head>
   <body>
-    <header>
-      <div class="hamburger-backdrop"></div>
-      <button class="hamburger" aria-label="Åpne meny">
-        <div>
-          <img src="/Gatherly/public/assets/icons/menu.png" alt="" />
-        </div>
-      </button>
-      <div id="logoCon">
-        <a href="/Gatherly/index.html"
-          ><img
-            src="/Gatherly/public/assets/icons/logo.png"
-            alt="logo"
-            id="topLogo"
-        /></a>
-      </div>
-      <button class="login" aria-label="Logg inn">
-        <div><img src="/Gatherly/public/assets/icons/login.png" alt="" /></div>
-      </button>
-      <nav class="sideNav">
-        <ul>
-          <li><a href="/Gatherly/index.html">Hjem</a></li>
-          <li><a href="" class="active">Arrangementer</a></li>
-          <li><a href="">Kontakt</a></li>
-        </ul>
-      </nav>
-    </header>
-    <script src="/Gatherly/src/js/burger.js"></script>
+    <header></header>
+
     <main>
       <div id="filterContainer">
         <button id="filterAll" class="category">All</button>
@@ -88,6 +64,8 @@
         </a>
       </nav>
     </footer>
+    <script src="/Gatherly/src/js/header.js"></script>
+    <script src="/Gatherly/src/js/burger.js"></script>
     <script src="events.js"></script>
   </body>
 </html>

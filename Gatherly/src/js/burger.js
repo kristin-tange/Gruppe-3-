@@ -1,3 +1,5 @@
+// Oscar Wirum
+
 const hamburger = document.querySelector(".hamburger");
 const sideNav = document.querySelector(".sideNav");
 const backdrop = document.querySelector(".hamburger-backdrop");

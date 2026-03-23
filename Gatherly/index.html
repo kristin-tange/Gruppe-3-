@@ -24,27 +24,7 @@
 
   <body>
     <header>
-      <div class="hamburger-backdrop"></div>
-      <button class="hamburger" aria-label="Åpne meny">
-        <div>
-          <img src="./public/assets/icons/menu.png" alt="" />
-        </div>
-      </button>
-      <div id="logoCon">
-        <a href="index.html"
-          ><img src="./public/assets/icons/logo.png" alt="logo" id="topLogo"
-        /></a>
-      </div>
-      <button class="login" aria-label="Logg inn">
-        <div><img src="./public/assets/icons/login.png" alt="" /></div>
-      </button>
-      <nav class="sideNav">
-        <ul>
-          <li><a href="index.html" class="active">Hjem</a></li>
-          <li><a href="./src/pages/events/events.html">Arrangementer</a></li>
-          <li><a href="">Kontakt</a></li>
-        </ul>
-      </nav>
+
     </header>
 
     <main>
@@ -85,6 +65,8 @@
             <button class="hero-prev" aria-label="Forrige slide">←</button>
             <button class="hero-next" aria-label="Neste slide">→</button>
         </section>
+
+        <div class="container">
 
         <section class="categories">
             
@@ -167,7 +149,7 @@
                   </ol>
 </div>
         </section>
-
+</div>
     </main>
 
   <button id="support-btn" aria-label="Send inn en support-ticket">
@@ -236,7 +218,9 @@
 
 <script src="./src/js/hero-slider.js"></script>
 <script src="./src/js/support.js"></script>
+<script src="./src/js/header.js"></script>
     <script src="./src/js/burger.js"></script>
-    <script type="module" src="index.ts"></script>
+    <script type="module" src="index.ts" defer></script>
   </body>
 </html>
+ 

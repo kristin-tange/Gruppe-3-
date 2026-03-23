@@ -18,29 +18,6 @@
     <link rel="shortcut icon" href="../../../public/assets/icons/logo.png" type="image/x-icon" />
 </head>
 <body>
-  <header>
-      <div class="hamburger-backdrop"></div>
-      <button class="hamburger" aria-label="Åpne meny">
-        <div>
-          <img src="../../../public/assets/icons/menu.png" alt="" />
-        </div>
-      </button>
-      <div id="logoCon">
-        <a href="index.html"
-          ><img src="../../../public/assets/icons/logo.png" alt="logo" id="topLogo"
-        /></a>
-      </div>
-      <!--login icon links to login page-->
-      <a href="logginn.html" class="login" aria-label="Logg inn" > 
-        <div> <img src="../../../public/assets/icons/login.png" alt="login icon" /> </div> </a>
-      <nav class="sideNav">
-        <ul>
-          <li><a href="../../../index.html" class="active">Hjem</a></li>
-          <li><a href="../events/events.html">Arrangementer</a></li>
-          <li><a href="">Kontakt</a></li>
-        </ul>
-      </nav>
-    </header>
     <main>
       <div class="account-page-wrapper">
         <div class="account-container">
@@ -51,32 +28,36 @@
          
         <form id="accountForm">
            <div class="form-group">
-              <label for="username">Fornavn</label>
-              <input type="text" id="username" disabled>
+              <label for="firstname">Fornavn</label>
+              <input aria-label="firstname" type="text" id="firstname" >
           </div>
             <div class="form-group">
                 <label for="lastname">Etternavn</label>
-                <input aria-label="Etternavn" type="text" id="lastname" disabled>
+                <input aria-label="Etternavn" type="text" id="lastname" >
             </div>
             <div class="form-group">
                 <label for="phone">Telefonnummer</label>
-                <input aria-label="Telefonnummer" type="tel" id="phone" disabled>
+                <input aria-label="Telefonnummer" type="tel" id="phone" >
             </div>
             <div class="form-group">
                 <label for="location">Sted</label>
-                <input aria-label="Sted" type="text" id="location" disabled>
+                <input aria-label="Sted" type="text" id="location" >
             </div>
             <div class="form-group">
                 <label for="email">E-post</label>
-                <input aria-label="E-post" type="email" id="email" disabled>
+                <input aria-label="E-post" type="email" id="email" >
               </div>
             <div class="form-group">
-              <label for="date of birth">Fødselsdato</label>
-              <input aria-label="Fødselsdato"  type="date" id="dob" disabled>
+              <label for="password">passord</label>
+              <input type="password" id="password" name="password" aria-label="Password" required>
             </div>
             <div class="form-group">
-              <label for="bio">Biografi</label>
-              <input aria-label="Biografi" type="text" id="bio" disabled>
+              <label for="alder">Alder</label>
+              <input aria-label="age"  type="age" id="age" >
+            </div>
+            <div class="form-group">
+              <label for="description">Beskrivelse</label>
+              <input aria-label="description" id="description">
             </div>
               <div class="button-group">
                  <button type="button" id="editbtn" class="btn btn-secondary">Rediger Profil</button>
@@ -108,8 +89,9 @@
       </a>
     </nav>
   </footer>
+    <script src="/Gatherly/src/js/header.js"></script>
     <script src="../../../src/js/burger.js"></script>
-    <script src="../../../src/js/profile.js"></script>
+    <script src="../../../src/js/userprofile.js"></script>
     
  </body>   
 </html>

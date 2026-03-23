@@ -1,3 +1,5 @@
+/* Oscar Wirum */
+
 main {
   max-width: 95vw;
   display: block;
@@ -12,58 +14,10 @@ main {
   margin: 1rem 0.1rem 0;
 }
 
-.category {
-  border: none;
-  padding: 0.5rem;
-  font-size: 1rem;
-  font-weight: 600;
-  color: white;
-  text-shadow:
-    -1px -1px 0 #000,
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
-    1px 1px 0 #000;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 1.5rem;
-  text-align: center;
-}
-
 button:hover {
   cursor: pointer;
   transform: scale(1.05);
   transition: transform 0.2s;
-}
-
-#filterAll {
-  background: darkgrey;
-}
-
-#filterAcademia {
-  background: var(--academia-cat);
-}
-
-#filterEntertainment {
-  background: var(--entertainment-cat);
-}
-
-#filterProfessional {
-  background: var(--professional-cat);
-}
-
-#filterLiterature {
-  background: var(--literature-cat);
-}
-
-#filterTechnology {
-  background: var(--technology-cat);
-}
-
-#filterSports {
-  background: var(--sports-cat);
-}
-
-#filterExample {
-  background: purple;
 }
 
 #events-container {
@@ -113,14 +67,6 @@ button:hover {
   margin-bottom: 0;
   border-bottom-left-radius: 1rem;
   border-bottom-right-radius: 1rem;
-}
-
-.tag {
-  max-width: fit-content;
-  align-self: flex-end;
-  height: 1.5rem;
-  min-width: 50px;
-  justify-content: center;
 }
 
 @media (min-width: 769px) {
