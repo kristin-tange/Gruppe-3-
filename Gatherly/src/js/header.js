@@ -1,3 +1,5 @@
+// Oscar Wirum
+
 const header = document.querySelector("header");
 
 function displayHeader() {

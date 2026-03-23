@@ -43,8 +43,7 @@
   }
 }
 
-/* ---DARK MODE--- 
-@media (prefers-color-scheme: dark) {
+---DARK MODE--- @media (prefers-color-scheme: dark) {
   :root {
     --bg-color: #121212;
     --text-color: #d7d7c9;
