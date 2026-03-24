@@ -18,14 +18,17 @@
     <!-- Favicon -->
     <link rel="shortcut icon" href="../../../public/assets/icons/logo.png" type="image/x-icon" />
 </head>  
-    <body>
+    <body class="login-page">
+      <header>
+
+      </header>
       <main>
       <div class="account-page-wrapper">
-        <div class="account-container">
+        <div class="form-container">
           <h2 >Logg inn</h2>
          <form id ="accountForm">
           <div class="form-group">
-            <label for="username"><E-post></E-post></label>
+            <label for="username">Brukernavn</label>
              <input type="text" placeholder="Brukernavn" id="email" required>
           </div>
           <div class="form-group">
@@ -35,7 +38,7 @@
          <div class="button-group">
           <button type="button" id="loginBtn" class="btn btn-primary">Logg inn</button>
           <button type="button" id="registrer" class="btn btn-secondary">Registrer deg</button>
-          <!-- <button id="themeToggle">🌙</button> -->
+          <button onclick="toggleDarkMode()">🌙</button> 
          </div> 
          </form>
         </div>
@@ -62,7 +65,7 @@
       </a>
     </nav>
   </footer>
-  <script src="/Gatherly/src/js/header.js"></script>
+  <script src="../../../src/js/header.js"></script>
   <script src="../../../src/js/burger.js"></script>
   <script src="../../../src/js/login.js"></script>
 </html>
