@@ -83,7 +83,7 @@
 }
 
 .arrangement-link:hover {
-    background-color: rgb(4, 0, 255);
+    background-color: #3a7bd5;
     transition: .3s;
 }
 
@@ -119,7 +119,7 @@
 #support-btn:hover {
     font-size: 34px;
     transition: .3s;
-    background-color: rgb(4, 0, 255);
+    background-color:  #1E40FF;
 }
 
 #close-support-btn {
@@ -135,6 +135,7 @@
     border: none;
 
     background-color: var(--primary-color);
+    color: white;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.295);
 
     width: 36px;
@@ -144,12 +145,14 @@
 
 #close-support-btn:hover {
     transform: translateY(-2px);
+    background-color: #3a7bd5;
 }
 
 #submit-support-btn {
     padding: 1rem;
     border-radius: 2rem;
     background-color: var(--primary-color);
+    color: white;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.295);
     border: none;
     font-weight: 600;
@@ -161,6 +164,7 @@
 #submit-support-btn:hover {
     transform: translateY(-2px);
     font-size: 1.5rem;
+    background-color: #3a7bd5;
 }
 
 
@@ -226,6 +230,7 @@
 #support-form input,
 #support-form textarea {
     border-radius: 10px;
+    border: 1px solid black;
     resize: vertical;
     padding: .5rem;
 }
