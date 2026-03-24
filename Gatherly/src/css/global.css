@@ -28,6 +28,7 @@
   --text-font: roboto;
 
   /* FORSLAG TIL SKRIFTSTØRRELSER MOBIL */
+  /* TODO: STØRRE SKRIFTSTØRRELSER? */
   --h1: 28px;
   --h2: 24px;
   --h3: 20px;
@@ -40,17 +41,18 @@
     --h2: 28px;
     --h3: 24px;
     --h4: 20px;
+    /* --main-text: 16px; */
   }
 }
 
----DARK MODE--- @media (prefers-color-scheme: dark) {
+/* ---DARK MODE--- @media (prefers-color-scheme: dark) {
   :root {
     --bg-color: #121212;
     --text-color: #d7d7c9;
     --header-color: #2f2f2f;
     --secondary-color: #4a4a4a;
   }
-}
+} */
 
 /* ROBOTO-FONT: LINKEN MÅ LEGGES I HEAD PÅ ALLE HTML-FILER 
 
@@ -91,6 +93,7 @@ h4 {
 
 p {
   font-size: var(--main-text);
+  line-height: 1.6;
 }
 /* ---GLOBAL BUTTON STYLING--- */
 .btn {
@@ -155,10 +158,11 @@ p {
   justify-items: center;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
-h2 {
+/* h2 {
   margin-bottom: 20px;
   text-align: center;
-}
+} */
+
 .account-container input {
   width: auto;
   padding: 12px;
@@ -186,10 +190,7 @@ input:focus {
   font-size: 1rem;
   font-weight: 600;
   color: white;
-  text-shadow:
-    -1px -1px 0 #000,
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
     1px 1px 0 #000;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 1.5rem;
