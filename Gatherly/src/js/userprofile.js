@@ -5,15 +5,15 @@ const API_KEY = "api123";
 
 // Load profile on page load
 async function loadProfile() {
+  
   const user = JSON.parse(localStorage.getItem("currentUser") || "{}");
   const isNewUser = localStorage.getItem("isNewUser") === "true";
 
   const inputs = document.querySelectorAll("#accountForm input, #accountForm textarea");
 
   // NEW USER → enable editable fields
-  if (isNewUser) {
-    inputs.forEach(input => input.disabled = false);
-    return;
+  if (!isNewUser) {
+    inputs.forEach(input => input.disabled = true);
   }
 
   // EXISTING USER → fetch from backend
@@ -28,10 +28,12 @@ async function loadProfile() {
       document.getElementById("firstname").value = freshUser.firstName || "";
       document.getElementById("lastname").value = freshUser.lastName || "";
       document.getElementById("email").value = freshUser.email || "";
+      document.getElementById("password").value = freshUser.password || "";
       document.getElementById("phone").value = freshUser.phone || "";
       document.getElementById("location").value = freshUser.location || "";
-      document.getElementById("dob").value = freshUser.dateOfBirth || "";
-      document.getElementById("bio").value = freshUser.bio || "";
+      document.getElementById("age").value = freshUser.age || "";
+      document.getElementById("description").value = freshUser.description|| "";
+      
       document.getElementById('api-image').src=freshUser.profilePicture;
         
       
@@ -59,8 +61,8 @@ document.getElementById("savebtn").addEventListener("click", async () => {
   const isNewUser = localStorage.getItem("isNewUser") === "true";
 
   const updateUser = {
-    firstName: document.getElementById("firstname").value,
-    lastName: document.getElementById("lastname").value,
+    firstname: document.getElementById("firstname").value,
+    lastname: document.getElementById("lastname").value,
     email: document.getElementById("email").value,
     phone: document.getElementById("phone").value,
     location: document.getElementById("location").value,
