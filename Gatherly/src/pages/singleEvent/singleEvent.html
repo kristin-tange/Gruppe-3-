@@ -1,3 +1,5 @@
+<!-- KRISTIN TANGE -->
+
 <!DOCTYPE html>
 <html lang="nb">
   <head>
@@ -19,49 +21,25 @@
     <title>Arrangementinformasjon</title>
   </head>
   <body>
-    <!-- HEADER -->
-    <header>
-      <div class="hamburger-backdrop"></div>
-      <button class="hamburger" aria-label="Åpne meny">
-        <div>
-          <img src="/Gatherly/public/assets/icons/menu.png" alt="" />
-        </div>
-      </button>
-      <div id="logoCon">
-        <a href="index.html"
-          ><img
-            src="/Gatherly/public/assets/icons/logo.png"
-            alt="logo"
-            id="topLogo"
-        /></a>
-      </div>
-      <button class="login" aria-label="Logg inn">
-        <div><img src="/Gatherly/public/assets/icons/login.png" alt="" /></div>
-      </button>
-      <nav class="sideNav">
-        <ul>
-          <li><a href="index.html" class="active">Hjem</a></li>
-          <li><a href="./src/pages/events/events.html">Arrangementer</a></li>
-          <li><a href="">Kontakt</a></li>
-        </ul>
-      </nav>
-    </header>
+    <header></header>
 
     <!-- HERO -->
-    <main>
-      <section class="event-hero">
-        <div id="event-img"></div>
 
-        <div class="event-overlay">
-          <h1 class="event-title">Tech-meetup</h1>
+    <section class="event-hero">
+      <div id="event-img"></div>
 
-          <p class="event-date hero-textbox">Onsdag 04.mars 2026</p>
-          <div class="event-info hero-textbox">
-            <p class="event-place">Bølgen Kulturhus</p>
-            <p class="event-time">Kl 18.00-20.00</p>
-            <p class="event-price">150 kr</p>
-          </div>
-          <div class="event-capacity">
+      <div class="event-overlay">
+        <h1 class="event-title">Tech-meetup</h1>
+
+        <p class="event-date hero-textbox">Onsdag 04.mars 2026</p>
+        <div class="event-info hero-textbox">
+          <p class="event-place">Bølgen Kulturhus /</p>
+          <p class="event-time">Kl 18.00-20.00 /</p>
+          <p class="event-price">150 kr</p>
+        </div>
+        <p class="category-tag">Teknologi</p>
+      </div>
+      <!-- <div class="event-capacity">
             <div id="capacity-img">
               <img
                 src="/Gatherly/public/assets/icons/capacity.svg"
@@ -70,37 +48,36 @@
               />
               <p id="capacity-counter">x/x</p>
             </div>
-          </div>
-        </div>
-      </section>
-      <div class="under-hero">
-        <p class="event-tag">Teknologi</p>
-      </div>
+          </div> -->
+    </section>
+    <main>
+      <div id="event-container">
+        <!-- INFORMASJON OM ARRANGEMENT -->
 
-      <!-- INFORMASJON OM ARRANGEMENT -->
-
-      <section class="event-description section-grid">
-        <h2>Om arrangementet</h2>
-        <p>
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum."
-        </p>
-        <p class="muted margin-bottom">
-          Opprettet: <span id="created">04.03.2026</span> <br />Sist oppdatert:
-          <span id="updated">04.03.2026</span>
-        </p>
-        <div class="bottom-row">
-          <button class="btn btn-primary" id="sign-up-btn">Påmelding</button>
-          <p class="host-field">
-            Arrangør: <span id="host"> Gokstad Akademiet</span>
+        <section class="event-description section-grid">
+          <h2>Om arrangementet</h2>
+          <p>
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+            aliquip ex ea commodo consequat. Duis aute irure dolor in
+            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+            culpa qui officia deserunt mollit anim id est laborum."
           </p>
-        </div>
-      </section>
+          <p class="muted margin-bottom">
+            Opprettet: <span id="created">04.03.2026</span> <br />Sist
+            oppdatert:
+            <span id="updated">04.03.2026</span>
+          </p>
+          <div class="bottom-row">
+            <button class="btn btn-primary" id="sign-up-btn">Påmelding</button>
+            <p class="host-field">
+              Arrangør: <span id="host"> Gokstad Akademiet</span>
+            </p>
+          </div>
+        </section>
+      </div>
 
       <!-- INNLEGG -->
       <section class="posts section-grid">
@@ -114,65 +91,77 @@
           <img src="/Gatherly/public/assets/icons/pil.svg" />
         </button>
 
-        <h4>Innlegg <span id="post-counter" class="highlight">4</span></h4>
+        <h4>Innlegg <span id="post-counter" class="highlight">1</span></h4>
+
+        <!-- HER KOMMER POSTEDE INNLEGG -->
+        <div id="posts-list"></div>
+
         <!-- EKSEMPELINNLEGG -->
 
-        <article class="published-post section-grid">
-          <div class="first-row">
-            <img
-              src="/Gatherly/public/assets/img/placeholder-profile.png"
-              alt="profilbilde"
-              class="placeholder-profile"
-              width="32px"
-            />
-            <h4 class="post-name">Eksempelinnlegg</h4>
-          </div>
-          <div class="post-btns">
-            <button type="button" id="edit-post" class="post-icons">
-              <img src="/Gatherly/public/assets/icons/edit.png" width="16px" />
-            </button>
-            <button type="button" id="delete-post" class="post-icons">
-              <img
-                src="/Gatherly/public/assets/icons/delete.png"
-                width="16px"
-              />
-            </button>
-          </div>
-          <p class="post-text">
-            Dette blir så gøy! Jeg gleder meg veldig til å høre mer om... "Lorem
-            ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-            ea commodo consequat.
-          </p>
+        <article class="published-post">
+          <div class="post-grid">
+            <div class="first-row">
+              <div class="user">
+                <img
+                  src="/Gatherly/public/assets/img/placeholder-profile.png"
+                  alt="profilbilde"
+                  class="placeholder-profile"
+                  width="32px"
+                />
+                <span class="user-name">Brukernavn</span>
+              </div>
+              <h4 class="post-name">Eksempelinnlegg</h4>
+            </div>
+            <div class="post-btns">
+              <button type="button" id="edit-post" class="post-icons">
+                <img
+                  src="/Gatherly/public/assets/icons/edit.png"
+                  width="16px"
+                />
+              </button>
+              <button type="button" id="delete-post" class="post-icons">
+                <img
+                  src="/Gatherly/public/assets/icons/delete.png"
+                  width="16px"
+                />
+              </button>
+            </div>
+            <p class="post-text">
+              Dette blir så gøy! Jeg gleder meg veldig til å høre mer om...
+              "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+              enim ad minim veniam, quis nostrud exercitation ullamco laboris
+              nisi ut aliquip ex ea commodo consequat.
+            </p>
 
-          <div class="reaction-btns">
-            <div class="likes">
-              <button class="post-icons like-btn" type="button">
-                <img
-                  src="/Gatherly/public/assets/icons/like.png"
-                  width="20px"
-                />
-              </button>
-              <span class="likes-counter muted">12</span>
-            </div>
-            <div class="dislikes">
-              <button class="post-icons dislike-btn" type="button">
-                <img
-                  src="/Gatherly/public/assets/icons/dislike.png"
-                  width="20px"
-                />
-              </button>
-              <span class="dislikes-counter muted">0</span>
-            </div>
-            <div class="comments">
-              <button class="post-icons comment-btn" type="button">
-                <img
-                  src="/Gatherly/public/assets/icons/comment.png"
-                  width="20px"
-                />
-              </button>
-              <span class="comments-counter muted">0</span>
+            <div class="reaction-btns">
+              <div class="likes">
+                <button class="post-icons like-btn" type="button">
+                  <img
+                    src="/Gatherly/public/assets/icons/like.png"
+                    width="20px"
+                  />
+                </button>
+                <span class="likes-counter muted">12</span>
+              </div>
+              <div class="dislikes">
+                <button class="post-icons dislike-btn" type="button">
+                  <img
+                    src="/Gatherly/public/assets/icons/dislike.png"
+                    width="20px"
+                  />
+                </button>
+                <span class="dislikes-counter muted">0</span>
+              </div>
+              <div class="comments">
+                <button class="post-icons comment-btn" type="button">
+                  <img
+                    src="/Gatherly/public/assets/icons/comment.png"
+                    width="20px"
+                  />
+                </button>
+                <span class="comments-counter muted">0</span>
+              </div>
             </div>
           </div>
 
@@ -180,12 +169,15 @@
             <form class="hide-comment">
               <div class="comment-container">
                 <div class="post-comments">
-                  <img
-                    src="/Gatherly/public/assets/img/placeholder-profile.png"
-                    alt="profilbilde"
-                    class="placeholder-profile"
-                    width="32px"
-                  />
+                  <div class="user">
+                    <img
+                      src="/Gatherly/public/assets/img/placeholder-profile.png"
+                      alt="profilbilde"
+                      class="placeholder-profile"
+                      width="32px"
+                    />
+                    <span class="user-name">Brukernavn</span>
+                  </div>
                   <textarea
                     class="comment"
                     name="kommentar"
@@ -208,18 +200,22 @@
             <h5>Kommentarer</h5>
 
             <!-- KOMMENTARFELT -->
-            <div class="comment-list">
-              <!-- Her kommer postede kommentarer -->
+
+            <!-- Her kommer postede kommentarer -->
+            <div class="comments-list">
               <!-- EKSEMPELKOMMENTAR -->
               <article class="published-comment">
                 <div class="comment-container">
                   <div class="first-row">
-                    <img
-                      src="/Gatherly/public/assets/img/placeholder-profile.png"
-                      alt="profilbilde"
-                      class="placeholder-profile"
-                      width="32px"
-                    />
+                    <div class="user">
+                      <img
+                        src="/Gatherly/public/assets/img/placeholder-profile.png"
+                        alt="profilbilde"
+                        class="placeholder-profile"
+                        width="32px"
+                      />
+                      <span class="user-name">Brukernavn</span>
+                    </div>
                     <p class="comment-text">Enig! Vi ses der.</p>
                   </div>
                   <div class="second-row">
@@ -246,7 +242,7 @@
 
         <!-- OVERLAY VED KLIKK PÅ OPPRETT INNLEGG -->
         <aside id="post-overlay" aria-label="Opprett innlegg">
-          <form id="overlay-content">
+          <form id="overlay-content" class="account-container">
             <button
               id="close-btn"
               class="btn btn-secondary"
@@ -260,10 +256,21 @@
               />
             </button>
             <h3>Opprett innlegg</h3>
-            <label for="postName">Tittel:</label>
-            <input type="text" id="postName" name="post-name" />
-            <label for="postTxt">Ditt innlegg:</label>
-            <textarea id="postTxt" name="text" rows="6"></textarea><br />
+            <label for="post-name">Tittel:</label>
+            <input
+              type="text"
+              id="post-name"
+              name="post-name"
+              class="input-style"
+            />
+            <label for="post-txt">Ditt innlegg:</label>
+            <textarea
+              id="post-txt"
+              name="text"
+              class="input-style"
+              rows="6"
+            ></textarea
+            ><br />
             <button id="publish-btn" class="btn btn-primary" type="submit">
               Publiser
             </button>
@@ -301,11 +308,9 @@
         </a>
       </nav>
     </footer>
-    <!-- <script
-      type="module"
-      src="/Gatherly/src/pages/singleEvent/singleEvent.ts"
-    ></script> -->
-    <script type="module" src="/Gatherly/src/js/singleEvent.js"></script>
+
+    <script type="module" src="/Gatherly/src/js/header.js"></script>
     <script type="module" src="/Gatherly/src/js/burger.js"></script>
+    <script type="module" src="/Gatherly/src/js/singleEvent.js"></script>
   </body>
 </html>
