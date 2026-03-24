@@ -216,6 +216,14 @@ header {
   color: var(--header-color);
 }
 
+.profile-btn {
+  transition: 0.2s;
+}
+
+.profile-btn:hover {
+  transform: scale(1.05);
+}
+
 @media (min-width: 769px) {
   .sideNav {
     width: 200px;

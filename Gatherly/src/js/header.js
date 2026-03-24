@@ -20,16 +20,13 @@ function updateLoginArea() {
     `;
   } else {
     loginArea.innerHTML = `
-       <div class="login-wrapper">
-    
-      <img src="/Gatherly/public/assets/icons/login.png" alt="Logg inn" class="login-btn" />
-    
-
-    <div class="login-popup">
-      <a href="/Gatherly/login.html" class="popup-btn">Logg inn</a>
-      <a href="/Gatherly/register.html" class="popup-btn create">Opprett konto</a>
-    </div>
-  </div>
+        <div class="login-wrapper">
+          <img src="/Gatherly/public/assets/icons/login.png" alt="Logg inn" class="login-btn" />
+            <div class="login-popup">
+              <a href="/Gatherly/login.html" class="popup-btn">Logg inn</a>
+              <a href="/Gatherly/register.html" class="popup-btn create">Opprett konto</a>
+          </div>
+        </div>
 
     `;
   }
@@ -63,6 +60,6 @@ function displayHeader() {
 }
 
 //midlertidig switch for loggedIn - Bytt mellom true eller false for å se endring på siden.
-localStorage.setItem("loggedIn", "false");
+localStorage.setItem("loggedIn", "true");
 
 displayHeader();
