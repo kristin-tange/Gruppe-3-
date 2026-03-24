@@ -1,0 +1,148 @@
+#support-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+
+  background-color: var(--primary-color);
+  border: none;
+
+  font-size: 26px;
+  cursor: pointer;
+
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.295);
+  z-index: 1000;
+}
+
+#support-btn:hover {
+  font-size: 34px;
+  transition: 0.3s;
+  background-color: #1e40ff;
+}
+
+#close-support-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 20px;
+  font-weight: 600;
+
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+
+  background-color: var(--primary-color);
+  color: white;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.295);
+
+  width: 36px;
+  height: 36px;
+  transition: 0.2s;
+}
+
+#close-support-btn:hover {
+  transform: translateY(-2px);
+  background-color: #3a7bd5;
+}
+
+#submit-support-btn {
+  padding: 1rem;
+  border-radius: 2rem;
+  background-color: var(--primary-color);
+  color: white;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.295);
+  border: none;
+  font-weight: 600;
+  font-size: 1.2rem;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+#submit-support-btn:hover {
+  transform: translateY(-2px);
+  font-size: 1.5rem;
+  background-color: #3a7bd5;
+}
+
+#support-box {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+
+  background-color: rgba(0, 0, 0, 0.5);
+
+  justify-content: center;
+  align-items: center;
+
+  display: none;
+}
+
+#support-box.active {
+  display: flex;
+}
+
+.support-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.494);
+}
+
+.support-header h2 {
+  margin: 0;
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.support-content {
+  display: flex;
+  flex-direction: column;
+
+  background-color: #f5f5f5;
+
+  border-radius: 2rem;
+  padding: 2rem;
+
+  max-width: 400px;
+  width: 90%;
+}
+
+#support-form {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+#support-form input,
+#support-form textarea {
+  border-radius: 10px;
+  border: 1px solid black;
+  resize: vertical;
+  padding: 0.5rem;
+}
+
+/* tablet */
+
+@media (min-width: 768px) {
+  #support-btn {
+    width: 90px;
+    height: 90px;
+    font-size: 32px;
+
+    right: 40px;
+    bottom: 40px;
+  }
+
+  #support-btn:hover {
+    font-size: 40px;
+    transition: 0.3s;
+    background-color: rgb(4, 0, 255);
+  }
+}

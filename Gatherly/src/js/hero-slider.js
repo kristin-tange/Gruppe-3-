@@ -1,3 +1,5 @@
+// Adrian Persen
+
 const slides = document.querySelectorAll(".hero-slide");
 const prevButton = document.querySelector(".hero-prev");
 const nextButton = document.querySelector(".hero-next");

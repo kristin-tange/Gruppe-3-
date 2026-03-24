@@ -1,3 +1,5 @@
+// Adrian Persen
+
 const supportBtn = document.getElementById("support-btn");
 const supportBox = document.getElementById("support-box");
 const closeBtn = document.getElementById("close-support-btn");
