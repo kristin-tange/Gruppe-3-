@@ -144,7 +144,7 @@ p {
   flex: 1;
   margin: 20px;
 }
-.account-container {
+.form-container {
   background: var(--card-bg);
   border-radius: var(--card-radius);
   border: none;
@@ -160,7 +160,7 @@ h2 {
   margin-bottom: 20px;
   text-align: center;
 }
-.account-container input {
+.form-container input {
   width: auto;
   padding: 12px;
   margin: 10px 0;
