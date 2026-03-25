@@ -22,6 +22,7 @@
   align-items: center;
 }
 
+
 .slide-1 {
   background:
     radial-gradient(
@@ -84,7 +85,6 @@
 }
 
 .hero p {
-  font-size: 12px;
   margin-top: 1rem;
 }
 

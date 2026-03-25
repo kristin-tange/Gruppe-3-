@@ -35,7 +35,7 @@
 }
 
 .step-text p {
-  font-size: 14px;
+  font-size: var(--main-text);
   line-height: 1.5;
 }
 

@@ -3,8 +3,4 @@
 @import "./global.css";
 @import "./header.css";
 @import "./footer.css";
-@import "./frontpage/hero.css";
-@import "./frontpage/categories.css";
-@import "./frontpage/how-it-works.css";
-@import "./frontpage/support.css";
 @import "./createEvent.css";
