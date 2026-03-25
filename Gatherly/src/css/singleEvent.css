@@ -84,10 +84,10 @@ body {
 .event-place,
 .event-time,
 .event-price {
-  font-size: 10px;
+  font-size: 14px;
 
   @media (width > 500px) {
-    font-size: 12px;
+    font-size: 16px;
   }
 }
 
@@ -96,7 +96,6 @@ body {
   justify-self: start;
   align-self: end;
   width: fit-content;
-  font-size: 0.9rem;
 }
 /* 
 .event-capacity {
@@ -164,6 +163,7 @@ body {
 
 .muted {
   color: var(--muted-text);
+  font-size: 14px;
   justify-self: start;
 }
 
@@ -216,7 +216,7 @@ body {
 #create-post {
   background-color: var(--header-color);
   text-align: start;
-  font-size: larger;
+  font-size: 16px;
   width: 100%;
   height: auto;
   padding: 0.5rem 1rem;
@@ -275,11 +275,13 @@ body {
 .post-name {
   color: var(--muted-text);
   align-self: center;
+  font-size: 18px;
 }
 
 .post-text {
   background-color: var(--bg-color);
   padding: 1rem;
+  font-size: 14px;
   border-radius: var(--card-radius);
   grid-area: post-text;
   justify-self: start;
@@ -337,6 +339,7 @@ body {
   background-color: var(--bg-color);
   border-radius: var(--card-radius);
   padding: 1rem;
+  font-size: 14px;
 }
 
 .comment-btns {
