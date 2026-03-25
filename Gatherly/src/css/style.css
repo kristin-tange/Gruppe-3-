@@ -3,7 +3,9 @@
 @import "./global.css";
 @import "./header.css";
 @import "./footer.css";
-@import "./hero.css";
+
+/* THESE ARE NOT GLOBAL, SHOULD BE REMOVED */
+/* @import "./hero.css";
 @import "./categories.css";
 @import "./how-it-works.css";
-@import "./createEvent.css";
+@import "./createEvent.css"; */
