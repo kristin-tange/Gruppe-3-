@@ -28,12 +28,11 @@
   --text-font: roboto;
 
   /* FORSLAG TIL SKRIFTSTØRRELSER MOBIL */
-  /* TODO: STØRRE SKRIFTSTØRRELSER? */
   --h1: 28px;
   --h2: 24px;
   --h3: 20px;
-  --h4: 16px;
-  --main-text: 12px;
+  --h4: 18px;
+  --main-text: 16px;
 
   @media (min-width: 480px) {
     /* SKRIFTSTØRRELSER DESKTOP */
@@ -41,7 +40,7 @@
     --h2: 28px;
     --h3: 24px;
     --h4: 20px;
-    /* --main-text: 16px; */
+    --main-text: 16px;
   }
 }
 
