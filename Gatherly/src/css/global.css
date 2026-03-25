@@ -43,7 +43,8 @@
   }
 }
 
----DARK MODE--- @media (prefers-color-scheme: dark) {
+/*---DARK MODE--- */
+ @media (prefers-color-scheme: dark) {
   :root {
     --bg-color: #121212;
     --text-color: #d7d7c9;
@@ -92,6 +93,8 @@ h4 {
 p {
   font-size: var(--main-text);
 }
+
+
 /* ---GLOBAL BUTTON STYLING--- */
 .btn {
   width: auto;
@@ -143,6 +146,12 @@ p {
   flex: 1;
   margin: 20px;
 }
+
+/* 
+  ==========================================================
+  GLOBAL FORM STYLE
+  ----------------------------------------------------------*/
+
 .form-container {
   background: var(--card-bg);
   border-radius: var(--card-radius);
