@@ -71,7 +71,7 @@ function showSingleEvent(event) {
         <div class="event-info hero-textbox">
           <p class="event-place">${event.location} /</p>
           <p class="event-time">kl. ${formattedTime} /</p>
-          <p class="event-price">${event.price} kr</p>
+          <p class="event-price">${event.price} </p>
         </div>
         <div id="filter${event.category}" class="category tag hero-tag">${event.category}</div>
       </div>
