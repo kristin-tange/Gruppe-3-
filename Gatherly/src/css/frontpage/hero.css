@@ -34,17 +34,15 @@
   text-align: center;
 }
 
-.slide-2 {
-  background:
-    linear-gradient(rgba(207, 207, 207, 0.55), rgba(131, 131, 131, 0.55)),
-    url(../../../public/assets/img/example-header.jpg) center / cover no-repeat;
-}
+
 
 .slide-3 {
   background:
     linear-gradient(rgba(207, 207, 207, 0.55), rgba(131, 131, 131, 0.55)),
     url(../../../public/assets/img/example-header.jpg) center / cover no-repeat;
 }
+
+
 
 .hero-slide.active {
   opacity: 1;
