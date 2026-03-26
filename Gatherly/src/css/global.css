@@ -40,7 +40,7 @@
     --h2: 28px;
     --h3: 24px;
     --h4: 20px;
-    --main-text: 16px;
+    --main-text: 18px;
   }
 }
 
@@ -146,7 +146,7 @@ p {
   flex: 1;
   margin: 20px;
 } */
-.form-container {
+/* .form-container {
   background: var(--card-bg);
   border-radius: var(--card-radius);
   border: none;
@@ -164,7 +164,7 @@ p {
   margin-bottom: 20px;
   text-align: center;
 } */
-.form-container input {
+/* .form-container input {
   width: auto;
   padding: 12px;
   margin: 10px 0;
@@ -182,7 +182,7 @@ input:focus {
 .form-group input {
   width: 100%;
   padding: 10px;
-}
+} */
 
 /* category buttons */
 .category {
