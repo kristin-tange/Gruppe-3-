@@ -1,0 +1,177 @@
+/* Adrian Persen */
+
+#support-btn {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+
+  background-color: var(--primary-color);
+  border: none;
+
+  font-size: 26px;
+  cursor: pointer;
+
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.295);
+  z-index: 10;
+}
+
+#support-btn:hover {
+  font-size: 34px;
+  transition: 0.3s;
+  background-color: #3a7bd5;
+}
+
+#close-support-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 20px;
+  font-weight: 600;
+
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+
+  background-color: var(--primary-color);
+  color: white;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.295);
+
+  width: 36px;
+  height: 36px;
+  transition: 0.2s;
+}
+
+#close-support-btn:hover {
+  transform: translateY(-2px);
+  background-color: #3a7bd5;
+}
+
+#submit-support-btn {
+  padding: 1rem;
+  border-radius: 2rem;
+  background-color: var(--primary-color);
+  color: white;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.295);
+  border: none;
+  font-weight: 600;
+  font-size: 1.2rem;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+#submit-support-btn:hover {
+  transform: scale(1.05);
+  background-color: #3a7bd5;
+}
+
+#support-box {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+
+  background-color: rgba(0, 0, 0, 0.5);
+
+  justify-content: center;
+  align-items: center;
+
+  display: none;
+}
+
+#support-box.active {
+  display: flex;
+}
+
+#support-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.support-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.494);
+  width: 100%;
+}
+
+.support-header h2 {
+  margin: 0;
+  line-height: 1;
+}
+
+/* global form styling */
+
+form {
+  padding: 20px;
+  margin-bottom: 15px;
+}
+
+/* la inn margin: 0 1rem for litt mer luft rundt formen på mobil */
+.form-container {
+  background: var(--card-bg);
+  border-radius: var(--card-radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  margin: 0 1rem;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+form input,
+form textarea,
+form select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 6px;
+  border: 1px solid var(--secondary-color);
+  border-radius: 6px;
+  font-size: var(--main-text);
+  background: var(--card-bg);
+  color: var(--text-color);
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+  box-sizing: border-box;
+}
+
+form input:focus,
+form textarea:focus,
+form select:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.15);
+}
+
+form input::placeholder,
+form textarea::placeholder {
+  color: var(--muted-text);
+}
+
+/* tablet */
+
+@media (min-width: 768px) {
+  #support-btn {
+    width: 90px;
+    height: 90px;
+    font-size: 32px;
+
+    right: 40px;
+    bottom: 40px;
+  }
+
+  #support-btn:hover {
+    font-size: 40px;
+    transition: 0.3s;
+    background-color: #3a7bd5;
+  }
+}
