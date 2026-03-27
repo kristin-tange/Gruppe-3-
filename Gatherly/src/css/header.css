@@ -90,7 +90,7 @@ header {
 
 .sideNav {
   top: 15rem;
-  left: -100%;
+  left: 20vw;
   align-self: center;
   position: fixed;
   background: transparent;
@@ -99,11 +99,10 @@ header {
   justify-content: center;
   flex-direction: column;
   border-radius: 15%;
-  padding: 0.5rem;
   width: 60vw;
   height: 30vh;
   z-index: 1000;
-  transform: translateX(-100%);
+  transform: translateX(-135%);
   transition: transform 0.5s ease;
 }
 
@@ -151,11 +150,13 @@ header {
   background-color: rgba(0, 0, 0, 0.7);
   z-index: 999;
   transition: opacity 0.3s ease;
-  display: none;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .hamburger-backdrop.active {
-  display: block;
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .login-wrapper {
@@ -226,9 +227,12 @@ header {
 
 @media (min-width: 769px) {
   .sideNav {
-    width: 200px;
+    width: 180px;
     height: 100vh;
     top: 0;
+    left: 0;
+    position: fixed;
+    transform: translateX(-100%);
   }
   .sideNav ul {
     border-radius: 0;

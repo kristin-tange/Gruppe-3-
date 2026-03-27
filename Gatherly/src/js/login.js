@@ -1,24 +1,4 @@
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 document.addEventListener("DOMContentLoaded", () => {
 
   const loginForm = document.getElementById("loginBtn");
@@ -33,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
    alert(API_URL);
   loginForm.addEventListener("click",  async(event) => {
     event.preventDefault();
-      alert(" login ddd");
+
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
 
