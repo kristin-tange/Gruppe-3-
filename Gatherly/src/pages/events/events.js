@@ -43,7 +43,7 @@ function displayMeetups(list = meetups) {
     card.innerHTML = `
       <div>
         <h2>${event.name}</h2>
-        <p>${event.description}</p>
+        <p>${event.summary}</p>
       </div>
       <div id="filter${event.category}" class="category tag">${event.category}</div>
       <img src="${event.image}" alt="">
