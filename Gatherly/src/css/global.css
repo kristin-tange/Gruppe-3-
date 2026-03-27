@@ -44,7 +44,7 @@
   }
 }
 
-/*---DARK MODE--- */
+/*---DARK MODE--- 
 @media (prefers-color-scheme: dark) {
   :root {
     --bg-color: #121212;
@@ -52,7 +52,7 @@
     --header-color: #2f2f2f;
     --secondary-color: #4a4a4a;
   }
-}
+} */
 
 /* ROBOTO-FONT: LINKEN MÅ LEGGES I HEAD PÅ ALLE HTML-FILER 
 
@@ -201,7 +201,9 @@ form select {
   font-size: var(--main-text);
   background: var(--card-bg);
   color: var(--text-color);
-  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
   box-sizing: border-box;
 }
 
@@ -286,7 +288,10 @@ input:focus {
   font-size: 1rem;
   font-weight: 600;
   color: white;
-  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
+  text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
     1px 1px 0 #000;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 1.5rem;
@@ -332,4 +337,3 @@ input:focus {
 #filterExample {
   background: purple;
 }
-
