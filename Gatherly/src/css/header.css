@@ -1,3 +1,5 @@
+/* Oscar Wirum */
+
 nav ul {
   list-style: none;
 }
@@ -34,17 +36,17 @@ header {
 }
 
 .hamburger img {
-  max-width: 110%;
+  max-width: 50px;
 }
 
 #logoCon {
   display: flex;
+  transition: transform 0.5s;
 }
 
 #logoCon:hover {
   cursor: pointer;
-  transform: scale(1.2);
-  transition: transform 0.5s;
+  transform: scale(1.1);
 }
 
 #topLogo {
@@ -52,16 +54,38 @@ header {
   width: 5rem;
 }
 
-.login {
+.login-area {
   display: flex;
+  flex-wrap: wrap;
   cursor: pointer;
   background-color: transparent;
-  width: 48px;
+  width: 100px;
   height: 48px;
   border-radius: 50%;
   border: none;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
+}
+
+.login-btn {
+  width: 50px;
+  transition: transform 0.5s;
+}
+
+.login-btn:hover {
+  transform: scale(1.05);
+}
+
+#menu-div {
+  display: flex;
+  justify-content: flex-start;
+  width: 100px;
+  height: 50px;
+  margin-top: 10px;
+}
+
+#create-user {
+  width: fit-content;
 }
 
 .sideNav {
@@ -126,11 +150,78 @@ header {
   height: 120vh;
   background-color: rgba(0, 0, 0, 0.7);
   z-index: 999;
+  transition: opacity 0.3s ease;
   display: none;
 }
 
 .hamburger-backdrop.active {
   display: block;
+}
+
+.login-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.login-popup {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  top: 45px;
+  right: 0;
+  width: 220px;
+  padding: 0.8rem;
+  background: var(--header-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-5px);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+  z-index: 100;
+}
+
+.login-wrapper:hover .login-popup {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.login-popup p {
+  font-size: 0.9rem;
+  color: var(--text-color);
+}
+
+.popup-btn {
+  display: block;
+  padding: 10px;
+  background: var(--secondary-color);
+  border-radius: 6px;
+  text-align: center;
+  text-decoration: none;
+  color: var(--text-color);
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+.popup-btn:hover {
+  transform: scale(1.05);
+}
+
+.popup-btn.create {
+  background: var(--primary-color);
+  color: var(--header-color);
+}
+
+.profile-btn {
+  transition: 0.2s;
+}
+
+.profile-btn:hover {
+  transform: scale(1.05);
 }
 
 @media (min-width: 769px) {
