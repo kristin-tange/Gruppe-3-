@@ -1,3 +1,5 @@
+/* Adrian Persen */
+
 #support-btn {
   position: fixed;
   bottom: 24px;
@@ -14,13 +16,13 @@
   cursor: pointer;
 
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.295);
-  z-index: 1000;
+  z-index: 10;
 }
 
 #support-btn:hover {
   font-size: 34px;
   transition: 0.3s;
-  background-color: #1e40ff;
+  background-color: #3a7bd5;
 }
 
 #close-support-btn {
@@ -37,7 +39,7 @@
 
   background-color: var(--primary-color);
   color: white;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.295);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.295);
 
   width: 36px;
   height: 36px;
@@ -63,8 +65,7 @@
 }
 
 #submit-support-btn:hover {
-  transform: translateY(-2px);
-  font-size: 1.5rem;
+  transform: scale(1.05);
   background-color: #3a7bd5;
 }
 
@@ -85,47 +86,75 @@
   display: flex;
 }
 
-.support-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 1rem;
-  margin-bottom: 0.5rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.494);
-}
-
-.support-header h2 {
-  margin: 0;
-  font-size: 2rem;
-  line-height: 1;
-}
-
-.support-content {
-  display: flex;
-  flex-direction: column;
-
-  background-color: #f5f5f5;
-
-  border-radius: 2rem;
-  padding: 2rem;
-
-  max-width: 400px;
-  width: 90%;
-}
-
 #support-form {
-  margin-top: 2rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-#support-form input,
-#support-form textarea {
-  border-radius: 10px;
-  border: 1px solid black;
-  resize: vertical;
-  padding: 0.5rem;
+.support-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.494);
+  width: 100%;
+}
+
+.support-header h2 {
+  margin: 0;
+  line-height: 1;
+}
+
+/* global form styling */
+
+form {
+  padding: 20px;
+  margin-bottom: 15px;
+}
+
+/* la inn margin: 0 1rem for litt mer luft rundt formen på mobil */
+.form-container {
+  background: var(--card-bg);
+  border-radius: var(--card-radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  margin: 0 1rem;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+form input,
+form textarea,
+form select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 6px;
+  border: 1px solid var(--secondary-color);
+  border-radius: 6px;
+  font-size: var(--main-text);
+  background: var(--card-bg);
+  color: var(--text-color);
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+  box-sizing: border-box;
+}
+
+form input:focus,
+form textarea:focus,
+form select:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.15);
+}
+
+form input::placeholder,
+form textarea::placeholder {
+  color: var(--muted-text);
 }
 
 /* tablet */
@@ -143,6 +172,6 @@
   #support-btn:hover {
     font-size: 40px;
     transition: 0.3s;
-    background-color: rgb(4, 0, 255);
+    background-color: #3a7bd5;
   }
 }

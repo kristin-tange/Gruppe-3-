@@ -47,7 +47,7 @@
 
 
               <div class="hero-slide slide-2">
-            <div class="hero-content">
+            <div class="hero-content event-hero-content hero-overlay">
               <h1 id="slide2-title"></h1>
             <p id="slide2-desc"></p>
             <a class="arrangement-link" href="#">Utforsk</a>
@@ -56,10 +56,9 @@
 
 
               <div class="hero-slide slide-3">
-            <div class="hero-content">
+            <div class="hero-content event-hero-content hero-overlay">
               <h1>Arrangement 3</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. <br>
-                Sed do eiusmod tempor incididunt.
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. lalalallala
             </p>
             <a class="arrangement-link" href="#">Utforsk</a>
             </div>
@@ -159,7 +158,7 @@
 
   <div id="support-box">
 
-    <div class="support-content">
+    <div class="form-container">
 
     <div class="support-header">
       <h2>Support</h2>
@@ -167,15 +166,20 @@
     </div>
 
     <form id="support-form">
-
+<div class="form-group">
       <label for="name">Navn:</label>
       <input type="text" id="name" name="name" required>
+</div>
 
+<div class="form-group">
       <label for="email">E-post:</label>
       <input type="email" id="email" name="email" required>
+</div>
 
+<div class="form-group">
       <label for="message">Hva gjelder saken?</label>
       <textarea id="message" name="message" rows="4" required></textarea>
+</div>     
 
       <button type="submit" id="submit-support-btn">Send inn</button>
 

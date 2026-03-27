@@ -55,7 +55,8 @@ function renderHero(meetup) {
 
   title.textContent = meetup.name;
   desc.textContent = meetup.description;
-  slide2.style.backgroundImage = `url(${meetup.image})`;
+  /* henter bildet manuelt midlertidig */
+  slide2.style.backgroundImage = `url(./public/assets/img/categories/technology1.jpg)`;
 }
 
 async function init() {

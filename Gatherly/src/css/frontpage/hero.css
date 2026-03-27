@@ -1,11 +1,17 @@
+/* Adrian Persen */
+
 .hero {
   color: var(--text-color);
-  aspect-ratio: 16 / 9;
+  aspect-ratio: auto;
+  min-height: 40vh;
   padding: 2rem;
   width: 100%;
-  max-height: 420px; /* cap for desktop versjon */
   position: relative;
   overflow: hidden;
+}
+
+.hero-content {
+  padding: 2rem;
 }
 
 .hero-slide {
@@ -22,7 +28,6 @@
   align-items: center;
 }
 
-
 .slide-1 {
   background:
     radial-gradient(
@@ -33,16 +38,6 @@
 
   text-align: center;
 }
-
-
-
-.slide-3 {
-  background:
-    linear-gradient(rgba(207, 207, 207, 0.55), rgba(131, 131, 131, 0.55)),
-    url(../../../public/assets/img/example-header.jpg) center / cover no-repeat;
-}
-
-
 
 .hero-slide.active {
   opacity: 1;
@@ -78,7 +73,6 @@
 }
 
 .hero h1 {
-  font-size: 20px;
   text-align: center;
 }
 
@@ -89,7 +83,7 @@
 .arrangement-link {
   text-decoration: none;
   color: #f5f5f5;
-  font-weight: bold;
+  font-weight: 600;
   background-color: var(--primary-color);
   position: relative;
   z-index: 5;
@@ -105,13 +99,37 @@
   transition: 0.3s;
 }
 
-.hero-content {
-  padding: 2rem;
+.hero-overlay {
+  background: rgba(185, 185, 185, 0.356);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+.event-hero-content {
+  max-width: 240px;
+  padding: 1rem;
+  margin: 0 auto;
 }
 
 /* tablet */
 
 @media (min-width: 768px) {
+  .event-hero-content {
+    max-width: 600px;
+  }
+
+  .hero-overlay {
+    padding: 2rem;
+  }
+
+  .hero {
+    aspect-ratio: 16 / 9;
+    min-height: auto;
+    max-height: 420px;
+  }
+
   .hero h1 {
     font-size: 40px;
   }
