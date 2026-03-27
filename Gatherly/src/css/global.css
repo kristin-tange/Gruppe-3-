@@ -31,8 +31,8 @@
   --h1: 28px;
   --h2: 24px;
   --h3: 20px;
-  --h4: 16px;
-  --main-text: 12px;
+  --h4: 18px;
+  --main-text: 16px;
 
   @media (min-width: 480px) {
     /* SKRIFTSTØRRELSER DESKTOP */
@@ -40,6 +40,7 @@
     --h2: 28px;
     --h3: 24px;
     --h4: 20px;
+    --main-text: 18px;
   }
 }
 
@@ -51,7 +52,7 @@
     --header-color: #2f2f2f;
     --secondary-color: #4a4a4a;
   }
-}
+} */
 
 /* ROBOTO-FONT: LINKEN MÅ LEGGES I HEAD PÅ ALLE HTML-FILER 
 
@@ -92,6 +93,7 @@ h4 {
 
 p {
   font-size: var(--main-text);
+  line-height: 1.6;
 }
 
 
@@ -139,7 +141,8 @@ p {
   gap: 20px;
   margin-top: 20px;
 }
-.account-page-wrapper {
+/* NOT GLOBAL? */
+/* .account-page-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -252,11 +255,13 @@ form textarea::placeholder {
   justify-items: center;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
-h2 {
+
+/* NOT GLOBAL?  */
+/* h2 {
   margin-bottom: 20px;
   text-align: center;
-}
-.form-container input {
+} */
+/* .form-container input {
   width: auto;
   padding: 12px;
   margin: 10px 0;
@@ -274,7 +279,7 @@ input:focus {
 .form-group input {
   width: 100%;
   padding: 10px;
-}
+} */
 
 /* category buttons */
 .category {
@@ -283,10 +288,7 @@ input:focus {
   font-size: 1rem;
   font-weight: 600;
   color: white;
-  text-shadow:
-    -1px -1px 0 #000,
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000,
     1px 1px 0 #000;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 1.5rem;

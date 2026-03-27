@@ -32,6 +32,19 @@ function updateLoginArea() {
   }
 }
 
+function setActiveNavLink() {
+  const currentPath = window.location.pathname;
+  const navLinks = document.querySelectorAll(".sideNav a");
+
+  navLinks.forEach(link => {
+    link.classList.remove("active");
+
+    if (currentPath.includes(link.getAttribute("href"))) {
+      link.classList.add("active");
+    }
+  });
+}
+
 function displayHeader() {
   header.innerHTML = `
     <div class="hamburger-backdrop"></div>
@@ -51,9 +64,9 @@ function displayHeader() {
       <div class="login-area" aria-label="Logg inn"></div>
       <nav class="sideNav">
         <ul>
-          <li><a href="/Gatherly/index.html">Hjem</a></li>
-          <li><a href="" class="active">Arrangementer</a></li>
-          <li><a href="">Kontakt</a></li>
+          <li><a href="/Gatherly/index.html" class="">Hjem</a></li>
+          <li><a href="/Gatherly/src/pages/events/events.html" class="">Arrangementer</a></li>
+          <li><a href="/Gatherly/src/pages/contact/contact.html" class="">Kontakt</a></li>
         </ul>
       </nav>`;
   updateLoginArea();
@@ -63,3 +76,4 @@ function displayHeader() {
 localStorage.setItem("loggedIn", "true");
 
 displayHeader();
+setActiveNavLink();
