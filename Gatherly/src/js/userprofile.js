@@ -1,3 +1,5 @@
+// siva
+
 document.addEventListener("DOMContentLoaded", loadProfile);
 
 const API_URL = "http://localhost:3000/api/users";
@@ -20,7 +22,7 @@ async function loadProfile() {
   if (user && user.id) {
     try {
       const res = await fetch(`${API_URL}/${user.id}`, {
-        headers: { "x-api-key": API_KEY }
+         "Authorization": `Bearer ${API_KEY}`
       });
       const freshUser = await res.json();
 
@@ -61,8 +63,8 @@ document.getElementById("savebtn").addEventListener("click", async () => {
   const isNewUser = localStorage.getItem("isNewUser") === "true";
 
   const updateUser = {
-    firstname: document.getElementById("firstname").value,
-    lastname: document.getElementById("lastname").value,
+    firstName: document.getElementById("firstname").value,
+    lastName: document.getElementById("lastname").value,
     email: document.getElementById("email").value,
     phone: document.getElementById("phone").value,
     location: document.getElementById("location").value,
@@ -120,7 +122,7 @@ document.getElementById("deletebtn")?.addEventListener("click", async () => {
     try {
       await fetch(`${API_URL}/${user.id}`, {
         method: "DELETE",
-        headers: { "x-api-key": API_KEY }
+        headers: { "Authorization": `Bearer ${API_KEY}` }
       });
 
       localStorage.removeItem("currentUser");

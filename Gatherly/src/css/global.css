@@ -44,7 +44,8 @@
   }
 }
 
-/* ---DARK MODE--- @media (prefers-color-scheme: dark) {
+/*---DARK MODE--- */
+ @media (prefers-color-scheme: dark) {
   :root {
     --bg-color: #121212;
     --text-color: #d7d7c9;
@@ -94,6 +95,8 @@ p {
   font-size: var(--main-text);
   line-height: 1.6;
 }
+
+
 /* ---GLOBAL BUTTON STYLING--- */
 .btn {
   width: auto;
@@ -145,8 +148,102 @@ p {
   align-items: center;
   flex: 1;
   margin: 20px;
-} */
-/* .form-container {
+}
+
+/* GLOBAL STYLE FOR FORM*/
+
+
+/* Global form styles */
+*form {
+  padding: 20px;
+  margin-bottom: 15px;
+}
+
+/*  card-style form container */
+/*.form-container {
+  background: var(--card-bg);
+  border-radius: var(--card-radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+}
+
+/* Form headings */
+/* =========================
+   GLOBAL FORM STYLING
+========================= */
+
+/* Form wrapper */
+form {
+  padding: 20px;
+  margin-bottom: 15px;
+}
+
+/* Card container */
+.form-container {
+  background: var(--card-bg);
+  border-radius: var(--card-radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+}
+
+/* Form groups */
+.form-group {
+  margin-bottom: 15px;
+}
+
+/* Inputs, textarea, select */
+form input,
+form textarea,
+form select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 6px;
+  border: 1px solid var(--secondary-color);
+  border-radius: 6px;
+  font-size: var(--main-text);
+  background: var(--card-bg);
+  color: var(--text-color);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  box-sizing: border-box;
+}
+
+form label{
+  font-size: var(--main-text);
+}
+
+/* Focus state */
+form input:focus,
+form textarea:focus,
+form select:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.15);
+}
+
+/* Placeholder */
+form input::placeholder,
+form textarea::placeholder {
+  color: var(--muted-text);
+}
+
+/* Form row (for side-by-side inputs) */
+.form-row {
+  display: flex;
+  gap: 10px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .form-row {
+    flex-direction: column;
+  }
+}
+
+/*.form-container {
   background: var(--card-bg);
   border-radius: var(--card-radius);
   border: none;
