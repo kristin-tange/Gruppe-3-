@@ -1,7 +1,8 @@
+//siva
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  const loginForm = document.getElementById("loginBtn");
+  const logBtn = document.getElementById("loginBtn");
   const registrerBtn = document.getElementById("registrer");
 
   const API_URL = "http://localhost:3000/api/users";
@@ -11,7 +12,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Login existing user
   // -----------------------
    alert(API_URL);
-  loginForm.addEventListener("click",  async(event) => {
+   if (logBtn){
+      logBtn.addEventListener("click",  async(event) => {
     event.preventDefault();
 
     const email = document.getElementById("email").value.trim();
@@ -42,11 +44,11 @@ document.addEventListener("DOMContentLoaded", () => {
       alert("Kunne ikke logge inn: " + err.message);
     }
   });
-
+   }
   // -----------------------
   // New user registration
   // -----------------------
-  
+  if (registrerBtn) {
   registrerBtn.addEventListener("click", (event) => {
     event.preventDefault();
     alert("reg");
@@ -69,7 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.location.href = "profile.html";
   });
 
-
+  }
 
 
   });
