@@ -1,7 +1,6 @@
 // KRISTIN TANGE
 
-// HENTE DATA
-
+// FETCH DATA
 const BASE_URL = "http://localhost:3000/api";
 const API_KEY = "12345";
 let users = [];
@@ -17,13 +16,14 @@ async function fetchUsers() {
   console.log(users);
   return users;
 }
-// HENTE BRUKERNAVN TIL INNLEGG OG KOMMENTARER
-// FIX: HENTER BARE UNDEFINED?
+// FETCH USERNAME FOR POSTS AND COMMENTS
+// FIX: UNDEFINED?
 function getUserName(userId) {
   const user = users.find((u) => u.id == userId);
   return user ? user.name : "Ukjent forfatter";
 }
 
+// FETCH EVENTS(MEETUPS)
 async function fetchSingleEvent() {
   // const params = new URLSearchParams(window.location.search);
   // const eventId = params.get("id");
@@ -32,8 +32,6 @@ async function fetchSingleEvent() {
   console.log(event);
   showSingleEvent(event);
 }
-
-// VISE EVENTER/MEETUPS
 
 function formatDate(data) {
   const date = new Date(data);
@@ -73,7 +71,7 @@ function showSingleEvent(event) {
         <div class="event-info hero-textbox">
           <p class="event-place">${event.location} /</p>
           <p class="event-time">kl. ${formattedTime} /</p>
-          <p class="event-price">${event.tags[4]}</p>
+          <p class="event-price">${event.price} </p>
         </div>
         <div id="filter${event.category}" class="category tag hero-tag">${event.category}</div>
       </div>
@@ -95,18 +93,16 @@ function showSingleEvent(event) {
             <button class="btn btn-primary" id="sign-up-btn">Påmelding</button>
         </section>`;
 
-  // MIDLERTIDIG "PÅMELDING"
+  // TEMPORARY "SIGN-UP"
   const signUpBtn = document.getElementById("sign-up-btn");
   signUpBtn.addEventListener("click", () => {
     alert("Din påmelding er registrert.");
   });
 
-  //NICETOHAVE: påmeldingsskjema
-  // NICETOHAVE: vise pop-up med informasjon fra påmelding
-  // NICETOHAVE: ikon og counter med antall påmeldte
+  //NICETOHAVE: sign-up-form, show sign-up-information, icon og counter for sign-up
 }
 
-// ÅPNE OG LUKKE OVERLAY: INNLEGG
+// POST-OVERLAY
 const overlayBtn = document.getElementById("open-overlay-btn");
 const closeOverlayBtn = document.getElementById("close-btn");
 const postOverlay = document.getElementById("post-overlay");
@@ -119,7 +115,13 @@ closeOverlayBtn.addEventListener("click", () => {
   postOverlay.style.display = "none";
 });
 
-// HENTE INNLEGG
+// POSTS
+// TODO: create POSTS
+// TODO: edit posts
+// TODO: delete posts
+
+// FETCH POSTS
+// FIX: fetch related posts from eventId (add more posts in api?)
 async function fetchPosts() {
   const response = await fetch(`${BASE_URL}/posts`);
   posts = await response.json();
@@ -221,7 +223,8 @@ function showPosts(postList) {
 `;
     postContainer.appendChild(postArticle);
   });
-  // ÅPNE OG LUKKE KOMMENTARFELT
+
+  // OPEN/CLOSE COMMENT-SECTION
 
   const commentBtn = document.querySelector(".comment-btn");
   const postCommentBtn = document.querySelector(".post-comment-btn");
@@ -235,112 +238,58 @@ function showPosts(postList) {
   exitBtn.addEventListener("click", () => {
     commentBox.classList.add("hide-comment");
   });
+
+  // REACTIONS
+  // TODO: connect to API
+  // TODO: create reactions
+  // TODO: edit reactions
+  // TODO: delete reactions
+
+  const likeBtn = document.querySelector(".like-btn");
+  const dislikeBtn = document.querySelector(".dislike-btn");
+  const dislikesCounter = document.querySelector(".dislikes-counter");
+  const likesCounter = document.querySelector(".likes-counter");
+  let likeCount = 12;
+  let dislikeCount = 0;
+
+  likeBtn.addEventListener("click", () => {
+    likeBtn.classList.toggle("active");
+
+    if (likeBtn.classList.contains("active")) {
+      likeCount++;
+    } else {
+      likeCount--;
+    }
+    likesCounter.textContent = likeCount;
+  });
+
+  dislikeBtn.addEventListener("click", () => {
+    dislikeBtn.classList.toggle("active");
+
+    if (dislikeBtn.classList.contains("active")) {
+      dislikeCount++;
+    } else {
+      dislikeCount--;
+    }
+    dislikesCounter.textContent = dislikeCount;
+  });
 }
 
-// function showComments(commentsList) {
-//   commentContainer.innerHTML = "";
-
-//   commentsList.forEach((comment) => {
-//     const commentArticle = document.createElement("article");
-//     commentArticle.className = "published-comment";
-//     commentArticle.innerHTML = `<h5>Kommentarer</h5> <div class="comment-container">
-//           <div class="first-row">
-//             <div class="user">
-//               <img
-//                 src="/Gatherly/public/assets/img/placeholder-profile.png"
-//                 alt="profilbilde"
-//                 class="placeholder-profile"
-//                 width="32px"
-//               />
-//               <span class="user-name">Brukernavn</span>
-//             </div>
-//             <p class="comment-text">${comment}</p>
-//           </div>
-//           <div class="second-row">
-//             <button type="button" id="edit-comment" class="comment-btns">
-//               Rediger
-//             </button>
-//             <button type="button" id="delete-comment" class="comment-btns">
-//               Slett
-//             </button>
-//           </div>
-//         </div>`;
-//     commentContainer.appendChild(commentArticle);
-//   });
-// }
-
-// function showPosts(postList) {
-//   const postContainer = document.getElementById("post-container");
-//   postContainer.innerHTML = "";
-//   if (postList.length === 0) {
-//     postContainer.innerHTML = `<p> Ingen innlegg å vise. </p>`;
-//     return;
-//   }
-
-//   postList.forEach((post) => {
-//     const postArticle = document.createElement("article");
-//     postArticle.className = "published-post";
-//     postArticle.innerHTML = `<div class="first-row">
-// // REAKSJONER
-// // OBS: må kobles til API med flere brukere og innlegg senere
-
-// const likeBtn = document.querySelector(".like-btn");
-// const dislikeBtn = document.querySelector(".dislike-btn");
-// const dislikesCounter = document.querySelector(".dislikes-counter");
-// const likesCounter = document.querySelector(".likes-counter");
-// let likeCount = 12;
-// let dislikeCount = 0;
-
-// likeBtn.addEventListener("click", () => {
-//   likeBtn.classList.toggle("active");
-
-//   if (likeBtn.classList.contains("active")) {
-//     likeCount++;
-//   } else {
-//     likeCount--;
-//   }
-//   likesCounter.textContent = likeCount;
-// });
-
-// dislikeBtn.addEventListener("click", () => {
-//   dislikeBtn.classList.toggle("active");
-
-//   if (dislikeBtn.classList.contains("active")) {
-//     dislikeCount++;
-//   } else {
-//     dislikeCount--;
-//   }
-//   dislikesCounter.textContent = dislikeCount;
-// });
-
-// // INNLEGG
-// // post-btn
-// const postName = document.getElementById("postName");
-// const postTxt = document.getElementById("postTxt");
-// const publishBtn = document.getElementById("publish-btn");
-
-// publishBtn.addEventListener("click", () => {
-//   alert("Ditt innlegg er publisert.");
-// });
-
-// function createPost() {
-//   const newPost = document.createElement("article");
-//   newPost;
-// }
-
-// KOMMENTARER
-// Send-btn: poste kommentar på innlegg
-
-// TODO: Opprette, hente, redigere, slette innlegg
-// TODO: Opprette, hente, redigere, slette reaksjoner
-// TODO: Opprette, hente, redigere, slette kommentarer
+// COMMENTS
+// TODO: create comments
+// function createComments() {}
+// TODO: read comments
+// function showComments() {}
+// TODO: edit comments
+// function editComments() {}
+// TODO: delete comments
+// function delteComments() {}
 
 async function init() {
   await fetchUsers();
   await fetchSingleEvent();
   await fetchPosts();
   showPosts(posts);
-  // showComments(comments);
 }
 
 init();

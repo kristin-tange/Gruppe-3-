@@ -28,12 +28,11 @@
   --text-font: roboto;
 
   /* FORSLAG TIL SKRIFTSTØRRELSER MOBIL */
-  /* TODO: STØRRE SKRIFTSTØRRELSER? */
   --h1: 28px;
   --h2: 24px;
   --h3: 20px;
-  --h4: 16px;
-  --main-text: 12px;
+  --h4: 18px;
+  --main-text: 16px;
 
   @media (min-width: 480px) {
     /* SKRIFTSTØRRELSER DESKTOP */
@@ -41,7 +40,7 @@
     --h2: 28px;
     --h3: 24px;
     --h4: 20px;
-    /* --main-text: 16px; */
+    --main-text: 18px;
   }
 }
 
@@ -147,7 +146,7 @@ p {
   flex: 1;
   margin: 20px;
 } */
-.form-container {
+/* .form-container {
   background: var(--card-bg);
   border-radius: var(--card-radius);
   border: none;
@@ -165,7 +164,7 @@ p {
   margin-bottom: 20px;
   text-align: center;
 } */
-.form-container input {
+/* .form-container input {
   width: auto;
   padding: 12px;
   margin: 10px 0;
@@ -183,7 +182,7 @@ input:focus {
 .form-group input {
   width: 100%;
   padding: 10px;
-}
+} */
 
 /* category buttons */
 .category {
