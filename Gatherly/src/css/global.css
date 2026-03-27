@@ -45,14 +45,14 @@
 }
 
 /*---DARK MODE--- */
- @media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark) {
   :root {
     --bg-color: #121212;
     --text-color: #d7d7c9;
     --header-color: #2f2f2f;
     --secondary-color: #4a4a4a;
   }
-} */
+}
 
 /* ROBOTO-FONT: LINKEN MÅ LEGGES I HEAD PÅ ALLE HTML-FILER 
 
@@ -95,7 +95,6 @@ p {
   font-size: var(--main-text);
   line-height: 1.6;
 }
-
 
 /* ---GLOBAL BUTTON STYLING--- */
 .btn {
@@ -152,7 +151,6 @@ p {
 
 /* GLOBAL STYLE FOR FORM*/
 
-
 /* Global form styles */
 *form {
   padding: 20px;
@@ -207,7 +205,7 @@ form select {
   box-sizing: border-box;
 }
 
-form label{
+form label {
   font-size: var(--main-text);
 }
 
