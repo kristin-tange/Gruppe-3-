@@ -2,11 +2,18 @@
 
 // FETCH DATA
 const BASE_URL = "http://localhost:3000/api";
+// TEST-KEY (we need to agree on an api-key for all pages)
 const API_KEY = "12345";
+
+// GET ID FROM WINDOW
+const params = new URLSearchParams(window.location.search);
+const eventId = params.get("id");
+
+// EMPTY ARRAYS (filled after fetch)
 let users = [];
 let posts = [];
 let comments = [];
-// const eventId = 1;
+
 // let postId = null;
 // let commentId = null;
 
@@ -24,12 +31,9 @@ function getUserName(userId) {
 }
 
 // FETCH EVENTS(MEETUPS)
-async function fetchSingleEvent() {
-  // const params = new URLSearchParams(window.location.search);
-  // const eventId = params.get("id");
-  const response = await fetch(`${BASE_URL}/meetups/1`);
+async function fetchSingleEvent(eventId) {
+  const response = await fetch(`${BASE_URL}/meetups/${eventId}`);
   const event = await response.json();
-  console.log(event);
   showSingleEvent(event);
 }
 
@@ -59,8 +63,7 @@ function showSingleEvent(event) {
   const formattedCreatedTime = formatTime(event.created);
   const formattedUpdatedDate = formatDate(event.updated);
   const formattedUpdatedTime = formatTime(event.updated);
-  const tags = event.tags;
-  const formattedTags = tags.join(", ");
+  const formattedTags = event.tags.join(", ");
 
   document.title = `${event.name}`;
 
@@ -121,18 +124,20 @@ closeOverlayBtn.addEventListener("click", () => {
 // TODO: delete posts
 
 // FETCH POSTS
-// FIX: fetch related posts from eventId (add more posts in api?)
 async function fetchPosts() {
   const response = await fetch(`${BASE_URL}/posts`);
   posts = await response.json();
-  console.log(posts);
+  return posts;
 }
 
 function showPosts(postList) {
   const postContainer = document.getElementById("post-container");
+  const postCounter = document.getElementById("post-counter");
   postContainer.innerHTML = "";
+  postCounter.innerHTML = `${postList.length}`;
   if (postList.length === 0) {
-    postContainer.innerHTML = `<p> Ingen innlegg å vise. </p>`;
+    postCounter.style.display = "none";
+    postContainer.innerHTML = `<p> Ingen innlegg å vise ennå. </p>`;
     return;
   }
 
@@ -275,6 +280,17 @@ function showPosts(postList) {
   });
 }
 
+// FIX: add more posts in API
+async function fetchRelatedPosts() {
+  try {
+    const posts = await fetchPosts();
+    const filteredPosts = posts.filter((post) => post.meetupId == eventId);
+    showPosts(filteredPosts);
+  } catch (error) {
+    console.log("Kunne ikke hente poster:", error);
+  }
+}
+
 // COMMENTS
 // TODO: create comments
 // function createComments() {}
@@ -287,9 +303,8 @@ function showPosts(postList) {
 
 async function init() {
   await fetchUsers();
-  await fetchSingleEvent();
-  await fetchPosts();
-  showPosts(posts);
+  await fetchSingleEvent(eventId);
+  await fetchRelatedPosts();
 }
 
 init();
