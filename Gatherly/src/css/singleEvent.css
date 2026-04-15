@@ -1,11 +1,5 @@
 /* KRISTIN TANGE */
 
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
 body {
   line-height: 1.6;
 }
@@ -21,6 +15,10 @@ body {
   @media (width > 700px) {
     height: 50vh;
   }
+
+  @media (width > 1500px) {
+    width: 80%;
+  }
 }
 
 .hero-overlay {
@@ -28,24 +26,22 @@ body {
   inset: 0;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 2fr 2fr 1fr 1fr;
+  grid-template-rows: 2fr 1fr 1fr;
   grid-template-areas:
-    "title title title"
     "title title title"
     "date date none"
     "info info tag";
   padding: 1rem;
   gap: 0.5rem;
   width: 100%;
-  max-width: 1000px;
+  max-width: 800px;
   margin: 0 auto;
 }
 
 .hero-tag {
   height: auto;
   grid-area: tag;
-
-  align-self: center;
+  align-self: start;
 }
 
 .event-title {
@@ -53,9 +49,8 @@ body {
   background-color: var(--header-color);
   grid-area: title;
   justify-self: center;
-  align-self: start;
+  align-self: center;
   padding: 0.4rem;
-  margin-top: 1rem;
   border-radius: 12px;
   text-align: center;
   font-size: 22px;
@@ -78,7 +73,7 @@ body {
 .event-info {
   grid-area: info;
   justify-self: start;
-  align-self: center;
+  align-self: start;
   display: flex;
   flex-wrap: wrap;
 }
@@ -93,7 +88,7 @@ body {
     font-size: 12px;
   }
   @media (width > 600px) {
-    font-size: 16px;
+    font-size: 18px;
   }
 }
 
@@ -138,6 +133,12 @@ body {
   color: var(--muted-text);
   font-size: 14px;
   justify-self: start;
+}
+
+.comment-date {
+  font-size: 10px;
+  align-self: end;
+  padding-right: 1rem;
 }
 
 /* POSTS */
@@ -316,6 +317,11 @@ form textarea::placeholder {
   align-self: end;
 }
 
+.post-comment-btn,
+.exit-btn {
+  font-size: 12px;
+}
+
 .published-comment {
   display: flex;
   flex-direction: column;
@@ -327,6 +333,7 @@ form textarea::placeholder {
   border-radius: var(--card-radius);
   padding: 1rem;
   font-size: 14px;
+  width: 300px;
 }
 
 .comment-btns {
@@ -355,8 +362,9 @@ form textarea::placeholder {
 .comment-container {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  /* gap: 0.5rem; */
   padding: 0.5rem;
+  max-width: 400px;
 }
 
 .comment input {
@@ -369,6 +377,7 @@ form textarea::placeholder {
 
 .second-row {
   display: flex;
+  padding-right: 1rem;
   justify-content: end;
 }
 

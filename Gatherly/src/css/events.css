@@ -72,6 +72,12 @@ button:hover {
   border-bottom-right-radius: 1rem;
 }
 
+.card-link {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
 @media (min-width: 769px) {
   .category {
     padding: 1rem;
