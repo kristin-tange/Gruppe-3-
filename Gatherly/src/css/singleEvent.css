@@ -135,10 +135,16 @@ body {
   justify-self: start;
 }
 
-.comment-date {
+.created-date {
   font-size: 10px;
   align-self: end;
   padding-right: 1rem;
+}
+
+.post-date {
+  grid-column-end: date;
+  grid-row-end: date;
+  justify-self: end;
 }
 
 /* POSTS */
@@ -181,7 +187,7 @@ form textarea::placeholder {
   font-size: 14px;
 }
 
-/* INNLEGG-SEKSJON */
+/* POST-SECTION */
 
 #open-overlay-btn {
   display: flex;
@@ -219,26 +225,28 @@ form textarea::placeholder {
   line-height: 1;
 }
 
-/* EKSEMPELINNLEGG */
+/* EXAMPLE-POST */
 .post-info {
   justify-self: center;
 }
 .post-grid {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
-  grid-template-rows: 1fr 2fr 1fr;
   grid-template-areas:
     "first-row first-row post-btns"
     "post-text post-text post-text"
-    "reaction-btns reaction-btns reaction-btns";
+    "reaction-btns reaction-btns date";
   gap: 0.5rem;
 }
 
 .published-post {
+  display: flex;
+  flex-direction: column;
   background-color: var(--card-bg);
   border-radius: var(--card-radius);
   border: var(--card-border) var(--secondary-color);
   padding: 1rem 1.5rem;
+  gap: 1rem;
 }
 
 .first-row {
@@ -296,7 +304,7 @@ form textarea::placeholder {
   display: flex;
   gap: 0.5rem;
   justify-self: start;
-  align-self: center;
+  align-self: start;
   grid-area: reaction-btns;
 }
 
