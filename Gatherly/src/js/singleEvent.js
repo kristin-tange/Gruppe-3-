@@ -3,7 +3,7 @@
 // FETCH DATA
 const BASE_URL = "http://localhost:3000/api";
 // TEST-KEY (we need to agree on an api-key for all pages)
-const API_KEY = "12345";
+const API_KEY = "group3api";
 
 // GET ID FROM WINDOW
 const params = new URLSearchParams(window.location.search);
