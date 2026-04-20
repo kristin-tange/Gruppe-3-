@@ -130,7 +130,7 @@ document.getElementById("deletebtn")?.addEventListener("click", async () => {
       localStorage.removeItem("isLoggedIn");
 
       alert("Konto slettet!");
-      window.location.href = "logginn.html";
+      window.location.href = "login.html";
     } catch (err) {
       alert("Kunne ikke slette konto: " + err);
     }
