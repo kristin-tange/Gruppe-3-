@@ -145,6 +145,7 @@ body {
   grid-column-end: date;
   grid-row-end: date;
   justify-self: end;
+  align-self: center;
 }
 
 /* POSTS */
@@ -231,11 +232,10 @@ form textarea::placeholder {
 }
 .post-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
   grid-template-areas:
-    "first-row first-row post-btns"
+    "first-row first-row date"
     "post-text post-text post-text"
-    "reaction-btns reaction-btns date";
+    "reaction-btns empty edit-btns";
   gap: 0.5rem;
 }
 
@@ -284,8 +284,8 @@ form textarea::placeholder {
   align-self: center;
   max-width: 600px;
 }
-.post-btns {
-  grid-area: post-btns;
+.edit-btns {
+  grid-area: edit-btns;
   justify-self: end;
   align-self: end;
 }
@@ -321,8 +321,9 @@ form textarea::placeholder {
   gap: 0.5rem;
 }
 
-.btns {
-  align-self: end;
+.post-comments-btns {
+  justify-self: end;
+  margin-top: 0.5rem;
 }
 
 .post-comment-btn,
@@ -341,17 +342,21 @@ form textarea::placeholder {
   border-radius: var(--card-radius);
   padding: 1rem;
   font-size: 14px;
-  width: 300px;
+  min-width: 300px;
+
+  @media (width < 500px) {
+    min-width: 200px;
+  }
 }
 
-.comment-btns {
+.edit-btns {
   border: none;
   background: none;
   padding: 0.3rem;
   cursor: pointer;
   font: var(--text-font);
   font-size: 12px;
-  color: var(--muted-text);
+  color: var(--primary-color);
 }
 
 .comment-btns:hover {
@@ -368,11 +373,13 @@ form textarea::placeholder {
 }
 
 .comment-container {
-  display: flex;
-  flex-direction: column;
-  /* gap: 0.5rem; */
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-areas:
+    "empty empty date"
+    "first-row first-row first-row"
+    "second-row second-row second-row";
   padding: 0.5rem;
-  max-width: 400px;
 }
 
 .comment input {
@@ -386,7 +393,13 @@ form textarea::placeholder {
 .second-row {
   display: flex;
   padding-right: 1rem;
+  grid-area: second-row;
   justify-content: end;
+}
+
+.comment-date {
+  grid-area: date;
+  min-width: max-content;
 }
 
 /* ENDRE DISPLAY VED KLIKK PÅ KNAPP */
@@ -440,9 +453,9 @@ form textarea::placeholder {
 }
 
 .like-btn.active img {
-  content: url(/Gatherly/public/assets/icons/like-pressed.png);
+  content: url(/public/assets/icons/like-pressed.png);
 }
 
 .dislike-btn.active img {
-  content: url(/Gatherly/public/assets/icons/dislike-pressed.png);
+  content: url(/public/assets/icons/dislike-pressed.png);
 }

@@ -2,14 +2,13 @@
 
 // FETCH DATA
 const BASE_URL = "http://localhost:3000/api";
-// TEST-KEY (we need to agree on an api-key for all pages)
 const API_KEY = "group3api";
 
 // GET ID FROM WINDOW
 const params = new URLSearchParams(window.location.search);
 const meetupId = params.get("id");
 
-// EMPTY ARRAYS (filled after fetch)
+// EMPTY ARRAYS
 let users = [];
 let posts = [];
 let comments = [];
@@ -151,79 +150,82 @@ function showPosts(postList) {
     postArticle.innerHTML = `
     <div class="post-grid">
     <div class="first-row">
-      <div class="user">
-        <img
-        src="/public/assets/img/placeholder-profile.png"
-        alt="profilbilde"
-        class="placeholder-profile"
-        width="32px"
-        />
-        <span class="user-name">${getUserName(post.userId)}</span>
-      </div>
-        <h4 class="post-name">${post.postName}</h4>
-      </div>
-   
-      <div class="post-btns">
-        <button type="button" id="edit-post" class="post-icons">
-          <img src="/public/assets/icons/edit.png" width="16px" />
-        </button>
-        <button type="button" id="delete-post" class="post-icons">
-          <img src="/public/assets/icons/delete.png" width="16px" />
-        </button>
-      </div>
+    <div class="user">
+    <img
+    src="/public/assets/img/placeholder-profile.png"
+    alt="profilbilde"
+    class="placeholder-profile"
+    width="32px"
+    />
+    <span class="user-name">${getUserName(post.userId)}</span>
+    </div>
+    <h4 class="post-name">${post.postName}</h4>
+    </div>
+    <p class="muted post-date">${formatDate(post.created)}</p>
 
   <p class="post-text">
   ${post.text}
   </p>
-  <div class="reaction-btns">
-    <div class="likes">
-      <button class="post-icons like-btn" type="button">
-        <img src="/public/assets/icons/like.png" width="20px" />
-      </button>
-      <span class="likes-counter muted">${post.likes}</span>
-    </div>
-    <div class="dislikes">
-        <button class="post-icons dislike-btn" type="button">
-          <img src="/public/assets/icons/dislike.png" width="20px" />
+ 
+    <div class="reaction-btns">
+      <div class="likes">
+        <button class="post-icons like-btn" type="button">
+          <img src="/public/assets/icons/like.png" width="20px" />
         </button>
-        <span class="dislikes-counter muted">${post.dislikes}</span>
-     </div>
-      <div class="comments">
-        <button class="post-icons comment-btn" type="button">
-          <img src="/public/assets/icons/comment.png" width="20px" />
-        </button>
-        <span class="comments-counter muted">${post.comments.length}</span>
+        <span class="likes-counter muted">${post.likes}</span>
       </div>
-    </div>
+      <div class="dislikes">
+          <button class="post-icons dislike-btn" type="button">
+            <img src="/public/assets/icons/dislike.png" width="20px" />
+          </button>
+          <span class="dislikes-counter muted">${post.dislikes}</span>
+      </div>
+        <div class="comments">
+          <button class="post-icons comment-btn" type="button">
+            <img src="/public/assets/icons/comment.png" width="20px" />
+          </button>
+          <span class="comments-counter muted">${post.comments.length}</span>
+        </div>
+        </div>
+        <div class="edit-btns">
+         <button type="button" id="edit-post" class="edit-btns">
+                Rediger
+              </button>
+              <button type="button" id="delete-comment" class="edit-btns">
+                Slett
+              </button>
+      </div>
+        </div>
   </div>
+
   
   <section class="comment-section">
     <form class="hide-comment">
+    <div class="post-comments">
+      <div>
+        <img
+          src="/public/assets/img/placeholder-profile.png"
+          alt="profilbilde"
+          class="placeholder-profile"
+          width="32px"
+        />
+        <span class="user-name"></span>
+      </div>
+      <textarea
+        class="comment"
+        name="kommentar"
+        rows="4"
+        cols="30"
+        placeholder="Legg til kommentar..."
+      ></textarea>
+    </div>
+    <div class="post-comments-btns">
+      <button class="post-comment-btn btn btn-primary" type="submit">Send</button>
+      <button class="exit-btn btn btn-secondary" type="button">
+        Avbryt
+      </button>
+    </div>
       <div class="comment-container">
-        <div class="post-comments">
-          <div>
-            <img
-              src="/public/assets/img/placeholder-profile.png"
-              alt="profilbilde"
-              class="placeholder-profile"
-              width="32px"
-            />
-            <span class="user-name"></span>
-          </div>
-          <textarea
-            class="comment"
-            name="kommentar"
-            rows="4"
-            cols="30"
-            placeholder="Legg til kommentar..."
-          ></textarea>
-        </div>
-        <div class="btns">
-          <button class="post-comment-btn btn btn-primary" type="submit">Send</button>
-          <button class="exit-btn btn btn-secondary" type="button">
-            Avbryt
-          </button>
-        </div>
       </div>
     </form>
     <div class="comment-list">
@@ -257,10 +259,10 @@ function showPosts(postList) {
               <p class="comment-text">${comment.comment}</p>
             </div>
             <div class="second-row">
-              <button type="button" id="edit-comment" class="comment-btns">
+              <button type="button" id="edit-comment" class="edit-btns">
                 Rediger
               </button>
-              <button type="button" id="delete-comment" class="comment-btns">
+              <button type="button" id="delete-comment" class="edit-btns">
                 Slett
               </button>
             </div>
