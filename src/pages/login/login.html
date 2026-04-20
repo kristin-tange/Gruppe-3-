@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="nb">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Logginn page</title>
+
+    <!-- ROBOTO-FONT -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../../src/css/style.css" />
+    <link rel="stylesheet" href="../../../src/css/profileandlogginn.css" />
+
+    <!-- Favicon -->
+    <link
+      rel="shortcut icon"
+      href="/assets/icons/logo.png"
+      type="image/x-icon"
+    />
+  </head>
+  <body class="login-page">
+    <header></header>
+    <main>
+      <div class="account-page-wrapper">
+        <div class="form-container">
+          <h2>Logg inn</h2>
+          <form id="accountForm">
+            <div class="form-group">
+              <label for="email">Brukernavn</label>
+              <input type="text" placeholder="Brukernavn" id="email" required />
+            </div>
+            <div class="form-group">
+              <label for="password">Passord</label>
+              <input
+                type="password"
+                placeholder="Passord"
+                id="password"
+                required
+              />
+            </div>
+            <div class="button-group">
+              <button type="button" id="loginBtn" class="btn btn-primary">
+                Logg inn
+              </button>
+              <button type="button" id="registrer" class="btn btn-secondary">
+                Registrer deg
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p class="left"></p>
+
+      <p class="center">© Gatherly 2026</p>
+
+      <nav class="right" aria-label="Linker til sosiale medier">
+        <a
+          href="https://www.facebook.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img src="/assets/icons/facebook.png" class="icon" alt="Facebook" />
+        </a>
+        <a
+          href="https://www.instagram.com"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img src="/assets/icons/instagram.png" alt="Instagram" class="icon" />
+        </a>
+        <a href="mailto:post@gatherly.no">
+          <img src="/assets/icons/mail.png" alt="E-post" class="icon" />
+        </a>
+      </nav>
+    </footer>
+    <script src="/src/js/header.js"></script>
+    <script src="/src/js/burger.js"></script>
+    <script src="/src/js/login.js"></script>
+  </body>
+</html>
