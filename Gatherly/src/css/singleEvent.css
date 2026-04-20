@@ -41,7 +41,7 @@ body {
 .hero-tag {
   height: auto;
   grid-area: tag;
-  align-self: start;
+  align-self: center;
 }
 
 .event-title {
@@ -73,7 +73,7 @@ body {
 .event-info {
   grid-area: info;
   justify-self: start;
-  align-self: start;
+  align-self: center;
   display: flex;
   flex-wrap: wrap;
 }
