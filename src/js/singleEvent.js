@@ -3,7 +3,7 @@
 // FETCH DATA
 const BASE_URL = "http://localhost:3000/api";
 // TEST-KEY (we need to agree on an api-key for all pages)
-const API_KEY = "12345";
+const API_KEY = "group3api";
 
 // GET ID FROM WINDOW
 const params = new URLSearchParams(window.location.search);
@@ -153,7 +153,7 @@ function showPosts(postList) {
     <div class="first-row">
       <div class="user">
         <img
-        src="/Gatherly/public/assets/img/placeholder-profile.png"
+        src="/public/assets/img/placeholder-profile.png"
         alt="profilbilde"
         class="placeholder-profile"
         width="32px"
@@ -165,10 +165,10 @@ function showPosts(postList) {
    
       <div class="post-btns">
         <button type="button" id="edit-post" class="post-icons">
-          <img src="/Gatherly/public/assets/icons/edit.png" width="16px" />
+          <img src="/public/assets/icons/edit.png" width="16px" />
         </button>
         <button type="button" id="delete-post" class="post-icons">
-          <img src="/Gatherly/public/assets/icons/delete.png" width="16px" />
+          <img src="/public/assets/icons/delete.png" width="16px" />
         </button>
       </div>
 
@@ -178,19 +178,19 @@ function showPosts(postList) {
   <div class="reaction-btns">
     <div class="likes">
       <button class="post-icons like-btn" type="button">
-        <img src="/Gatherly/public/assets/icons/like.png" width="20px" />
+        <img src="/public/assets/icons/like.png" width="20px" />
       </button>
       <span class="likes-counter muted">${post.likes}</span>
     </div>
     <div class="dislikes">
         <button class="post-icons dislike-btn" type="button">
-          <img src="/Gatherly/public/assets/icons/dislike.png" width="20px" />
+          <img src="/public/assets/icons/dislike.png" width="20px" />
         </button>
         <span class="dislikes-counter muted">${post.dislikes}</span>
      </div>
       <div class="comments">
         <button class="post-icons comment-btn" type="button">
-          <img src="/Gatherly/public/assets/icons/comment.png" width="20px" />
+          <img src="/public/assets/icons/comment.png" width="20px" />
         </button>
         <span class="comments-counter muted">${post.comments.length}</span>
       </div>
@@ -203,7 +203,7 @@ function showPosts(postList) {
         <div class="post-comments">
           <div>
             <img
-              src="/Gatherly/public/assets/img/placeholder-profile.png"
+              src="/public/assets/img/placeholder-profile.png"
               alt="profilbilde"
               class="placeholder-profile"
               width="32px"
@@ -246,7 +246,7 @@ function showPosts(postList) {
             <div class="first-row">
               <div>
                 <img
-                  src="/Gatherly/public/assets/img/placeholder-profile.png"
+                  src="/public/assets/img/placeholder-profile.png"
                   alt="profilbilde"
                   class="placeholder-profile"
                   width="32px"
