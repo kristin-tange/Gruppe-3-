@@ -2,7 +2,12 @@
 
 // FETCH DATA
 const BASE_URL = "http://localhost:3000/api";
+
 const API_KEY = "group3api";
+
+// function getApiKey() {
+//   return localStorage.getItem("api-key");
+// }
 
 // GET ID FROM WINDOW
 const params = new URLSearchParams(window.location.search);
@@ -26,7 +31,8 @@ async function fetchUsers() {
 // FIX: UNDEFINED?
 function getUserName(userId) {
   const user = users.find((u) => u.id == userId);
-  return user ? user.name : "Ukjent forfatter";
+  console.log(user);
+  return user ? user.userName : "Ukjent forfatter";
 }
 
 // FETCH EVENTS(MEETUPS)
@@ -109,9 +115,13 @@ function showSingleEvent(event) {
 }
 
 // POST-OVERLAY
+
 const overlayBtn = document.getElementById("open-overlay-btn");
 const closeOverlayBtn = document.getElementById("close-btn");
 const postOverlay = document.getElementById("post-overlay");
+const postForm = document.getElementById("post-form");
+const postTitleInput = document.getElementById("new-post-title");
+const postTxtInput = document.getElementById("new-post-txt");
 
 overlayBtn.addEventListener("click", () => {
   postOverlay.style.display = "block";
@@ -121,8 +131,60 @@ closeOverlayBtn.addEventListener("click", () => {
   postOverlay.style.display = "none";
 });
 
+postForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const title = postTitleInput.value.trim();
+  const txt = postTxtInput.value.trim();
+
+  try {
+    await createPost(title, txt);
+    alert("Ditt innlegg er nå publisert.");
+    postTitleInput.value = "";
+    postTxtInput.value = "";
+    postOverlay.style.display = "none";
+    await loadPosts();
+  } catch (error) {
+    "Kunne ikke publisere innlegg:", error;
+  }
+});
+
 // POSTS
+
 // TODO: create POSTS
+async function createPost(title, txt) {
+  const response = await fetch(`${BASE_URL}/posts`, {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${API_KEY}`,
+    },
+    body: JSON.stringify({
+      meetupId: Number(meetupId),
+      userId: 1,
+      likes: 0,
+      dislikes: 0,
+      postName: title,
+      text: txt,
+      comments: [],
+    }),
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message ?? "Kunne ikke poste innlegg.");
+  }
+  return response.json();
+}
+
+async function loadPosts() {
+  try {
+    const posts = await fetchPosts();
+    console.log(posts);
+
+    showPosts(posts);
+  } catch (error) {
+    postContainer.innerHTML = `<li class="error">Noe gikk galt. Prøv igjen.</li>`;
+  }
+}
 // TODO: edit posts
 // TODO: delete posts
 
@@ -149,7 +211,7 @@ function showPosts(postList) {
     postArticle.className = "published-post";
     postArticle.innerHTML = `
     <div class="post-grid">
-    <div class="first-row">
+    <div>
     <div class="user">
     <img
     src="/public/assets/img/placeholder-profile.png"
@@ -184,7 +246,9 @@ function showPosts(postList) {
           <button class="post-icons comment-btn" type="button">
             <img src="/public/assets/icons/comment.png" width="20px" />
           </button>
-          <span class="comments-counter muted">${post.comments.length}</span>
+          <span class="comments-counter muted">${
+            post.comments?.length || 0
+          }</span>
         </div>
         </div>
         <div class="edit-btns">
@@ -202,7 +266,7 @@ function showPosts(postList) {
   <section class="comment-section">
     <form class="hide-comment">
     <div class="post-comments">
-      <div>
+      <div class="user">
         <img
           src="/public/assets/img/placeholder-profile.png"
           alt="profilbilde"
@@ -245,8 +309,8 @@ function showPosts(postList) {
         commentElement.innerHTML = `
           <div class="comment-container">
           <p class="muted comment-date">${formatDate(comment.created)}</p>
-            <div class="first-row">
-              <div>
+            <div>
+              <div class="user">
                 <img
                   src="/public/assets/img/placeholder-profile.png"
                   alt="profilbilde"
@@ -269,8 +333,6 @@ function showPosts(postList) {
           </div>`;
         commentsContainer.appendChild(commentElement);
       });
-    } else {
-      commentsContainer.innerHTML = `<p>Ingen innlegg å vise ennå.</p>`;
     }
 
     // OPEN/CLOSE COMMENT-SECTION
