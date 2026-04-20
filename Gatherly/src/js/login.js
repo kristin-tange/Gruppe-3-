@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const registrerBtn = document.getElementById("registrer");
 
   const API_URL = "http://localhost:3000/api/users";
-  const API_KEY = "api123"; // your API key
+  const API_KEY = "group3api";
 
   // -----------------------
   // Login existing user
