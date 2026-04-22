@@ -1,7 +1,7 @@
 // Oscar Wirum
 
 const BASE_URL = "http://localhost:3000/api";
-const API_KEY = "1000";
+const API_KEY = "group3api";
 
 let meetups = [];
 
@@ -40,13 +40,13 @@ function displayMeetups(list = meetups) {
     const card = document.createElement("div");
     card.classList.add("arrangementCard");
 
-    card.innerHTML = `
+    card.innerHTML = `<a href="/Gatherly/src/pages/singleEvent/singleEvent.html?id?${event.id}" class="card-link">
       <div>
         <h2>${event.name}</h2>
         <p>${event.summary}</p>
       </div>
       <div id="filter${event.category}" class="category tag">${event.category}</div>
-      <img src="${event.image}" alt="">
+      <img src="${event.image}" alt=""> </a>
     `;
 
     colElements[index % columns].appendChild(card);
@@ -62,7 +62,7 @@ async function init() {
 }
 
 function filterMeetups(category) {
-  const filtered = meetups.filter(event => event.category === category);
+  const filtered = meetups.filter((event) => event.category === category);
   displayMeetups(filtered);
 }
 

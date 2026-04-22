@@ -3,7 +3,7 @@
 document.addEventListener("DOMContentLoaded", loadProfile);
 
 const API_URL = "http://localhost:3000/api/users";
-const API_KEY = "api123";
+const API_KEY = "group3api";
 
 // Load profile on page load
 async function loadProfile() {
@@ -130,7 +130,7 @@ document.getElementById("deletebtn")?.addEventListener("click", async () => {
       localStorage.removeItem("isLoggedIn");
 
       alert("Konto slettet!");
-      window.location.href = "logginn.html";
+      window.location.href = "login.html";
     } catch (err) {
       alert("Kunne ikke slette konto: " + err);
     }

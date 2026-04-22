@@ -14,22 +14,32 @@ function updateLoginArea() {
 
   if (isLoggedIn()) {
     loginArea.innerHTML = `
-      <a href="/Gatherly/profile.html" class="profile-btn">
-        <img src="/Gatherly/public/assets/icons/header-user.png" alt="Profil" />
-      </a>
+    <div class="login-wrapper">
+          <img src="/Gatherly/public/assets/icons/header-user.png" alt="Logg inn" class="login-btn" />
+            <div class="login-popup">
+              <a href="/Gatherly/src/pages/login/profile.html" class="popup-btn">Min Profil</a>
+              <a href="/Gatherly/index.html" class="popup-btn create logout-btn">Logg Ut</a>
+          </div>
+        </div>
     `;
   } else {
     loginArea.innerHTML = `
         <div class="login-wrapper">
           <img src="/Gatherly/public/assets/icons/login.png" alt="Logg inn" class="login-btn" />
             <div class="login-popup">
-              <a href="/Gatherly/login.html" class="popup-btn">Logg inn</a>
-              <a href="/Gatherly/register.html" class="popup-btn create">Opprett konto</a>
+              <a href="/Gatherly/src/pages/login/login.html" class="popup-btn">Logg inn</a>
+              <a href="/Gatherly/src/pages/login/profile.html" class="popup-btn create">Opprett konto</a>
           </div>
         </div>
 
     `;
   }
+  const logoutBtn = document.querySelector(".logout-btn");
+  if (!logoutBtn) return;
+
+  logoutBtn.addEventListener("click", () => {
+    localStorage.setItem("loggedIn", "false");
+  });
 }
 
 function setActiveNavLink() {
@@ -44,6 +54,8 @@ function setActiveNavLink() {
     }
   });
 }
+
+function logOut() {}
 
 function displayHeader() {
   header.innerHTML = `
@@ -73,7 +85,7 @@ function displayHeader() {
 }
 
 //midlertidig switch for loggedIn - Bytt mellom true eller false for å se endring på siden.
-localStorage.setItem("loggedIn", "true");
+//localStorage.setItem("loggedIn", "true");
 
 displayHeader();
 setActiveNavLink();
