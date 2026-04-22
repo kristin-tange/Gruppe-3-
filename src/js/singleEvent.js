@@ -359,10 +359,15 @@ function showPosts(postList) {
         );
         deleteCommentBtn.addEventListener("click", async () => {
           try {
-            await deleteComment(post.id, comment.id);
-            confirm("Er du sikker på at du vil slette denne kommentaren?");
+            const isConfirmed = confirm(
+              "Er du sikker på at du vil slette denne kommentaren?"
+            );
             // FIX: make modal with confirm
-            await loadPosts();
+            if (isConfirmed) {
+              await deleteComment(post.id, comment.id);
+              await loadPosts();
+              alert("Kommentaren er slettet.");
+            }
           } catch (error) {
             console.error(error);
           }
@@ -426,10 +431,15 @@ function showPosts(postList) {
     btn.addEventListener("click", async (event) => {
       const id = Number(event.target.dataset.id);
       try {
-        await deletePost(id);
-        confirm("Er du sikker på at du vil slette dette innlegget?");
+        const isConfirmed = confirm(
+          "Er du sikker på at du vil slette dette innlegget?"
+        );
         // FIX: make modal with confirm
-        await loadPosts();
+        if (isConfirmed) {
+          await deletePost(id);
+          await loadPosts();
+          alert("Innlegget er slettet.");
+        }
       } catch (error) {
         console.error(error);
       }
