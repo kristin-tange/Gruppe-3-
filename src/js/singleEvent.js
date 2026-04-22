@@ -186,7 +186,21 @@ async function loadPosts() {
   }
 }
 // TODO: edit posts
+
 // TODO: delete posts
+
+async function deletePost(id) {
+  const response = await fetch(`${BASE_URL}/posts/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${API_KEY}`,
+    },
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message ?? "Kunne ikke slette innlegg.");
+  }
+}
 
 // FETCH POSTS
 async function fetchPosts() {
@@ -234,13 +248,13 @@ function showPosts(postList) {
         <button class="post-icons like-btn" type="button">
           <img src="/public/assets/icons/like.png" width="20px" />
         </button>
-        <span class="likes-counter muted">${post.likes}</span>
+        <span class="likes-counter muted">${post.likes || 0}</span>
       </div>
       <div class="dislikes">
           <button class="post-icons dislike-btn" type="button">
             <img src="/public/assets/icons/dislike.png" width="20px" />
           </button>
-          <span class="dislikes-counter muted">${post.dislikes}</span>
+          <span class="dislikes-counter muted">${post.dislikes || 0}</span>
       </div>
         <div class="comments">
           <button class="post-icons comment-btn" type="button">
@@ -252,10 +266,14 @@ function showPosts(postList) {
         </div>
         </div>
         <div class="edit-btns">
-         <button type="button" id="edit-post" class="edit-btns">
+         <button type="button" class="edit-post-btn edit-btns" data-id="${
+           post.id
+         }">
                 Rediger
               </button>
-              <button type="button" id="delete-comment" class="edit-btns">
+              <button type="button" class="delete-post-btn edit-btns" data-id="${
+                post.id
+              }">
                 Slett
               </button>
       </div>
@@ -323,14 +341,32 @@ function showPosts(postList) {
               <p class="comment-text">${comment.comment}</p>
             </div>
             <div class="second-row">
-              <button type="button" id="edit-comment" class="edit-btns">
+              <button type="button" class="edit-comment-btn edit-btns" data-id="${
+                comment.id
+              }">
                 Rediger
               </button>
-              <button type="button" id="delete-comment" class="edit-btns">
+              <button type="button" class="delete-comment-btn edit-btns" data-id="${
+                comment.id
+              }">
                 Slett
               </button>
             </div>
           </div>`;
+
+        const deleteCommentBtn = commentElement.querySelector(
+          ".delete-comment-btn"
+        );
+        deleteCommentBtn.addEventListener("click", async () => {
+          try {
+            await deleteComment(post.id, comment.id);
+            confirm("Er du sikker på at du vil slette denne kommentaren?");
+            // FIX: make modal with confirm
+            await loadPosts();
+          } catch (error) {
+            console.error(error);
+          }
+        });
         commentsContainer.appendChild(commentElement);
       });
     }
@@ -385,6 +421,20 @@ function showPosts(postList) {
     });
     postContainer.appendChild(postArticle);
   });
+
+  document.querySelectorAll(".delete-post-btn").forEach((btn) => {
+    btn.addEventListener("click", async (event) => {
+      const id = Number(event.target.dataset.id);
+      try {
+        await deletePost(id);
+        confirm("Er du sikker på at du vil slette dette innlegget?");
+        // FIX: make modal with confirm
+        await loadPosts();
+      } catch (error) {
+        console.error(error);
+      }
+    });
+  });
 }
 
 // TODO: add more posts in API
@@ -400,13 +450,32 @@ async function fetchRelatedPosts() {
 
 // COMMENTS
 // TODO: create comments
-// function createComments() {}
 // TODO: read comments
 
 // TODO: edit comments
-// function editComments() {}
 // TODO: delete comments
-// function delteComments() {}
+async function deleteComment(postId, commentId) {
+  const response = await fetch(`${BASE_URL}/posts/${postId}`);
+  const post = await response.json();
+  const updatedComments = post.comments.filter(
+    (comment) => comment.id !== commentId
+  );
+
+  const updateResponse = await fetch(`${BASE_URL}/posts/${postId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${API_KEY}`,
+    },
+    body: JSON.stringify({
+      comments: updatedComments,
+    }),
+  });
+  if (!updateResponse.ok) {
+    throw new Error("Kunne ikke slette kommentar");
+  }
+  return updateResponse.json();
+}
 
 async function init() {
   await fetchUsers();
