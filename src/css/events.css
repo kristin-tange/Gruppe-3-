@@ -67,7 +67,7 @@ button:hover {
 
 .arrangementCard img {
   width: 100%;
-  margin-bottom: 0;
+  margin-bottom: -0.25rem;
   border-bottom-left-radius: 1rem;
   border-bottom-right-radius: 1rem;
 }
