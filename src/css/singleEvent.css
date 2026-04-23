@@ -340,8 +340,9 @@ form textarea::placeholder {
 }
 
 .post-comment-btn,
-.exit-btn {
+.exit-comment-btn {
   font-size: 12px;
+  padding: 0.5rem;
 }
 
 .comment-container {
@@ -460,11 +461,6 @@ form textarea::placeholder {
 #post-btn {
   width: fit-content;
   align-self: center;
-}
-
-.exit-btn {
-  max-width: fit-content;
-  padding: 0.5rem;
 }
 
 .like-btn.active img {
