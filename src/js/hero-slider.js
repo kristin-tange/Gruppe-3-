@@ -31,6 +31,8 @@ prevButton.addEventListener("click", () => {
 
 // startet på å hente meetups fra api slide-2
 
+// startet på å hente meetups fra api slide-2
+
 const BASE_URL = "http://localhost:3000/api";
 
 let meetups = [];
@@ -54,9 +56,8 @@ function renderHero(meetup) {
   if (!slide2 || !title || !desc || !meetup) return;
 
   title.textContent = meetup.name;
-  desc.textContent = meetup.description;
-  /* henter bildet manuelt midlertidig */
-  slide2.style.backgroundImage = `url(./public/assets/img/categories/technology1.jpg)`;
+  desc.textContent = meetup.summary;
+  slide2.style.backgroundImage = `url(${meetup.image})`;
 }
 
 async function init() {
