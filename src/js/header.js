@@ -15,20 +15,20 @@ function updateLoginArea() {
   if (isLoggedIn()) {
     loginArea.innerHTML = `
     <div class="login-wrapper">
-          <img src="/Gatherly/public/assets/icons/header-user.png" alt="Logg inn" class="login-btn" />
+          <img src="/assets/icons/header-user.png" alt="Logg inn" class="login-btn" />
             <div class="login-popup">
-              <a href="/Gatherly/src/pages/login/profile.html" class="popup-btn">Min Profil</a>
-              <a href="/Gatherly/index.html" class="popup-btn create logout-btn">Logg Ut</a>
+              <a href="/src/pages/login/profile.html" class="popup-btn">Min Profil</a>
+              <a href="/index.html" class="popup-btn create logout-btn">Logg Ut</a>
           </div>
         </div>
     `;
   } else {
     loginArea.innerHTML = `
         <div class="login-wrapper">
-          <img src="/Gatherly/public/assets/icons/login.png" alt="Logg inn" class="login-btn" />
+          <img src="/assets/icons/login.png" alt="Logg inn" class="login-btn" />
             <div class="login-popup">
-              <a href="/Gatherly/src/pages/login/login.html" class="popup-btn">Logg inn</a>
-              <a href="/Gatherly/src/pages/login/profile.html" class="popup-btn create">Opprett konto</a>
+              <a href="/src/pages/login/login.html" class="popup-btn">Logg inn</a>
+              <a href="/src/pages/login/profile.html" class="popup-btn create">Opprett konto</a>
           </div>
         </div>
 
@@ -62,13 +62,13 @@ function displayHeader() {
     <div class="hamburger-backdrop"></div>
       <div id="menu-div"><button class="hamburger" aria-label="Åpne meny">
         <div>
-          <img src="/Gatherly/public/assets/icons/menu.png" alt="" />
+          <img src="/assets/icons/menu.png" alt="" />
         </div>
       </button></div>
       <div id="logoCon">
-        <a href="/Gatherly/index.html"
+        <a href="/index.html"
           ><img
-            src="/Gatherly/public/assets/icons/logo.png"
+            src="/assets/icons/logo.png"
             alt="logo"
             id="topLogo"
         /></a>
@@ -76,9 +76,9 @@ function displayHeader() {
       <div class="login-area" aria-label="Logg inn"></div>
       <nav class="sideNav">
         <ul>
-          <li><a href="/Gatherly/index.html" class="">Hjem</a></li>
-          <li><a href="/Gatherly/src/pages/events/events.html" class="">Arrangementer</a></li>
-          <li><a href="/Gatherly/src/pages/contact/contact.html" class="">Kontakt</a></li>
+          <li><a href="/index.html" class="">Hjem</a></li>
+          <li><a href="/src/pages/events/events.html" class="">Arrangementer</a></li>
+          <li><a href="/src/pages/contact/contact.html" class="">Kontakt</a></li>
         </ul>
       </nav>`;
   updateLoginArea();
