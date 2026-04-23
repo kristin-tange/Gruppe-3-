@@ -40,7 +40,7 @@ function displayMeetups(list = meetups) {
     const card = document.createElement("div");
     card.classList.add("arrangementCard");
 
-    card.innerHTML = `<a href="/Gatherly/src/pages/singleEvent/singleEvent.html?id?${event.id}" class="card-link">
+    card.innerHTML = `<a href="/src/pages/singleEvent/singleEvent.html?id=${event.id}" class="card-link">
       <div>
         <h2>${event.name}</h2>
         <p>${event.summary}</p>
@@ -62,7 +62,7 @@ async function init() {
 }
 
 function filterMeetups(category) {
-  const filtered = meetups.filter((event) => event.category === category);
+  const filtered = meetups.filter(event => event.category === category);
   displayMeetups(filtered);
 }
 
