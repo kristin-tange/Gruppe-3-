@@ -149,12 +149,6 @@ p {
   margin-bottom: 15px;
 }
 
-/* Form wrapper */
-form {
-  padding: 20px;
-  margin-bottom: 15px;
-}
-
 /* Card container */
 .form-container {
   background: var(--card-bg);
