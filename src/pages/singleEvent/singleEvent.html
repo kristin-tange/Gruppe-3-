@@ -7,8 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Arrangementinformasjon" />
     <meta name="author" content="Kristin Tange" />
-    <link rel="stylesheet" href="/Gatherly/src/css/style.css" />
-    <link rel="stylesheet" href="/Gatherly/src/css/singleEvent.css" />
+    <link rel="stylesheet" href="/src/css/style.css" />
+    <link rel="stylesheet" href="/src/css/singleEvent.css" />
 
     <!-- ROBOTO-FONT -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -25,23 +25,12 @@
 
     <!-- HERO -->
     <div id="hero-container"></div>
-    <!-- <div class="event-capacity">
-            <div id="capacity-img">
-              <img
-                src="/Gatherly/public/assets/icons/capacity.svg"
-                width="24px"
-                alt="Antall plasser"
-              />
-              <p id="capacity-counter">x/x</p>
-            </div>
-          </div> -->
 
     <main>
-      <div id="description-container">
-        <!-- INFORMASJON OM ARRANGEMENT -->
-      </div>
+      <!-- EVENT-INFO -->
+      <div id="description-container"></div>
 
-      <!-- INNLEGG -->
+      <!-- POSTS -->
       <section class="posts section-grid">
         <h3>Noe på hjertet?</h3>
         <p class="post-info">
@@ -50,17 +39,16 @@
         </p>
         <button id="open-overlay-btn" class="btn btn-secondary" type="button">
           <span id="create-post">Opprett innlegg</span>
-          <img src="/Gatherly/public/assets/icons/pil.svg" />
+          <img src="/public/assets/icons/pil.svg" />
         </button>
 
         <h4>Innlegg <span id="post-counter" class="highlight"></span></h4>
 
-        <!-- HER KOMMER POSTEDE INNLEGG -->
         <div id="post-container"></div>
 
         <!-- OVERLAY: CREATE POST  -->
         <aside id="post-overlay" aria-label="Opprett innlegg">
-          <form id="overlay-content" class="form-container">
+          <form id="post-form" class="form-container">
             <button
               id="close-btn"
               class="btn btn-secondary"
@@ -68,7 +56,7 @@
               aria-label="Lukk vindu"
             >
               <img
-                src="/Gatherly/public/assets/icons/close.png"
+                src="/public/assets/icons/close.png"
                 alt="Lukk vindu"
                 width="10px"
               />
@@ -78,18 +66,20 @@
               <label for="post-name">Tittel</label>
               <input
                 type="text"
-                id="post-name"
+                id="new-post-title"
                 name="post-name"
                 placeholder="Skriv tittel på innlegg..."
+                required
               />
             </div>
             <div class="form-group">
               <label for="post-txt">Ditt innlegg</label>
               <textarea
-                id="post-txt"
+                id="new-post-txt"
                 name="text"
                 rows="6"
                 placeholder="Skriv innlegg..."
+                required
               ></textarea
               ><br />
             </div>
@@ -111,30 +101,26 @@
       <nav class="right" aria-label="Linker til sosiale medier">
         <a href="https://www.facebook.com" target="_blank">
           <img
-            src="/Gatherly/public/assets/icons/facebook.png"
+            src="/public/assets/icons/facebook.png"
             alt="Facebook"
             class="icon"
           />
         </a>
         <a href="https://www.instagram.com" target="_blank">
           <img
-            src="/Gatherly/public/assets/icons/instagram.png"
+            src="/public/assets/icons/instagram.png"
             alt="Instagram"
             class="icon"
           />
         </a>
         <a href="mailto:post@gatherly.no">
-          <img
-            src="/Gatherly/public/assets/icons/mail.png"
-            alt="E-post"
-            class="icon"
-          />
+          <img src="/public/assets/icons/mail.png" alt="E-post" class="icon" />
         </a>
       </nav>
     </footer>
 
-    <script type="module" src="/Gatherly/src/js/header.js"></script>
-    <script type="module" src="/Gatherly/src/js/burger.js"></script>
-    <script type="module" src="/Gatherly/src/js/singleEvent.js"></script>
+    <script type="module" src="/src/js/header.js"></script>
+    <script type="module" src="/src/js/burger.js"></script>
+    <script type="module" src="/src/js/singleEvent.js"></script>
   </body>
 </html>
