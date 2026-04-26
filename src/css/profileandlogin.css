@@ -27,3 +27,19 @@ footer {
     object-fit: cover;
     border: none;
 }
+
+/*  card-style form container */
+.form-container {
+  background: var(--card-bg);
+  border-radius: var(--card-radius);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+}
+ .account-page-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  margin: 20px;
+}
+

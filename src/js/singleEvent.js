@@ -2,14 +2,18 @@
 
 // FETCH DATA
 const BASE_URL = "http://localhost:3000/api";
-// TEST-KEY (we need to agree on an api-key for all pages)
-const API_KEY = "12345";
+
+const API_KEY = "group3api";
+
+// function getApiKey() {
+//   return localStorage.getItem("api-key");
+// }
 
 // GET ID FROM WINDOW
 const params = new URLSearchParams(window.location.search);
 const meetupId = params.get("id");
 
-// EMPTY ARRAYS (filled after fetch)
+// EMPTY ARRAYS
 let users = [];
 let posts = [];
 let comments = [];
@@ -27,7 +31,8 @@ async function fetchUsers() {
 // FIX: UNDEFINED?
 function getUserName(userId) {
   const user = users.find((u) => u.id == userId);
-  return user ? user.name : "Ukjent forfatter";
+  console.log(user);
+  return user ? user.userName : "Ukjent forfatter";
 }
 
 // FETCH EVENTS(MEETUPS)
@@ -110,9 +115,13 @@ function showSingleEvent(event) {
 }
 
 // POST-OVERLAY
+
 const overlayBtn = document.getElementById("open-overlay-btn");
 const closeOverlayBtn = document.getElementById("close-btn");
 const postOverlay = document.getElementById("post-overlay");
+const postForm = document.getElementById("post-form");
+const postTitleInput = document.getElementById("new-post-title");
+const postTxtInput = document.getElementById("new-post-txt");
 
 overlayBtn.addEventListener("click", () => {
   postOverlay.style.display = "block";
@@ -122,10 +131,76 @@ closeOverlayBtn.addEventListener("click", () => {
   postOverlay.style.display = "none";
 });
 
+postForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const title = postTitleInput.value.trim();
+  const txt = postTxtInput.value.trim();
+
+  try {
+    await createPost(title, txt);
+    alert("Ditt innlegg er nå publisert.");
+    postTitleInput.value = "";
+    postTxtInput.value = "";
+    postOverlay.style.display = "none";
+    await loadPosts();
+  } catch (error) {
+    "Kunne ikke publisere innlegg:", error;
+  }
+});
+
 // POSTS
+
 // TODO: create POSTS
+async function createPost(title, txt) {
+  const response = await fetch(`${BASE_URL}/posts`, {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${API_KEY}`,
+    },
+    body: JSON.stringify({
+      meetupId: Number(meetupId),
+      userId: 1,
+      likes: 0,
+      dislikes: 0,
+      postName: title,
+      text: txt,
+      comments: [],
+    }),
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message ?? "Kunne ikke poste innlegg.");
+  }
+  return response.json();
+}
+
+async function loadPosts() {
+  try {
+    const posts = await fetchPosts();
+    console.log(posts);
+
+    showPosts(posts);
+  } catch (error) {
+    postContainer.innerHTML = `<li class="error">Noe gikk galt. Prøv igjen.</li>`;
+  }
+}
 // TODO: edit posts
+
 // TODO: delete posts
+
+async function deletePost(id) {
+  const response = await fetch(`${BASE_URL}/posts/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${API_KEY}`,
+    },
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message ?? "Kunne ikke slette innlegg.");
+  }
+}
 
 // FETCH POSTS
 async function fetchPosts() {
@@ -150,80 +225,89 @@ function showPosts(postList) {
     postArticle.className = "published-post";
     postArticle.innerHTML = `
     <div class="post-grid">
-    <div class="first-row">
-      <div class="user">
-        <img
-        src="/Gatherly/public/assets/img/placeholder-profile.png"
-        alt="profilbilde"
-        class="placeholder-profile"
-        width="32px"
-        />
-        <span class="user-name">${getUserName(post.userId)}</span>
-      </div>
-        <h4 class="post-name">${post.postName}</h4>
-      </div>
-   
-      <div class="post-btns">
-        <button type="button" id="edit-post" class="post-icons">
-          <img src="/Gatherly/public/assets/icons/edit.png" width="16px" />
-        </button>
-        <button type="button" id="delete-post" class="post-icons">
-          <img src="/Gatherly/public/assets/icons/delete.png" width="16px" />
-        </button>
-      </div>
+    <div>
+    <div class="user">
+    <img
+    src="/public/assets/img/placeholder-profile.png"
+    alt="profilbilde"
+    class="placeholder-profile"
+    width="32px"
+    />
+    <span class="user-name">${getUserName(post.userId)}</span>
+    </div>
+    <h4 class="post-name">${post.postName}</h4>
+    </div>
+    <p class="muted post-date">${formatDate(post.created)}</p>
 
   <p class="post-text">
   ${post.text}
   </p>
-  <div class="reaction-btns">
-    <div class="likes">
-      <button class="post-icons like-btn" type="button">
-        <img src="/Gatherly/public/assets/icons/like.png" width="20px" />
-      </button>
-      <span class="likes-counter muted">${post.likes}</span>
-    </div>
-    <div class="dislikes">
-        <button class="post-icons dislike-btn" type="button">
-          <img src="/Gatherly/public/assets/icons/dislike.png" width="20px" />
+ 
+    <div class="reaction-btns">
+      <div class="likes">
+        <button class="post-icons like-btn" type="button">
+          <img src="/public/assets/icons/like.png" width="20px" />
         </button>
-        <span class="dislikes-counter muted">${post.dislikes}</span>
-     </div>
-      <div class="comments">
-        <button class="post-icons comment-btn" type="button">
-          <img src="/Gatherly/public/assets/icons/comment.png" width="20px" />
-        </button>
-        <span class="comments-counter muted">${post.comments.length}</span>
+        <span class="likes-counter muted">${post.likes || 0}</span>
       </div>
-    </div>
+      <div class="dislikes">
+          <button class="post-icons dislike-btn" type="button">
+            <img src="/public/assets/icons/dislike.png" width="20px" />
+          </button>
+          <span class="dislikes-counter muted">${post.dislikes || 0}</span>
+      </div>
+        <div class="comments">
+          <button class="post-icons comment-btn" type="button">
+            <img src="/public/assets/icons/comment.png" width="20px" />
+          </button>
+          <span class="comments-counter muted">${
+            post.comments?.length || 0
+          }</span>
+        </div>
+        </div>
+        <div class="edit-btns">
+         <button type="button" class="edit-post-btn edit-btns" data-id="${
+           post.id
+         }">
+                Rediger
+              </button>
+              <button type="button" class="delete-post-btn edit-btns" data-id="${
+                post.id
+              }">
+                Slett
+              </button>
+      </div>
+        </div>
   </div>
+
   
   <section class="comment-section">
     <form class="hide-comment">
+    <div class="post-comments">
+      <div class="user">
+        <img
+          src="/public/assets/img/placeholder-profile.png"
+          alt="profilbilde"
+          class="placeholder-profile"
+          width="32px"
+        />
+        <span class="user-name"></span>
+      </div>
+      <textarea
+        class="comment"
+        name="kommentar"
+        rows="4"
+        cols="30"
+        placeholder="Legg til kommentar..."
+      ></textarea>
+    </div>
+    <div class="post-comments-btns">
+      <button class="post-comment-btn btn btn-primary" type="submit">Send</button>
+      <button class="exit-btn btn btn-secondary" type="button">
+        Avbryt
+      </button>
+    </div>
       <div class="comment-container">
-        <div class="post-comments">
-          <div>
-            <img
-              src="/Gatherly/public/assets/img/placeholder-profile.png"
-              alt="profilbilde"
-              class="placeholder-profile"
-              width="32px"
-            />
-            <span class="user-name"></span>
-          </div>
-          <textarea
-            class="comment"
-            name="kommentar"
-            rows="4"
-            cols="30"
-            placeholder="Legg til kommentar..."
-          ></textarea>
-        </div>
-        <div class="btns">
-          <button class="post-comment-btn btn btn-primary" type="submit">Send</button>
-          <button class="exit-btn btn btn-secondary" type="button">
-            Avbryt
-          </button>
-        </div>
       </div>
     </form>
     <div class="comment-list">
@@ -243,10 +327,10 @@ function showPosts(postList) {
         commentElement.innerHTML = `
           <div class="comment-container">
           <p class="muted comment-date">${formatDate(comment.created)}</p>
-            <div class="first-row">
-              <div>
+            <div>
+              <div class="user">
                 <img
-                  src="/Gatherly/public/assets/img/placeholder-profile.png"
+                  src="/public/assets/img/placeholder-profile.png"
                   alt="profilbilde"
                   class="placeholder-profile"
                   width="32px"
@@ -257,18 +341,39 @@ function showPosts(postList) {
               <p class="comment-text">${comment.comment}</p>
             </div>
             <div class="second-row">
-              <button type="button" id="edit-comment" class="comment-btns">
+              <button type="button" class="edit-comment-btn edit-btns" data-id="${
+                comment.id
+              }">
                 Rediger
               </button>
-              <button type="button" id="delete-comment" class="comment-btns">
+              <button type="button" class="delete-comment-btn edit-btns" data-id="${
+                comment.id
+              }">
                 Slett
               </button>
             </div>
           </div>`;
+
+        const deleteCommentBtn = commentElement.querySelector(
+          ".delete-comment-btn"
+        );
+        deleteCommentBtn.addEventListener("click", async () => {
+          try {
+            const isConfirmed = confirm(
+              "Er du sikker på at du vil slette denne kommentaren?"
+            );
+            // FIX: make modal with confirm
+            if (isConfirmed) {
+              await deleteComment(post.id, comment.id);
+              await loadPosts();
+              alert("Kommentaren er slettet.");
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        });
         commentsContainer.appendChild(commentElement);
       });
-    } else {
-      commentsContainer.innerHTML = `<p>Ingen innlegg å vise ennå.</p>`;
     }
 
     // OPEN/CLOSE COMMENT-SECTION
@@ -321,6 +426,25 @@ function showPosts(postList) {
     });
     postContainer.appendChild(postArticle);
   });
+
+  document.querySelectorAll(".delete-post-btn").forEach((btn) => {
+    btn.addEventListener("click", async (event) => {
+      const id = Number(event.target.dataset.id);
+      try {
+        const isConfirmed = confirm(
+          "Er du sikker på at du vil slette dette innlegget?"
+        );
+        // FIX: make modal with confirm
+        if (isConfirmed) {
+          await deletePost(id);
+          await loadPosts();
+          alert("Innlegget er slettet.");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    });
+  });
 }
 
 // TODO: add more posts in API
@@ -336,13 +460,32 @@ async function fetchRelatedPosts() {
 
 // COMMENTS
 // TODO: create comments
-// function createComments() {}
 // TODO: read comments
 
 // TODO: edit comments
-// function editComments() {}
 // TODO: delete comments
-// function delteComments() {}
+async function deleteComment(postId, commentId) {
+  const response = await fetch(`${BASE_URL}/posts/${postId}`);
+  const post = await response.json();
+  const updatedComments = post.comments.filter(
+    (comment) => comment.id !== commentId
+  );
+
+  const updateResponse = await fetch(`${BASE_URL}/posts/${postId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${API_KEY}`,
+    },
+    body: JSON.stringify({
+      comments: updatedComments,
+    }),
+  });
+  if (!updateResponse.ok) {
+    throw new Error("Kunne ikke slette kommentar");
+  }
+  return updateResponse.json();
+}
 
 async function init() {
   await fetchUsers();
