@@ -59,9 +59,8 @@
 
               <div class="hero-slide slide-3">
             <div class="hero-content event-hero-content hero-overlay">
-              <h1>Arrangement 3</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. lalalallala
-            </p>
+              <h1 id="slide3-title"></h1>
+            <p id="slide3-desc"></p>
             <a class="arrangement-link" href="#">Utforsk</a>
             </div>
             </div>
@@ -170,17 +169,17 @@
     <form id="support-form">
 <div class="form-group">
       <label for="name">Navn:</label>
-      <input type="text" id="name" name="name" required>
+      <input type="text" id="name" name="name" required placeholder="Ditt navn" required>
 </div>
 
 <div class="form-group">
       <label for="email">E-post:</label>
-      <input type="email" id="email" name="email" required>
+      <input type="email" id="email" name="email" required placeholder="example@mail.com" required>
 </div>
 
 <div class="form-group">
       <label for="message">Hva gjelder saken?</label>
-      <textarea id="message" name="message" rows="4" required></textarea>
+      <textarea id="message" name="message" rows="4" required placeholder="Beskriv saken..." required></textarea>
 </div>     
 
       <button type="submit" id="submit-support-btn">Send inn</button>
