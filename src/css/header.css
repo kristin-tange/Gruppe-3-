@@ -186,6 +186,7 @@ header {
 }
 
 .login-wrapper:hover .login-popup {
+  display: flex;
   opacity: 1;
   pointer-events: auto;
   transform: translateY(0);
