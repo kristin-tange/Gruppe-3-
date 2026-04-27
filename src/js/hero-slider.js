@@ -29,7 +29,7 @@ prevButton.addEventListener("click", () => {
     showSlide(currentSlide);
 });
 
-// startet på å hente meetups fra api slide-2
+// startet på å hente meetups fra api
 
 const BASE_URL = "http://localhost:3000/api";
 
@@ -46,25 +46,28 @@ async function fetchMeetups() {
 
 }
 
-function renderHero(meetup) {
-  const slide2 = document.querySelector(".slide-2");
-  const title = document.getElementById("slide2-title");
-  const desc = document.getElementById("slide2-desc");
+function renderSlide(meetup, slideSelector, titleId, descId) {
+  const slide = document.querySelector(slideSelector);
+  const title = document.getElementById(titleId);
+  const desc = document.getElementById(descId);
 
-  if (!slide2 || !title || !desc || !meetup) return;
+  if (!slide || !title || !desc || !meetup) return;
 
   title.textContent = meetup.name;
-  desc.textContent = meetup.description;
-  /* henter bildet manuelt midlertidig */
-  slide2.style.backgroundImage = `url(./public/assets/img/categories/technology1.jpg)`;
+  desc.textContent = meetup.summary;
+  slide.style.backgroundImage = `url(${meetup.image})`;
 }
 
 async function init() {
   await fetchMeetups();
 
-  const meetup = meetups.find((m) => m.id == 1);
+  const meetup1 = meetups.find((m) => m.id == 1);
+  const meetup2 = meetups.find((m) => m.id == 3);
 
-  renderHero(meetup);
+  renderSlide(meetup1, ".slide-2", "slide2-title", "slide2-desc");
+  renderSlide(meetup2, ".slide-3", "slide3-title", "slide3-desc");
 }
 
 init();
+
+lucide.createIcons();

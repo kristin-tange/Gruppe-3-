@@ -59,9 +59,8 @@
 
               <div class="hero-slide slide-3">
             <div class="hero-content event-hero-content hero-overlay">
-              <h1>Arrangement 3</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. lalalallala
-            </p>
+              <h1 id="slide3-title"></h1>
+            <p id="slide3-desc"></p>
             <a class="arrangement-link" href="#">Utforsk</a>
             </div>
             </div>
@@ -120,28 +119,28 @@
 <div class="steps-wrapper">
                 <ol class="steps">
                     <li class="step">
-                        <div class="step-icon">🔍</div>
+                        <div class="step-icon"><i data-lucide="search"></i></div>
                         <div class="step-text">
                         <h3>Finn arrangementer</h3>
                         <p>Utforsk ulike kategorier og oppdag arrangementer som passer for deg.</p>
                         </div>
                     </li>
                     <li class="step">
-                        <div class="step-icon">📅</div>
+                        <div class="step-icon"><i data-lucide="calendar-plus"></i></div>
                         <div class="step-text">
                         <h3>Opprett arrangement</h3>
                         <p>Arrangører kan enkelt publisere og administrere sine egne arrangementer</p>
                         </div>
                     </li>
                     <li class="step">
-                        <div class="step-icon">🎫</div>
+                        <div class="step-icon"><i data-lucide="ticket"></i></div>
                         <div class="step-text">
                         <h3>Meld deg på</h3>
                         <p>Ser du et arrangement du liker? Meld deg enkelt på med et klikk!</p>
                         </div>
                     </li>
                     <li class="step">
-                        <div class="step-icon">👥</div>
+                        <div class="step-icon"><i data-lucide="users"></i></div>
                         <div class="step-text">
                         <h3>Engasjer deg</h3>
                         <p>Delta i kommentarfelt, eller publiser artikler for å dele dine tanker</p>
@@ -155,7 +154,7 @@
     </main>
 
   <button id="support-btn" aria-label="Send inn en support-ticket">
-    💬
+    <i data-lucide="message-circle-more"></i>
   </button>
 
   <div id="support-box">
@@ -170,17 +169,17 @@
     <form id="support-form">
 <div class="form-group">
       <label for="name">Navn:</label>
-      <input type="text" id="name" name="name" required>
+      <input type="text" id="name" name="name" required placeholder="Ditt navn" required>
 </div>
 
 <div class="form-group">
       <label for="email">E-post:</label>
-      <input type="email" id="email" name="email" required>
+      <input type="email" id="email" name="email" required placeholder="example@mail.com" required>
 </div>
 
 <div class="form-group">
       <label for="message">Hva gjelder saken?</label>
-      <textarea id="message" name="message" rows="4" required></textarea>
+      <textarea id="message" name="message" rows="4" required placeholder="Beskriv saken..." required></textarea>
 </div>     
 
       <button type="submit" id="submit-support-btn">Send inn</button>
@@ -197,21 +196,21 @@
       <nav class="right" aria-label="Linker til sosiale medier">
         <a href="https://www.facebook.com" target="_blank">
           <img
-            src="/Gatherly/public/assets/icons/facebook.png"
+            src="/public/assets/icons/facebook.png"
             alt="Facebook"
             class="icon"
           />
         </a>
         <a href="https://www.instagram.com" target="_blank">
           <img
-            src="/Gatherly/public/assets/icons/instagram.png"
+            src="/public/assets/icons/instagram.png"
             alt="Instagram"
             class="icon"
           />
         </a>
         <a href="mailto:post@gatherly.no">
           <img
-            src="/Gatherly/public/assets/icons/mail.png"
+            src="/public/assets/icons/mail.png"
             alt="E-post"
             class="icon"
           />
@@ -221,7 +220,7 @@
 
 
 
-
+<script src="https://unpkg.com/lucide@latest"></script>
 <script src="./src/js/hero-slider.js"></script>
 <script src="./src/js/support.js"></script>
 <script src="./src/js/header.js"></script>
