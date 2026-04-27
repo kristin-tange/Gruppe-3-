@@ -170,7 +170,6 @@ form textarea::placeholder {
   }
 
   #support-btn:hover {
-    font-size: 40px;
     transition: 0.3s;
     background-color: #3a7bd5;
   }

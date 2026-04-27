@@ -71,5 +71,3 @@ async function init() {
 init();
 
 lucide.createIcons();
-
-
