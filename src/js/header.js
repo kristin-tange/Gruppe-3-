@@ -4,7 +4,7 @@ const header = document.querySelector("header");
 
 function isLoggedIn() {
   //må gjøres om senere med API key
-  return localStorage.getItem("loggedIn") === "true";
+  return localStorage.getItem("isLoggedIn") === "true";
 }
 
 function updateLoginArea() {
@@ -38,7 +38,7 @@ function updateLoginArea() {
   if (!logoutBtn) return;
 
   logoutBtn.addEventListener("click", () => {
-    localStorage.setItem("loggedIn", "false");
+    localStorage.setItem("isLoggedIn", "false");
   });
 }
 
@@ -84,8 +84,8 @@ function displayHeader() {
   updateLoginArea();
 }
 
-//midlertidig switch for loggedIn - Bytt mellom true eller false for å se endring på siden.
-//localStorage.setItem("loggedIn", "true");
+//midlertidig switch for isLoggedIn - Bytt mellom true eller false for å se endring på siden.
+//localStorage.setItem("isLoggedIn", "true");
 
 displayHeader();
 setActiveNavLink();

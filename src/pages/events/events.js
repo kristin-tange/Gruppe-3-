@@ -3,7 +3,10 @@
 const BASE_URL = "http://localhost:3000/api";
 const API_KEY = "group3api";
 
+localStorage.setItem("apiKey", API_KEY);
+
 let meetups = [];
+let folders = [];
 
 async function fetchMeetups() {
   const response = await fetch(`${BASE_URL}/meetups`);
@@ -11,6 +14,21 @@ async function fetchMeetups() {
   const data = await response.json();
   meetups = data;
   return meetups;
+}
+
+async function fetchFolders() {
+  try {
+    const response = await fetch(`${BASE_URL}/folders`);
+    if (!response.ok) {
+      console.warn("Folders API not ready yet");
+      folders = [];
+      return;
+    }
+    folders = await response.json();
+  } catch (err) {
+    console.warn("Error fetching folders:", err);
+    folders = [];
+  }
 }
 
 function getColumnCount() {
@@ -36,6 +54,17 @@ function displayMeetups(list = meetups) {
     eventsContainer.appendChild(col);
   }
 
+  const folderCard = document.createElement("div");
+  folderCard.classList.add("arrangementCard", "folderCard");
+  folderCard.innerHTML = `
+  <div class="folder-card-content">
+  <h2>Mapper</h2>
+  <p>Organiser dine eventer</p>
+  <button id="createFolderBtn">+ Ny Mappe</button>
+  </div>
+  `;
+  colElements[0].appendChild(folderCard);
+
   list.forEach((event, index) => {
     const card = document.createElement("div");
     card.classList.add("arrangementCard");
@@ -49,7 +78,7 @@ function displayMeetups(list = meetups) {
       <img src="${event.image}" alt=""> </a>
     `;
 
-    colElements[index % columns].appendChild(card);
+    colElements[(index + 1) % columns].appendChild(card);
   });
 }
 
@@ -57,9 +86,30 @@ window.addEventListener("resize", () => displayMeetups());
 
 async function init() {
   await fetchMeetups();
-
+  await fetchFolders();
   displayMeetups();
 }
+
+document.addEventListener("click", async e => {
+  if (e.target.id === "createFolderBtn") {
+    const name = prompt("Mappe navn;");
+    if (!name) return;
+
+    const response = await fetch(`${BASE_URL}/folders`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${API_KEY}`,
+      },
+      body: JSON.stringify({ name }),
+    });
+
+    const newFolder = await response.json();
+    folders.push(newFolder);
+
+    displayMeetups();
+  }
+});
 
 function filterMeetups(category) {
   const filtered = meetups.filter(event => event.category === category);
