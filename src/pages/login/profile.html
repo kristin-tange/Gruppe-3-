@@ -11,13 +11,13 @@
       href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../../../src/css/style.css" />
-    <link rel="stylesheet" href="../../../src/css/profileandlogin.css" />
+    <link rel="stylesheet" href="/src/css/style.css" />
+    <link rel="stylesheet" href="/src/css/profileandlogin.css" />
 
     <!-- Favicon -->
     <link
       rel="shortcut icon"
-      href="../../../public/assets/icons/logo.png"
+      href="/assets/icons/logo.png"
       type="image/x-icon"
     />
   </head>
@@ -31,9 +31,10 @@
           <h2 class="name">profilside</h2>
           <div class="profile-picture-wrapper">
             <img
-              src="../../../public/assets/img/profilepicture.png"
+              id="api-image"
+              src=""
+              alt="Profile Picture"
               class="profile-picture"
-              alt="Profilbilde"
             />
           </div>
 
@@ -76,6 +77,16 @@
               <label for="description">Beskrivelse</label>
               <input aria-label="description" id="description" />
             </div>
+         <div class="gender-group">
+         <label class="gender-option">
+            <input type="radio" name="gender" value="male"> Menn
+         </label>
+         <label class="gender-option">
+            <input type="radio" name="gender" value="female"> Kvinne
+         </label>
+         </div>
+
+ 
             <div class="button-group">
               <button type="button" id="editbtn" class="btn btn-secondary">
                 Rediger Profil
@@ -104,7 +115,7 @@
           rel="noopener noreferrer"
         >
           <img
-            src="../../../public/assets/icons/facebook.png"
+            src="/public/assets/icons/facebook.png"
             class="icon"
             alt="Facebook"
           />
@@ -115,22 +126,22 @@
           rel="noopener noreferrer"
         >
           <img
-            src="../../../public/assets/icons/instagram.png"
+            src="/public/assets/icons/instagram.png"
             alt="Instagram"
             class="icon"
           />
         </a>
         <a href="mailto:post@gatherly.no">
           <img
-            src="../../../public/assets/icons/mail.png"
+            src="/public/assets/icons/mail.png"
             alt="E-post"
             class="icon"
           />
         </a>
       </nav>
     </footer>
-    <script src="../../../src/js/header.js" ></script>
-    <script src="../../../src/js/burger.js" ></script>
-    <script src="../../../src/js/userprofile.js"></script>
+    <script src="/src/js/header.js" ></script>
+    <script src="/src/js/burger.js" ></script>
+    <script src="/src/js/userprofile.js"></script>
   </body>
 </html>
