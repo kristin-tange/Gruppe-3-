@@ -1,4 +1,10 @@
-import { fetchPosts, deletePost, deleteComment, users } from "./api";
+import {
+  fetchPosts,
+  deletePost,
+  deleteComment,
+  users,
+  createComment,
+} from "./api";
 import { formatDate } from "./helperFunctions";
 
 /* HELPER FUNCTIONS */
@@ -13,11 +19,17 @@ function getUserName(userId) {
 export async function loadPosts() {
   try {
     const posts = await fetchPosts();
-    console.log(posts);
-
     showPosts(posts);
   } catch (error) {
-    postContainer.innerHTML = `<li class="error">Noe gikk galt. Prøv igjen.</li>`;
+    console.error("Kunne ikke hente poster:", error);
+  }
+}
+
+export function showComments(commentList) {
+  commentList.innerHTML = "";
+  commentCounter.innerHTML = `${commentList.length}`;
+  if (commentList.length === 0) {
+    commentContainer.innerHTML = `<p> Ingen kommentarer å vise ennå. </p>`;
   }
 }
 
@@ -74,7 +86,7 @@ export function showPosts(postList) {
           <button class="post-icons comment-btn" type="button">
             <img src="/public/assets/icons/comment.png" width="20px" />
           </button>
-          <span class="comments-counter muted">${
+          <span class="comment-counter muted">${
             post.comments?.length || 0
           }</span>
         </div>
@@ -129,34 +141,38 @@ export function showPosts(postList) {
     `;
 
     const commentsContainer = postArticle.querySelector(".comment-list");
+    const commentCounter = postArticle.querySelector(".comment-counter");
     const commentBox = postArticle.querySelector(".hide-comment");
     const commentBtn = postArticle.querySelector(".comment-btn");
-    const postCommentBtn = postArticle.querySelector(".post-comment-btn");
     const exitCommentBtn = postArticle.querySelector(".exit-comment-btn");
     const addComment = postArticle.querySelector(".add-comment");
     const commentTxt = postArticle.querySelector(".comment");
 
-    /*  addComment.addEventListener("submit", async (event) => {
+    addComment.addEventListener("submit", async (event) => {
       event.preventDefault();
       const newComment = commentTxt.value.trim();
 
-      if (newComment === "") return;
-
-      try {
-        await createComment(postId, newComment);
-        alert("Din kommentar er nå publisert.");
-        commentTxt.value = "";
-        commentBox.style.display = "none";
-        await loadPosts();
-      } catch (error) {
-        "Kunne ikke publisere kommentar:", error;
+      if (newComment === "") {
+        return;
       }
 
-    }); */
-    if (post.comments && post.comments.length > 0) {
-      post.comments.forEach((comment) => {
-        const commentElement = document.createElement("article");
-        commentElement.innerHTML = `
+      try {
+        await createComment(post.id, post.comments || [], newComment);
+        alert("Din kommentar er nå publisert.");
+        commentCounter.textContent = post.comments.length;
+        commentTxt.value = "";
+        commentBox.classList.add("hide-comment");
+        await loadPosts();
+      } catch (error) {
+        console.error("Kunne ikke publisere kommentar:", error);
+      }
+    });
+
+    const comments = post.comments || [];
+
+    comments.forEach((comment) => {
+      const commentElement = document.createElement("article");
+      commentElement.innerHTML = `
           <div class="comment-container">
           <p class="muted comment-date">${formatDate(comment.created)}</p>
             <div>
@@ -186,28 +202,27 @@ export function showPosts(postList) {
             </div>
           </div>`;
 
-        const deleteCommentBtn = commentElement.querySelector(
-          ".delete-comment-btn"
-        );
-        deleteCommentBtn.addEventListener("click", async () => {
-          try {
-            const isConfirmed = confirm(
-              "Er du sikker på at du vil slette denne kommentaren?"
-            );
-            // FIX: make modal with confirm
-            if (isConfirmed) {
-              await deleteComment(post.id, comment.id);
-              await loadPosts();
-              //   Change to status-message
-              alert("Kommentaren er slettet.");
-            }
-          } catch (error) {
-            console.error(error);
+      const deleteCommentBtn = commentElement.querySelector(
+        ".delete-comment-btn"
+      );
+      deleteCommentBtn.addEventListener("click", async () => {
+        try {
+          const isConfirmed = confirm(
+            "Er du sikker på at du vil slette denne kommentaren?"
+          );
+          // FIX: make modal with confirm
+          if (isConfirmed) {
+            await deleteComment(post.id, comment.id);
+            await loadPosts();
+            //   Change to status-message
+            alert("Kommentaren er slettet.");
           }
-        });
-        commentsContainer.appendChild(commentElement);
+        } catch (error) {
+          console.error(error);
+        }
       });
-    }
+      commentsContainer.appendChild(commentElement);
+    });
 
     commentBtn.addEventListener("click", () => {
       commentBox.classList.toggle("hide-comment");
@@ -215,6 +230,7 @@ export function showPosts(postList) {
 
     exitCommentBtn.addEventListener("click", () => {
       commentBox.classList.add("hide-comment");
+      commentTxt.value = "";
     });
 
     const likeBtn = postArticle.querySelectorAll(".like-btn");

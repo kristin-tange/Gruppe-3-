@@ -34,7 +34,7 @@ export async function fetchRelatedPosts(meetupId) {
     const relatedPosts = posts.filter((post) => post.meetupId == meetupId);
     return relatedPosts;
   } catch (error) {
-    "Kunne ikke hente poster:", error;
+    console.error("Kunne ikke hente poster:", error);
   }
 }
 
@@ -98,7 +98,14 @@ export async function deletePost(id) {
 }
 
 /* Create comments */
-/* export async function createComment(postId, newComment) {
+export async function createComment(postId, existingComments, newComment) {
+  const commentObject = {
+    id: Date.now(),
+    userId: 1,
+    comment: newComment,
+    created: new Date().toISOString(),
+  };
+  const updatedComments = [...existingComments, commentObject];
   const response = await fetch(`${BASE_URL}/posts/${postId}`, {
     method: "PATCH",
     headers: {
@@ -106,7 +113,7 @@ export async function deletePost(id) {
       Authorization: `Bearer ${API_KEY}`,
     },
     body: JSON.stringify({
-      comment: newComment,
+      comments: updatedComments,
     }),
   });
 
@@ -115,7 +122,7 @@ export async function deletePost(id) {
     throw new Error(error.message ?? "Kunne ikke poste kommentar.");
   }
   return response.json();
-} */
+}
 
 /* Edit comments */
 /* Delete comments */
