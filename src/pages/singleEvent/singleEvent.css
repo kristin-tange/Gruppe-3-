@@ -127,6 +127,7 @@ body {
   align-self: flex-start;
   text-align: center;
   font-style: italic;
+  font-size: 20px;
 }
 
 .muted {
@@ -291,16 +292,26 @@ form textarea::placeholder {
   align-self: center;
   max-width: 600px;
 }
+
 .edit-btns {
+  border: none;
+  background: none;
+  padding: 0.3rem;
+  cursor: pointer;
+  font: var(--text-font);
+  font-size: 14px;
+  color: var(--primary-color);
   grid-area: edit-btns;
   justify-self: end;
   align-self: end;
-  color: var(--primary-color);
 }
 
-.edit-btns:hover {
+.edit-post-btn:hover,
+.delete-post-btn:hover,
+.edit-comment-btn:hover,
+.delete-comment-btn:hover {
   color: var(--primary-hover);
-  transform: scale(1.1);
+  transform: scale(1.2);
 }
 
 .post-icons {
@@ -353,6 +364,7 @@ form textarea::placeholder {
     "comment comment comment"
     "second-row second-row second-row";
   padding: 0.5rem;
+  padding-left: 2rem;
 }
 
 .published-comment {
@@ -366,22 +378,12 @@ form textarea::placeholder {
   border-radius: var(--card-radius);
   padding: 1rem;
   font-size: 14px;
-  min-width: 300px;
+  min-width: 200px;
   grid-area: comment;
 
   @media (width < 500px) {
     min-width: 100px;
   }
-}
-
-.edit-btns {
-  border: none;
-  background: none;
-  padding: 0.3rem;
-  cursor: pointer;
-  font: var(--text-font);
-  font-size: 12px;
-  color: var(--primary-color);
 }
 
 .comment-btns:hover {
@@ -461,6 +463,11 @@ form textarea::placeholder {
 #post-btn {
   width: fit-content;
   align-self: center;
+}
+
+#arrow {
+  width: 2rem;
+  height: 2rem;
 }
 
 .like-btn.active img {

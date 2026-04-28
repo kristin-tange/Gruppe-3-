@@ -8,7 +8,7 @@
     <meta name="description" content="Arrangementinformasjon" />
     <meta name="author" content="Kristin Tange" />
     <link rel="stylesheet" href="/src/css/style.css" />
-    <link rel="stylesheet" href="/src/css/singleEvent.css" />
+    <link rel="stylesheet" href="/src/pages/singleEvent/singleEvent.css" />
 
     <!-- ROBOTO-FONT -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -37,9 +37,14 @@
           Skriv et innlegg til arrangøren eller andre som er interessert i dette
           arrangementet.
         </p>
-        <button id="open-overlay-btn" class="btn btn-secondary" type="button">
+        <button
+          id="open-overlay-btn"
+          class="btn btn-secondary"
+          type="button"
+          aria-label="Opprett innlegg"
+        >
           <span id="create-post">Opprett innlegg</span>
-          <img src="/public/assets/icons/pil.svg" />
+          <img src="/public/assets/icons/pil.svg" id="arrow" />
         </button>
 
         <h4>Innlegg <span id="post-counter" class="highlight"></span></h4>
@@ -63,7 +68,7 @@
             </button>
             <h3>Opprett innlegg</h3>
             <div class="form-group">
-              <label for="post-name">Tittel</label>
+              <label for="new-post-title">Tittel</label>
               <input
                 type="text"
                 id="new-post-title"
@@ -73,7 +78,7 @@
               />
             </div>
             <div class="form-group">
-              <label for="post-txt">Ditt innlegg</label>
+              <label for="new-post-txt">Ditt innlegg</label>
               <textarea
                 id="new-post-txt"
                 name="text"
@@ -121,6 +126,8 @@
 
     <script type="module" src="/src/js/header.js"></script>
     <script type="module" src="/src/js/burger.js"></script>
-    <script type="module" src="/src/js/singleEvent.js"></script>
+    <script type="module" src="/src/pages/singleEvent/singleEvent.js"></script>
+    <script type="module" src="/src/pages/singleEvent/api.js"></script>
+    <script type="module" src="/src/pages/singleEvent/posts.js"></script>
   </body>
 </html>
