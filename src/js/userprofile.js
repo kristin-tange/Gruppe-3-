@@ -22,11 +22,14 @@ async function loadProfile() {
   if (user && user.id) {
     try {
       const res = await fetch(`${API_URL}/${user.id}`, {
-         "Authorization": `Bearer ${API_KEY}`
+        headers: {
+        "Authorization": `Bearer ${API_KEY}`
+        }
       });
       const freshUser = await res.json();
 
       // Fill form fields
+      document.getElementById("usernameTitle").textContent = `Velkommen ${freshUser.firstName}! `;
       document.getElementById("firstname").value = freshUser.firstName || "";
       document.getElementById("lastname").value = freshUser.lastName || "";
       document.getElementById("email").value = freshUser.email || "";
@@ -36,10 +39,50 @@ async function loadProfile() {
       document.getElementById("age").value = freshUser.age || "";
       document.getElementById("description").value = freshUser.description|| "";
       
-      document.getElementById('api-image').src=freshUser.profilePicture;
-        
       
- 
+      const profileImage = document.getElementById("profileImage");
+      const gender = freshUser.gender?.toLowerCase(). trim();
+       
+       if (gender === "mann") {
+        profileImage.src = "/assets/img/profilepictureman.png";
+      } else if (gender === "kvinne") {
+        profileImage.src = "/assets/img/profilepicturewoman.jpeg";
+       } 
+
+      const isNewUser = localStorage.getItem("isNewUser") === "true";
+
+      document.querySelectorAll('input[name="gender"]').forEach(radio => {
+        radio.checked = radio.value === freshUser.gender;
+
+        // disable gender if not new user
+        if (!isNewUser) {
+          radio.disabled = true;
+        }
+
+        radio.addEventListener("change", () => {
+          console.log("selected gender: " + radio.value);
+
+          if (radio.value === "mann") {
+            profileImage.src = "/assets/img/profilepictureman.png";
+            console.log("changed to male image")
+          } else if (radio.value === "kvinne") {
+            profileImage.src = "/assets/img/profilepicturewoman.jpeg";
+              console.log("changed to female image")
+          }
+          
+        });
+      });
+ // set image immediately
+      if (freshUser.gender === "mann") {
+        profileImage.src = "/assets/img/profilepictureman.png";
+        profileImage.onload = () => console.log("Image loaded OK");
+        profileImage.onerror = () => console.log("Image FAILED");
+      } else if (freshUser.gender === "kvinne") {
+        profileImage.src = "/assets/img/profilepicturewoman.jpeg";
+        profileImage.onload = () => console.log("Image loaded OK");
+        profileImage.onerror = () => console.log("Image FAILED");
+      }
+
       // Hide password field for existing users
       const passwordField = document.getElementById("password");
       if (passwordField) passwordField.parentElement.style.display = "none";
@@ -54,6 +97,14 @@ async function loadProfile() {
 document.getElementById("editbtn").addEventListener("click", () => {
   document.querySelectorAll("#accountForm input, #accountForm textarea")
     .forEach(input => input.disabled = false);
+
+    //keep gender disabled for existing users
+    const isNewUser = localStorage.getItem("isNewUser") === "true";
+    if (!isNewUser) {
+      document.querySelectorAll('input[name="gender"]').forEach(radio => {
+        radio.disabled = true;
+      });
+    }
 });
 
 // Save profile
@@ -70,11 +121,13 @@ document.getElementById("savebtn").addEventListener("click", async () => {
     location: document.getElementById("location").value,
     age: document.getElementById("age").value,
     description: document.getElementById("description").value,
+    gender: document.querySelector('input[name="gender"]:checked')?.value,
     password: document.getElementById("password")?.value || undefined
   };
 
   try {
     let res;
+
     if (isNewUser) {
       // New user → POST
       res = await fetch(API_URL, {
@@ -100,7 +153,7 @@ document.getElementById("savebtn").addEventListener("click", async () => {
     const savedUser = await res.json();
     localStorage.setItem("currentUser", JSON.stringify(savedUser));
     localStorage.removeItem("isNewUser");
-    alert("test" +localStorage.getItem("currentUser"))
+    
     // Disable form fields again
     document.querySelectorAll("#accountForm input, #accountForm textarea")
       .forEach(input => input.disabled = true);

@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // -----------------------
   // Login existing user
   // -----------------------
-   alert(API_URL);
+   
    if (logBtn){
       logBtn.addEventListener("click",  async(event) => {
     event.preventDefault();

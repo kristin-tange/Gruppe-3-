@@ -23,16 +23,16 @@
   </head>
 
   <body>
-    <header></header>    
-    
+    <header></header>
+
     <main>
       <div class="account-page-wrapper">
         <div class="form-container">
-          <h2 class="name">profilside</h2>
+          <h2 class="name" id="usernameTitle">profilside</h2>
           <div class="profile-picture-wrapper">
             <img
-              id="api-image"
-              src=""
+              id="profileImage"
+              src="/assets/img/welcomeimage.jpeg"
               alt="Profile Picture"
               class="profile-picture"
             />
@@ -41,28 +41,55 @@
           <form id="accountForm">
             <div class="form-group">
               <label for="firstname">Fornavn</label>
-              <input aria-label="firstname" type="text" id="firstname" />
+              <input
+                aria-label="firstname"
+                type="text"
+                placeholder="Fornavn"
+                id="firstname"
+              />
             </div>
             <div class="form-group">
               <label for="lastname">Etternavn</label>
-              <input aria-label="Etternavn" type="text" id="lastname" />
+              <input
+                aria-label="Etternavn"
+                type="text"
+                placeholder="Etternavn"
+                id="lastname"
+              />
             </div>
             <div class="form-group">
               <label for="phone">Telefonnummer</label>
-              <input aria-label="Telefonnummer" type="tel" id="phone" />
+              <input
+                aria-label="Telefonnummer"
+                type="number"
+                placeholder="Telefonnummer"
+                id="phone"
+              />
             </div>
             <div class="form-group">
               <label for="location">Sted</label>
-              <input aria-label="Sted" type="text" id="location" />
+              <input
+                aria-label="Sted"
+                type="text"
+                placeholder="Sted"
+                id="location"
+              />
             </div>
             <div class="form-group">
               <label for="email">E-post</label>
-              <input aria-label="E-post" type="email" id="email" />
+              <input
+                aria-label="E-post"
+                type="email"name="user_email"
+                placeholder="E-post"
+                id="email"
+              />
             </div>
             <div class="form-group">
               <label for="password">passord</label>
               <input
                 type="password"
+                name="password" required minlength="8"
+                placeholder="Password"
                 id="password"
                 name="password"
                 aria-label="Password"
@@ -71,22 +98,31 @@
             </div>
             <div class="form-group">
               <label for="alder">Alder</label>
-              <input aria-label="age" type="number" id="age" />
+              <input
+                aria-label="age"
+                type="number"
+                name="age"min="0" max="120"
+                placeholder="Alder"
+                id="age"
+              />
             </div>
             <div class="form-group">
               <label for="description">Beskrivelse</label>
-              <input aria-label="description" id="description" />
+              <input
+                aria-label="description"
+                placeholder="Hva vil du at andre skal vite om deg?"
+                id="description"
+              />
             </div>
-         <div class="gender-group">
-         <label class="gender-option">
-            <input type="radio" name="gender" value="male"> Menn
-         </label>
-         <label class="gender-option">
-            <input type="radio" name="gender" value="female"> Kvinne
-         </label>
-         </div>
+            <div class="gender-group">
+              <label class="gender-option">
+                <input type="radio" name="gender" value="mann" /> Mann
+              </label>
+              <label class="gender-option">
+                <input type="radio" name="gender" value="kvinne" /> Kvinne
+              </label>
+            </div>
 
- 
             <div class="button-group">
               <button type="button" id="editbtn" class="btn btn-secondary">
                 Rediger Profil
@@ -115,7 +151,7 @@
           rel="noopener noreferrer"
         >
           <img
-            src="/public/assets/icons/facebook.png"
+            src="/assets/icons/facebook.png"
             class="icon"
             alt="Facebook"
           />
@@ -126,22 +162,18 @@
           rel="noopener noreferrer"
         >
           <img
-            src="/public/assets/icons/instagram.png"
+            src="/assets/icons/instagram.png"
             alt="Instagram"
             class="icon"
           />
         </a>
         <a href="mailto:post@gatherly.no">
-          <img
-            src="/public/assets/icons/mail.png"
-            alt="E-post"
-            class="icon"
-          />
+          <img src="/assets/icons/mail.png" alt="E-post" class="icon" />
         </a>
       </nav>
     </footer>
-    <script src="/src/js/header.js" ></script>
-    <script src="/src/js/burger.js" ></script>
+    <script src="/src/js/header.js"></script>
+    <script src="/src/js/burger.js"></script>
     <script src="/src/js/userprofile.js"></script>
   </body>
 </html>
