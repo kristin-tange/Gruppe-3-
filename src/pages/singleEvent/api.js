@@ -1,9 +1,22 @@
+/* VARIABLES */
+const BASE_URL = "http://localhost:3000/api";
+const API_KEY = "group3api";
+export let posts = [];
+export let users = [];
+
+export async function fetchUsers() {
+  const response = await fetch(`${BASE_URL}/users`);
+  users = await response.json();
+  console.log(users);
+  return users;
+}
+
 /* MEETUPS */
 /* Fetch meetups from meetupId */
 export async function fetchSingleEvent(meetupId) {
   const response = await fetch(`${BASE_URL}/meetups/${meetupId}`);
   const event = await response.json();
-  showSingleEvent(event);
+  return event;
 }
 
 /* POSTS */
@@ -15,26 +28,28 @@ export async function fetchPosts() {
 }
 
 /* Fetch posts related to meetup */
-export async function fetchRelatedPosts() {
+export async function fetchRelatedPosts(meetupId) {
   try {
     const posts = await fetchPosts();
-    const filteredPosts = posts.filter((post) => post.meetupId == meetupId);
-    showPosts(filteredPosts);
+    const relatedPosts = posts.filter((post) => post.meetupId == meetupId);
+    return relatedPosts;
   } catch (error) {
     "Kunne ikke hente poster:", error;
   }
 }
 
 /* Create posts */
-export async function createPost(title, txt) {
+
+export async function createPost(meetupId, title, txt) {
   const response = await fetch(`${BASE_URL}/posts`, {
     method: "POST",
     headers: {
       "Content-type": "application/json",
-      Authorization: `Bearer ${API_KEY}`,
+      authorization: `Bearer ${API_KEY}`,
     },
     body: JSON.stringify({
       meetupId: Number(meetupId),
+      // change userId to loggedIn
       userId: 1,
       likes: 0,
       dislikes: 0,
