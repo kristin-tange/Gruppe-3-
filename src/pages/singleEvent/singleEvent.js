@@ -1,39 +1,30 @@
 // KRISTIN TANGE
 
-// FETCH DATA
+/* VARIABLES */
 const BASE_URL = "http://localhost:3000/api";
-
 const API_KEY = "group3api";
+const users = [];
+const posts = [];
 
-// function getApiKey() {
-//   return localStorage.getItem("api-key");
-// }
+/* Post-overlay */
+const overlayBtn = document.getElementById("open-overlay-btn");
+const closeOverlayBtn = document.getElementById("close-btn");
+const postOverlay = document.getElementById("post-overlay");
+const postForm = document.getElementById("post-form");
 
-// GET ID FROM WINDOW
+const postTitleInput = document.getElementById("new-post-title");
+const postTxtInput = document.getElementById("new-post-txt");
+
+/* HELPER FUNCTIONS  */
+/* Get ID from window */
 const params = new URLSearchParams(window.location.search);
 const meetupId = params.get("id");
 
-// EMPTY ARRAYS
-let users = [];
-let posts = [];
-let comments = [];
-
-// let postId = null;
-// let commentId = null;
-
-// FETCH USERNAME FOR POSTS AND COMMENTS
-
+/* Get userName from userId */
 function getUserName(userId) {
   const user = users.find((u) => u.id == userId);
   console.log(user);
   return user ? user.userName : "Ukjent forfatter";
-}
-
-// FETCH EVENTS(MEETUPS)
-async function fetchSingleEvent(meetupId) {
-  const response = await fetch(`${BASE_URL}/meetups/${meetupId}`);
-  const event = await response.json();
-  showSingleEvent(event);
 }
 
 function formatDate(data) {
@@ -53,6 +44,152 @@ function formatTime(data) {
   });
 }
 
+/* API REQUESTS */
+
+/* MEETUPS */
+/* Fetch meetups from meetupId */
+async function fetchSingleEvent(meetupId) {
+  const response = await fetch(`${BASE_URL}/meetups/${meetupId}`);
+  const event = await response.json();
+  showSingleEvent(event);
+}
+
+/* POSTS */
+/* Fetch posts */
+async function fetchPosts() {
+  const response = await fetch(`${BASE_URL}/posts`);
+  posts = await response.json();
+  return posts;
+}
+
+/* Fetch posts related to meetup */
+async function fetchRelatedPosts() {
+  try {
+    const posts = await fetchPosts();
+    const filteredPosts = posts.filter((post) => post.meetupId == meetupId);
+    showPosts(filteredPosts);
+  } catch (error) {
+    "Kunne ikke hente poster:", error;
+  }
+}
+
+/* Create posts */
+async function createPost(title, txt) {
+  const response = await fetch(`${BASE_URL}/posts`, {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${API_KEY}`,
+    },
+    body: JSON.stringify({
+      meetupId: Number(meetupId),
+      userId: 1,
+      likes: 0,
+      dislikes: 0,
+      postName: title,
+      text: txt,
+      comments: [],
+    }),
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message ?? "Kunne ikke poste innlegg.");
+  }
+  return response.json();
+}
+
+/* Edit posts */
+/* async function editPost(id, data) {
+  const response = await fetch(`${BASE_URL}/posts/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${API_KEY}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message ?? "Kunne ikke oppdatere innlegg.");
+  }
+}
+ */
+
+/* Delete posts */
+async function deletePost(id) {
+  const response = await fetch(`${BASE_URL}/posts/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${API_KEY}`,
+    },
+  });
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message ?? "Kunne ikke slette innlegg.");
+  }
+}
+
+/* Create comments */
+async function createComment(postId, newComment) {
+  const response = await fetch(`${BASE_URL}/posts/${postId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${API_KEY}`,
+    },
+    body: JSON.stringify({
+      comment: newComment,
+    }),
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message ?? "Kunne ikke poste kommentar.");
+  }
+  return response.json();
+}
+
+/* Edit comments */
+/* Delete comments */
+async function deleteComment(postId, commentId) {
+  const response = await fetch(`${BASE_URL}/posts/${postId}`);
+  const post = await response.json();
+  const updatedComments = post.comments.filter(
+    (comment) => comment.id !== commentId
+  );
+
+  const updateResponse = await fetch(`${BASE_URL}/posts/${postId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${API_KEY}`,
+    },
+    body: JSON.stringify({
+      comments: updatedComments,
+    }),
+  });
+  if (!updateResponse.ok) {
+    throw new Error("Kunne ikke slette kommentar");
+  }
+  return updateResponse.json();
+}
+
+/* REACTIONS */
+// TODO: connect to API
+// TODO: create reactions
+// TODO: edit reactions
+// TODO: delete reactions
+
+// function showUpdatedLikes() {
+//   const savedUserLikes = localStorage.getItem(`userLike${post.id}`);
+//   display.textContent =
+//   if (savedUserLikes === "true") {
+
+//   }
+// }
+
+/* RENDER SINGLE-EVENT */
 function showSingleEvent(event) {
   const heroContainer = document.getElementById("hero-container");
   const descriptionContainer = document.getElementById("description-container");
@@ -82,7 +219,7 @@ function showSingleEvent(event) {
   descriptionContainer.innerHTML = `<section class="section-grid">
   <div class="description-header">
   <h2>Om arrangementet</h2>
-  <p class="tags">#${formattedTags}</p>
+  <h3 class="tags">#${formattedTags}</h3>
   </div>
   <p>
   ${event.description}
@@ -99,77 +236,14 @@ function showSingleEvent(event) {
             <button class="btn btn-primary" id="sign-up-btn">Påmelding</button>
         </section>`;
 
-  // TEMPORARY "SIGN-UP"
+  /* "Sign-up" */
   const signUpBtn = document.getElementById("sign-up-btn");
   signUpBtn.addEventListener("click", () => {
     alert("Din påmelding er registrert.");
   });
-
-  //NICETOHAVE: sign-up-form, show sign-up-information, icon og counter for sign-up
 }
 
-// POST-OVERLAY
-
-const overlayBtn = document.getElementById("open-overlay-btn");
-const closeOverlayBtn = document.getElementById("close-btn");
-const postOverlay = document.getElementById("post-overlay");
-const postForm = document.getElementById("post-form");
-
-const postTitleInput = document.getElementById("new-post-title");
-const postTxtInput = document.getElementById("new-post-txt");
-
-overlayBtn.addEventListener("click", () => {
-  postOverlay.style.display = "block";
-});
-
-closeOverlayBtn.addEventListener("click", () => {
-  postOverlay.style.display = "none";
-});
-
-postForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  const title = postTitleInput.value.trim();
-  const txt = postTxtInput.value.trim();
-
-  try {
-    await createPost(title, txt);
-    alert("Ditt innlegg er nå publisert.");
-    postTitleInput.value = "";
-    postTxtInput.value = "";
-    postOverlay.style.display = "none";
-    await loadPosts();
-  } catch (error) {
-    "Kunne ikke publisere innlegg:", error;
-  }
-});
-
-// POSTS
-
-// CREATE POSTS
-async function createPost(title, txt) {
-  const response = await fetch(`${BASE_URL}/posts`, {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json",
-      Authorization: `Bearer ${API_KEY}`,
-    },
-    body: JSON.stringify({
-      meetupId: Number(meetupId),
-      userId: 1,
-      likes: 0,
-      dislikes: 0,
-      postName: title,
-      text: txt,
-      comments: [],
-    }),
-  });
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message ?? "Kunne ikke poste innlegg.");
-  }
-  return response.json();
-}
-
+/* RENDER POSTS AND COMMENTS */
 async function loadPosts() {
   try {
     const posts = await fetchPosts();
@@ -179,45 +253,6 @@ async function loadPosts() {
   } catch (error) {
     postContainer.innerHTML = `<li class="error">Noe gikk galt. Prøv igjen.</li>`;
   }
-}
-// EDIT POSTS
-
-async function editPost(id, data) {
-  const response = await fetch(`${BASE_URL}/posts/${id}`, {
-    method: "PATCH",
-    headers: {
-      "Content-type": "application/json",
-      Authorization: `Bearer ${API_KEY}`,
-    },
-    body: JSON.stringify(data),
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message ?? "Kunne ikke slette innlegg.");
-  }
-}
-
-// DELETE POSTS
-
-async function deletePost(id) {
-  const response = await fetch(`${BASE_URL}/posts/${id}`, {
-    method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${API_KEY}`,
-    },
-  });
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message ?? "Kunne ikke slette innlegg.");
-  }
-}
-
-// FETCH POSTS
-async function fetchPosts() {
-  const response = await fetch(`${BASE_URL}/posts`);
-  posts = await response.json();
-  return posts;
 }
 
 function showPosts(postList) {
@@ -324,8 +359,8 @@ function showPosts(postList) {
     </form>
     <div class="comment-list">
     </div>
-  </section>
-`;
+   </section>
+    `;
 
     const commentsContainer = postArticle.querySelector(".comment-list");
     const commentBox = postArticle.querySelector(".hide-comment");
@@ -333,12 +368,25 @@ function showPosts(postList) {
     const postCommentBtn = postArticle.querySelector(".post-comment-btn");
     const exitCommentBtn = postArticle.querySelector(".exit-comment-btn");
     const addComment = postArticle.querySelector(".add-comment");
-    const CommentTxt = postArticle.querySelector(".comment");
+    const commentTxt = postArticle.querySelector(".comment");
 
-    // addComment.addEventListener("click", () => {
-    //   event.preventDefault();
-    //   const newComment = CommentTxt.value.trim();
-    // });
+    /*  addComment.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const newComment = commentTxt.value.trim();
+
+      if (newComment === "") return;
+
+      try {
+        await createComment(postId, newComment);
+        alert("Din kommentar er nå publisert.");
+        commentTxt.value = "";
+        commentBox.style.display = "none";
+        await loadPosts();
+      } catch (error) {
+        "Kunne ikke publisere kommentar:", error;
+      }
+
+    }); */
     if (post.comments && post.comments.length > 0) {
       post.comments.forEach((comment) => {
         const commentElement = document.createElement("article");
@@ -394,8 +442,6 @@ function showPosts(postList) {
       });
     }
 
-    // OPEN/CLOSE COMMENT-SECTION
-
     commentBtn.addEventListener("click", () => {
       commentBox.classList.toggle("hide-comment");
     });
@@ -404,28 +450,12 @@ function showPosts(postList) {
       commentBox.classList.add("hide-comment");
     });
 
-    // REACTIONS
-    // TODO: connect to API
-    // TODO: create reactions
-    // TODO: edit reactions
-    // TODO: delete reactions
-
     const likeBtn = postArticle.querySelectorAll(".like-btn");
     const dislikeBtn = postArticle.querySelector(".dislike-btn");
     const dislikesCounter = postArticle.querySelector(".dislikes-counter");
     const likesCounter = postArticle.querySelector(".likes-counter");
     let likeCount = post.likes;
     let dislikeCount = post.dislikes;
-
-    // function showUpdatedLikes() {
-    //   const savedUserLikes = localStorage.getItem(`userLike${post.id}`);
-    //   display.textContent =
-    //   if (savedUserLikes === "true") {
-
-    //   }
-    // }
-
-    // async function updateLikes() {}
 
     likeBtn.forEach((btn) => {
       btn.addEventListener("click", async (event) => {
@@ -510,44 +540,31 @@ function showPosts(postList) {
   });
 }
 
-// TODO: add more posts in API
-async function fetchRelatedPosts() {
+/* EVENT-LISTENERS */
+overlayBtn.addEventListener("click", () => {
+  postOverlay.style.display = "block";
+});
+
+closeOverlayBtn.addEventListener("click", () => {
+  postOverlay.style.display = "none";
+});
+
+postForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const title = postTitleInput.value.trim();
+  const txt = postTxtInput.value.trim();
+
   try {
-    const posts = await fetchPosts();
-    const filteredPosts = posts.filter((post) => post.meetupId == meetupId);
-    showPosts(filteredPosts);
+    await createPost(title, txt);
+    alert("Ditt innlegg er nå publisert.");
+    postTitleInput.value = "";
+    postTxtInput.value = "";
+    postOverlay.style.display = "none";
+    await loadPosts();
   } catch (error) {
-    "Kunne ikke hente poster:", error;
+    "Kunne ikke publisere innlegg:", error;
   }
-}
-
-// COMMENTS
-// TODO: create comments
-
-// TODO: edit comments
-// DELETE COMMENTS
-async function deleteComment(postId, commentId) {
-  const response = await fetch(`${BASE_URL}/posts/${postId}`);
-  const post = await response.json();
-  const updatedComments = post.comments.filter(
-    (comment) => comment.id !== commentId
-  );
-
-  const updateResponse = await fetch(`${BASE_URL}/posts/${postId}`, {
-    method: "PATCH",
-    headers: {
-      "Content-type": "application/json",
-      Authorization: `Bearer ${API_KEY}`,
-    },
-    body: JSON.stringify({
-      comments: updatedComments,
-    }),
-  });
-  if (!updateResponse.ok) {
-    throw new Error("Kunne ikke slette kommentar");
-  }
-  return updateResponse.json();
-}
+});
 
 async function init() {
   await fetchUsers();
