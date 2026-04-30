@@ -8,7 +8,7 @@ import {
   createPost,
   updatePost,
 } from "./api";
-import { loadPosts, showPosts } from "./posts";
+import { loadPosts, showPosts, isLoggedIn } from "./posts";
 import { formatDate, formatTime, meetupId } from "./helperFunctions";
 
 /* Variables */
@@ -20,6 +20,8 @@ const postHeading = document.getElementById("form-heading");
 const postTitleInput = document.getElementById("new-post-title");
 const postTxtInput = document.getElementById("new-post-txt");
 const publishBtn = document.getElementById("publish-btn");
+
+// FUNCTIONS
 
 // EDIT POST
 let editingPostId = null;
@@ -114,6 +116,10 @@ function showSingleEvent(event) {
 
 /* EVENT-LISTENERS */
 overlayBtn.addEventListener("click", () => {
+  if (!isLoggedIn) {
+    alert("Du må være innlogget for å opprette innlegg.");
+    return;
+  }
   postOverlay.style.display = "block";
 });
 

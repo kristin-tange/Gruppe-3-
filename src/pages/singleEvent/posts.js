@@ -13,6 +13,8 @@ import { formatDate } from "./helperFunctions";
 
 // VARIABLER
 let editingCommentId = null;
+// const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+export const isLoggedIn = localStorage.getItem("isLoggedIn");
 
 /* HELPER FUNCTIONS */
 /* Get userName from userId */
@@ -97,18 +99,18 @@ export function showPosts(postList) {
           }</span>
         </div>
         </div>
-        <div class="edit-btns">
-         <button type="button" class="edit-post-btn edit-btns" data-id="${
-           post.id
-         }">
+        ${
+          isLoggedIn
+            ? `<div class="edit-btns">
+         <button type="button" class="edit-post-btn edit-btns" data-id="${post.id}">
                 Rediger
               </button>
-              <button type="button" class="delete-post-btn edit-btns" data-id="${
-                post.id
-              }">
+              <button type="button" class="delete-post-btn edit-btns" data-id="${post.id}">
                 Slett
               </button>
-      </div>
+      </div>`
+            : ""
+        }
         </div>
   </div>
 
@@ -147,7 +149,6 @@ export function showPosts(postList) {
     `;
 
     const commentsContainer = postArticle.querySelector(".comment-list");
-    const commentCounter = postArticle.querySelector(".comment-counter");
     const commentBox = postArticle.querySelector(".hide-comment");
     const commentBtn = postArticle.querySelector(".comment-btn");
     const exitCommentBtn = postArticle.querySelector(".exit-comment-btn");
@@ -168,19 +169,14 @@ export function showPosts(postList) {
           await updateComment(post.id, editingCommentId, newComment);
           alert("Kommentaren er redigert.");
           editingCommentId = null;
-          commentTxt.value = "";
-          commentTxt.style.backgroundColor = "";
-          commentBox.classList.add("hide-comment");
-          commentTxt.focus();
-          await loadPosts();
         } else {
           await createComment(post.id, post.comments || [], newComment);
           alert("Din kommentar er nå publisert.");
-          commentCounter.textContent = post.comments.length;
-          commentTxt.value = "";
-          commentBox.classList.add("hide-comment");
-          await loadPosts();
         }
+        commentTxt.value = "";
+        commentTxt.style.backgroundColor = "";
+        commentBox.classList.add("hide-comment");
+        await loadPosts();
       } catch (error) {
         console.error("Kunne ikke publisere kommentar:", error);
         alert("Kunne ikke publisere kommentar.");
@@ -207,60 +203,74 @@ export function showPosts(postList) {
               </div>
               <p class="comment-text">${comment.comment}</p>
             </div>
-            <div class="second-row">
-              <button type="button" class="edit-comment-btn edit-btns" data-id="${
-                comment.id
-              }">
+            <div class="second-row">${
+              isLoggedIn
+                ? `<button type="button" class="edit-comment-btn edit-btns" data-id="${comment.id}">
                 Rediger
               </button>
-              <button type="button" class="delete-comment-btn edit-btns" data-id="${
-                comment.id
-              }">
+              <button type="button" class="delete-comment-btn edit-btns" data-id="${comment.id}">
                 Slett
-              </button>
+              </button>`
+                : ""
+            }
+             
             </div>
           </div>`;
 
       const editCommentBtn = commentElement.querySelector(".edit-comment-btn");
-      editCommentBtn.addEventListener("click", async () => {
-        editingCommentId = comment.id;
-        commentTxt.value = comment.comment;
-        commentBox.classList.remove("hide-comment");
-        commentTxt.style.backgroundColor = "#FFF8E1";
-        commentTxt.focus();
-        if (postCommentBtn) postCommentBtn.textContent = "Lagre endringer";
-      });
+      if (editCommentBtn) {
+        editCommentBtn.addEventListener("click", async () => {
+          editingCommentId = comment.id;
+          commentTxt.value = comment.comment;
+          commentBox.classList.remove("hide-comment");
+          commentTxt.style.backgroundColor = "#FFF8E1";
+          commentTxt.focus();
+          if (postCommentBtn) postCommentBtn.textContent = "Lagre endringer";
+        });
+      }
 
       const deleteCommentBtn = commentElement.querySelector(
         ".delete-comment-btn"
       );
-      deleteCommentBtn.addEventListener("click", async () => {
-        try {
-          const isConfirmed = confirm(
-            "Er du sikker på at du vil slette denne kommentaren?"
-          );
-          // FIX: make modal with confirm
-          if (isConfirmed) {
-            await deleteComment(post.id, comment.id);
-            await loadPosts();
-            //   Change to status-message
-            alert("Kommentaren er slettet.");
+      if (deleteCommentBtn) {
+        deleteCommentBtn.addEventListener("click", async () => {
+          try {
+            const isConfirmed = confirm(
+              "Er du sikker på at du vil slette denne kommentaren?"
+            );
+            // FIX: make modal with confirm
+            if (isConfirmed) {
+              await deleteComment(post.id, comment.id);
+              await loadPosts();
+              //   Change to status-message
+              alert("Kommentaren er slettet.");
+            }
+          } catch (error) {
+            console.error(error);
           }
-        } catch (error) {
-          console.error(error);
-        }
-      });
+        });
+      }
+
       commentsContainer.appendChild(commentElement);
     });
 
-    commentBtn.addEventListener("click", () => {
-      commentBox.classList.toggle("hide-comment");
-    });
+    if (commentBtn) {
+      commentBtn.addEventListener("click", () => {
+        commentBox.classList.toggle("hide-comment");
 
-    exitCommentBtn.addEventListener("click", () => {
-      commentBox.classList.add("hide-comment");
-      commentTxt.value = "";
-    });
+        if (!isLoggedIn) {
+          alert("Du må være innlogget for å kommentere.");
+          commentBox.classList.add("hide-comment");
+        }
+      });
+    }
+
+    if (exitCommentBtn) {
+      exitCommentBtn.addEventListener("click", () => {
+        commentBox.classList.add("hide-comment");
+        commentTxt.value = "";
+      });
+    }
 
     const likeBtn = postArticle.querySelectorAll(".like-btn");
     const dislikeBtn = postArticle.querySelector(".dislike-btn");
@@ -269,26 +279,32 @@ export function showPosts(postList) {
     let likeCount = post.likes;
     let dislikeCount = post.dislikes;
 
-    likeBtn.forEach((btn) => {
-      btn.addEventListener("click", async (event) => {
-        const id = Number(event.currentTarget.dataset.id);
-        try {
-          btn.classList.toggle("active");
-          if (btn.classList.contains("active")) {
-            likeCount++;
-            localStorage.setItem(`userLike${post.id}`, "true");
-            // showUpdatedLikes();
-          } else {
-            localStorage.removeItem(`userLike${post.id}`);
-            likeCount--;
-            // showUpdatedLikes();
+    if (likeBtn) {
+      likeBtn.forEach((btn) => {
+        btn.addEventListener("click", async (event) => {
+          const id = Number(event.currentTarget.dataset.id);
+          if (!isLoggedIn) {
+            alert("Du må være innlogget for å reagere.");
+            return;
           }
-          likesCounter.textContent = likeCount;
-        } catch (error) {
-          console.error(error);
-        }
+          try {
+            btn.classList.toggle("active");
+            if (btn.classList.contains("active")) {
+              likeCount++;
+              localStorage.setItem(`userLike${post.id}`, "true");
+              // showUpdatedLikes();
+            } else {
+              localStorage.removeItem(`userLike${post.id}`);
+              likeCount--;
+              // showUpdatedLikes();
+            }
+            likesCounter.textContent = likeCount;
+          } catch (error) {
+            console.error(error);
+          }
+        });
       });
-    });
+    }
 
     // likeBtn.addEventListener("click", () => {
     //   if (likeBtn.classList.contains("active")) {
@@ -302,19 +318,24 @@ export function showPosts(postList) {
     //   }
     //   likesCounter.textContent = likeCount;
     // });
+    if (dislikeBtn) {
+      dislikeBtn.addEventListener("click", () => {
+        if (!isLoggedIn) {
+          alert("Du må være innlogget for å reagere.");
+          return;
+        }
+        dislikeBtn.classList.toggle("active");
+        // localStorage.setItem()
+        // localStorage.removeItem()
 
-    dislikeBtn.addEventListener("click", () => {
-      dislikeBtn.classList.toggle("active");
-      // localStorage.setItem()
-      // localStorage.removeItem()
-
-      if (dislikeBtn.classList.contains("active")) {
-        dislikeCount++;
-      } else {
-        dislikeCount--;
-      }
-      dislikesCounter.textContent = dislikeCount;
-    });
+        if (dislikeBtn.classList.contains("active")) {
+          dislikeCount++;
+        } else {
+          dislikeCount--;
+        }
+        dislikesCounter.textContent = dislikeCount;
+      });
+    }
     postContainer.appendChild(postArticle);
   });
 
