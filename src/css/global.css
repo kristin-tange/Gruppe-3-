@@ -171,6 +171,7 @@ form select {
   border: 1px solid var(--secondary-color);
   border-radius: 6px;
   font-size: var(--main-text);
+  font-family: var(--text-font);
   background: var(--card-bg);
   color: var(--text-color);
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
