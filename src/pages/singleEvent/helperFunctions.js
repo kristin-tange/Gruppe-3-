@@ -1,5 +1,6 @@
 // KRISTIN TANGE
 
+import { users } from "./api";
 /* HELPER FUNCTIONS  */
 /* Get ID from window */
 export const params = new URLSearchParams(window.location.search);

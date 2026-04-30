@@ -53,7 +53,7 @@ export async function createPost(meetupId, title, txt) {
       body: JSON.stringify({
         meetupId: Number(meetupId),
         // change userId to loggedIn
-        userId: `$`,
+        userId: 1,
         likes: 0,
         dislikes: 0,
         postName: title,
