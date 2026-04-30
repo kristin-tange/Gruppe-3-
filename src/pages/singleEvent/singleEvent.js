@@ -1,25 +1,60 @@
 // KRISTIN TANGE
 
 import {
+  BASE_URL,
   fetchUsers,
   fetchSingleEvent,
   fetchRelatedPosts,
   createPost,
+  updatePost,
 } from "./api";
 import { loadPosts, showPosts } from "./posts";
 import { formatDate, formatTime, meetupId } from "./helperFunctions";
 
-/* VARIABLES */
-
-/* Post-overlay */
+/* Variables */
 const overlayBtn = document.getElementById("open-overlay-btn");
 const closeOverlayBtn = document.getElementById("close-btn");
-const postOverlay = document.getElementById("post-overlay");
+export const postOverlay = document.getElementById("post-overlay");
 const postForm = document.getElementById("post-form");
+const postHeading = document.getElementById("form-heading");
 const postTitleInput = document.getElementById("new-post-title");
 const postTxtInput = document.getElementById("new-post-txt");
-console.log(postForm);
+const publishBtn = document.getElementById("publish-btn");
 
+// EDIT POST
+let editingPostId = null;
+export async function editPost(id) {
+  const response = await fetch(`${BASE_URL}/posts/${id}`);
+  const post = await response.json();
+  postTitleInput.value = post.postName;
+  postTxtInput.value = post.text;
+  if (publishBtn) publishBtn.textContent = "Lagre endringer";
+  if (postHeading) postHeading.textContent = "Rediger innlegg";
+  postTitleInput.style.backgroundColor = "#FFF8E1";
+  postTxtInput.style.backgroundColor = "#FFF8E1";
+
+  editingPostId = id;
+}
+
+// EDIT COMMENT
+// let editingCommentId = null;
+// export async function editComment(postId, commentId) {
+//   const response = await fetch(`${BASE_URL}/posts/${postId}`);
+//   const post = await response.json();
+
+//   const comment = post.comments.find((c) => c.id === comment.id);
+//   if (!comment) return;
+
+//   const commentTxt = document.querySelector(".comment");
+//   if (commentTxt) {
+//     commentTxt.value = comment.comment;
+//   }
+//   editingCommentId = commentId;
+//   editingPostId = postId;
+
+//   const postCommentBtn = document.querySelector(".post-comment-btn");
+//   if (postCommentBtn) postCommentBtn.textContent = "Lagre endringer";
+// }
 /* RENDER SINGLE-EVENT */
 function showSingleEvent(event) {
   const heroContainer = document.getElementById("hero-container");
@@ -86,22 +121,30 @@ closeOverlayBtn.addEventListener("click", () => {
   postOverlay.style.display = "none";
 });
 
-postForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
+postForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
   let title = postTitleInput.value.trim();
   let txt = postTxtInput.value.trim();
 
   try {
-    await createPost(meetupId, title, txt);
-    alert("Ditt innlegg er nå publisert.");
+    if (editingPostId) {
+      await updatePost(editingPostId, {
+        postName: title,
+        text: txt,
+      });
+      alert("Innlegget er redigert.");
+      editingPostId = null;
+    } else {
+      await createPost(meetupId, title, txt);
+      alert("Ditt innlegg er nå publisert.");
+    }
     postTitleInput.value = "";
     postTxtInput.value = "";
     postOverlay.style.display = "none";
     await loadPosts();
   } catch (error) {
-    console.error("Kunne ikke publisere innlegg:", error);
-    // Change to error-message
-    alert("Kunne ikke publisere innlegg.");
+    console.error("Kunne ikke lagre innlegg:", error);
+    alert("Kunne ikke lagre innlegg.");
   }
 });
 

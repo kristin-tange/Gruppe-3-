@@ -1,7 +1,15 @@
+// KRISTIN TANGE
+
 /* HELPER FUNCTIONS  */
 /* Get ID from window */
 export const params = new URLSearchParams(window.location.search);
 export const meetupId = params.get("id");
+
+/* Get userName from userId */
+export function getUserName(userId) {
+  const user = users.find((u) => u.id == userId);
+  return user ? user.userName : "Ukjent forfatter";
+}
 
 export function formatDate(data) {
   const date = new Date(data);

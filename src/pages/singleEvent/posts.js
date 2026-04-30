@@ -1,17 +1,23 @@
+// KRISTIN TANGE
+
+import { postOverlay, editPost } from "./singleEvent";
 import {
   fetchPosts,
   deletePost,
   deleteComment,
   users,
   createComment,
+  updateComment,
 } from "./api";
 import { formatDate } from "./helperFunctions";
+
+// VARIABLER
+let editingCommentId = null;
 
 /* HELPER FUNCTIONS */
 /* Get userName from userId */
 function getUserName(userId) {
   const user = users.find((u) => u.id == userId);
-  console.log(user);
   return user ? user.userName : "Ukjent forfatter";
 }
 
@@ -147,9 +153,10 @@ export function showPosts(postList) {
     const exitCommentBtn = postArticle.querySelector(".exit-comment-btn");
     const addComment = postArticle.querySelector(".add-comment");
     const commentTxt = postArticle.querySelector(".comment");
+    const postCommentBtn = postArticle.querySelector(".post-comment-btn");
 
-    addComment.addEventListener("submit", async (event) => {
-      event.preventDefault();
+    addComment.addEventListener("submit", async (e) => {
+      e.preventDefault();
       const newComment = commentTxt.value.trim();
 
       if (newComment === "") {
@@ -157,14 +164,26 @@ export function showPosts(postList) {
       }
 
       try {
-        await createComment(post.id, post.comments || [], newComment);
-        alert("Din kommentar er nå publisert.");
-        commentCounter.textContent = post.comments.length;
-        commentTxt.value = "";
-        commentBox.classList.add("hide-comment");
-        await loadPosts();
+        if (editingCommentId !== null) {
+          await updateComment(post.id, editingCommentId, newComment);
+          alert("Kommentaren er redigert.");
+          editingCommentId = null;
+          commentTxt.value = "";
+          commentTxt.style.backgroundColor = "";
+          commentBox.classList.add("hide-comment");
+          commentTxt.focus();
+          await loadPosts();
+        } else {
+          await createComment(post.id, post.comments || [], newComment);
+          alert("Din kommentar er nå publisert.");
+          commentCounter.textContent = post.comments.length;
+          commentTxt.value = "";
+          commentBox.classList.add("hide-comment");
+          await loadPosts();
+        }
       } catch (error) {
         console.error("Kunne ikke publisere kommentar:", error);
+        alert("Kunne ikke publisere kommentar.");
       }
     });
 
@@ -201,6 +220,16 @@ export function showPosts(postList) {
               </button>
             </div>
           </div>`;
+
+      const editCommentBtn = commentElement.querySelector(".edit-comment-btn");
+      editCommentBtn.addEventListener("click", async () => {
+        editingCommentId = comment.id;
+        commentTxt.value = comment.comment;
+        commentBox.classList.remove("hide-comment");
+        commentTxt.style.backgroundColor = "#FFF8E1";
+        commentTxt.focus();
+        if (postCommentBtn) postCommentBtn.textContent = "Lagre endringer";
+      });
 
       const deleteCommentBtn = commentElement.querySelector(
         ".delete-comment-btn"
@@ -289,20 +318,22 @@ export function showPosts(postList) {
     postContainer.appendChild(postArticle);
   });
 
-  // document.querySelectorAll(".edit-post-btn").forEach((btn) => {
-  //   btn.addEventListener("click", async (event) => {
-  //     const id = Number(event.target.dataset.id);
-  //     try {
-  //       postOverlay.style.display = "block";
-  //     } catch (error) {
-  //       console.error(error);
-  //     }
-  //   });
-  // });
+  document.querySelectorAll(".edit-post-btn").forEach((btn) => {
+    btn.addEventListener("click", async (e) => {
+      const id = Number(e.target.dataset.id);
+
+      try {
+        await editPost(id);
+        postOverlay.style.display = "block";
+      } catch (error) {
+        console.error(error);
+      }
+    });
+  });
 
   document.querySelectorAll(".delete-post-btn").forEach((btn) => {
-    btn.addEventListener("click", async (event) => {
-      const id = Number(event.target.dataset.id);
+    btn.addEventListener("click", async (e) => {
+      const id = Number(e.target.dataset.id);
 
       // Korte ned if (se eksempel: simple-todo)
       try {

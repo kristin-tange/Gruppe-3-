@@ -1,5 +1,8 @@
+// KRISTIN TANGE
+
+import { getUserName } from "./helperFunctions";
 /* VARIABLES */
-const BASE_URL = "http://localhost:3000/api";
+export const BASE_URL = "http://localhost:3000/api";
 const API_KEY = "group3api";
 export let posts = [];
 export let users = [];
@@ -7,7 +10,6 @@ export let users = [];
 export async function fetchUsers() {
   const response = await fetch(`${BASE_URL}/users`);
   users = await response.json();
-  console.log(users);
   return users;
 }
 
@@ -41,32 +43,37 @@ export async function fetchRelatedPosts(meetupId) {
 /* Create posts */
 
 export async function createPost(meetupId, title, txt) {
-  const response = await fetch(`${BASE_URL}/posts`, {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json",
-      authorization: `Bearer ${API_KEY}`,
-    },
-    body: JSON.stringify({
-      meetupId: Number(meetupId),
-      // change userId to loggedIn
-      userId: 1,
-      likes: 0,
-      dislikes: 0,
-      postName: title,
-      text: txt,
-      comments: [],
-    }),
-  });
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message ?? "Kunne ikke poste innlegg.");
+  try {
+    const response = await fetch(`${BASE_URL}/posts`, {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+        authorization: `Bearer ${API_KEY}`,
+      },
+      body: JSON.stringify({
+        meetupId: Number(meetupId),
+        // change userId to loggedIn
+        userId: `$`,
+        likes: 0,
+        dislikes: 0,
+        postName: title,
+        text: txt,
+        comments: [],
+      }),
+    });
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message ?? "Kunne ikke poste innlegg.");
+    }
+    const data = response.json();
+    return data;
+  } catch (error) {
+    throw error;
   }
-  return response.json();
 }
 
-/* Edit posts */
-/* async function editPost(id, data) {
+/* Update posts */
+export async function updatePost(id, data) {
   const response = await fetch(`${BASE_URL}/posts/${id}`, {
     method: "PATCH",
     headers: {
@@ -78,10 +85,10 @@ export async function createPost(meetupId, title, txt) {
 
   if (!response.ok) {
     const error = await response.json();
+    alert("Kunne ikke oppdatere innlegg");
     throw new Error(error.message ?? "Kunne ikke oppdatere innlegg.");
   }
 }
- */
 
 /* Delete posts */
 export async function deletePost(id) {
@@ -93,6 +100,7 @@ export async function deletePost(id) {
   });
   if (!response.ok) {
     const error = await response.json();
+    alert("Kunne ikke slette innlegg.");
     throw new Error(error.message ?? "Kunne ikke slette innlegg.");
   }
 }
@@ -119,19 +127,48 @@ export async function createComment(postId, existingComments, newComment) {
 
   if (!response.ok) {
     const error = await response.json();
+    alert("Kunne ikke poste kommentar.");
     throw new Error(error.message ?? "Kunne ikke poste kommentar.");
   }
   return response.json();
 }
 
-/* Edit comments */
-/* Delete comments */
+/* Update comments */
+export async function updateComment(postId, commentId, updatedComment) {
+  const response = await fetch(`${BASE_URL}/posts/${postId}`);
+  const post = await response.json();
+  const updatedComments = post.comments.map((comment) => {
+    if (comment.id === commentId) {
+      return {
+        ...comment,
+        comment: updatedComment,
+      };
+    }
+    return comment;
+  });
+
+  const updateResponse = await fetch(`${BASE_URL}/posts/${postId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: `Bearer ${API_KEY}`,
+    },
+    body: JSON.stringify({ comments: updatedComments }),
+  });
+
+  if (!updateResponse.ok) {
+    const error = await updateResponse.json();
+    alert("Kunne ikke oppdatere kommentar.");
+    throw new Error(error.message ?? "Kunne ikke oppdatere kommentar.");
+  }
+  return updateResponse.json();
+}
+
+/* "Delete" comments */
 export async function deleteComment(postId, commentId) {
   const response = await fetch(`${BASE_URL}/posts/${postId}`);
   const post = await response.json();
-  const updatedComments = post.comments.filter(
-    (comment) => comment.id !== commentId
-  );
+  const updatedComments = post.comments.filter((c) => c.id !== commentId);
 
   const updateResponse = await fetch(`${BASE_URL}/posts/${postId}`, {
     method: "PATCH",
@@ -144,6 +181,7 @@ export async function deleteComment(postId, commentId) {
     }),
   });
   if (!updateResponse.ok) {
+    alert("Kunne ikke slette kommentar.");
     throw new Error("Kunne ikke slette kommentar");
   }
   return updateResponse.json();
