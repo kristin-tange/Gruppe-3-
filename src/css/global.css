@@ -140,6 +140,10 @@ p {
   gap: 20px;
   margin-top: 20px;
 }
+.btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
 
 /* GLOBAL STYLE FOR FORM*/
 
