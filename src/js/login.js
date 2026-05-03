@@ -36,6 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // Save user to localStorage
       localStorage.setItem("currentUser", JSON.stringify(user));
       localStorage.setItem("isLoggedIn", "true");
+      
   
       // Navigate to index page
       window.location.href = "../../../index.html";
@@ -58,14 +59,11 @@ document.addEventListener("DOMContentLoaded", () => {
       lastname: "",
       email: "",
       password: "",
-      phone: "",
-      location: "",
-      description: "",
-      age: "",
+      description: "", 
     };
 
     localStorage.setItem("currentUser", JSON.stringify(newUser));
-    localStorage.setItem("isNewUser", "true");
+    localStorage.setItem("isLoggedIn", "false");
     
     // Navigate to profile page
     window.location.href = "profile.html";
