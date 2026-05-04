@@ -61,6 +61,10 @@ function displayMeetups(list = meetups) {
   <h2>Mapper</h2>
   <p>Organiser dine eventer</p>
   <button id="createFolderBtn">+ Ny Mappe</button>
+  <select name="Mapper" id="folderSelect">
+    <option value="" disabled selected hidden>Velg mappe</option>
+    ${folders.map(folder => `<option value="${folder.id}">${folder.name}</option>`).join("")}
+  </select>
   </div>
   `;
   colElements[0].appendChild(folderCard);

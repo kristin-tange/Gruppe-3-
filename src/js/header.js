@@ -79,6 +79,7 @@ function displayHeader() {
           <li><a href="/index.html" class="">Hjem</a></li>
           <li><a href="/src/pages/events/events.html" class="">Arrangementer</a></li>
           <li><a href="/src/pages/contact/contact.html" class="">Kontakt</a></li>
+          <li><a href="/src/pages/createEvent/createEvent.html" class="">Lag arrangement</a></li>
         </ul>
       </nav>`;
   updateLoginArea();
