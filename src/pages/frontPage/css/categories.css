@@ -21,7 +21,9 @@
   list-style: none;
 }
 
-.category-card {
+
+
+  .category-card {
   height: 80px;
   border-radius: var(--card-radius);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -31,12 +33,13 @@
   justify-content: center;
 
   text-decoration: none;
+  transition: 0.3s ease;
 }
 
 .category-card:hover {
   cursor: pointer;
   transform: scale(1.05);
-  transition: transform 0.2s;
+
 }
 
 .category-grid h3 {

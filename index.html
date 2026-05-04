@@ -6,10 +6,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="src/css/style.css" />
-    <link rel="stylesheet" href="src/css/frontpage/hero.css" />
-    <link rel="stylesheet" href="src/css/frontpage/categories.css" />
-    <link rel="stylesheet" href="src/css/frontpage/how-it-works.css" />
-    <link rel="stylesheet" href="src/css/frontpage/support.css" />
+    <link rel="stylesheet" href="src/pages/frontPage/css/hero.css" />
+    <link rel="stylesheet" href="src/pages/frontPage/css/categories.css" />
+    <link rel="stylesheet" href="src/pages/frontPage/css/how-it-works.css" />
+    <link rel="stylesheet" href="src/pages/frontPage/css/support.css" />
     
     
 
@@ -166,64 +166,56 @@
       <button id="close-support-btn" aria-label="Lukk support-boksen">&times;</button>
     </div>
 
+<div class="support-tabs">
+      <button class="support-tab active" id="send-ticket-tab">Send inn sak</button>
+      <button class="support-tab" id="my-tickets-tab">Mine saker</button>
+    </div>
+
+    <section id="send-ticket-section">
     <form id="support-form">
 <div class="form-group">
       <label for="name">Navn:</label>
-      <input type="text" id="name" name="name" required placeholder="Ditt navn" required>
+      <input type="text" id="name" name="name" maxlength="50" required placeholder="Ditt navn">
 </div>
 
 <div class="form-group">
       <label for="email">E-post:</label>
-      <input type="email" id="email" name="email" required placeholder="example@mail.com" required>
+      <input type="email" id="email" name="email" max-length="100" required placeholder="example@mail.com">
 </div>
 
 <div class="form-group">
       <label for="message">Hva gjelder saken?</label>
-      <textarea id="message" name="message" rows="4" required placeholder="Beskriv saken..." required></textarea>
+      <textarea id="message" name="message" rows="4" maxlength="500" required placeholder="Beskriv saken..."></textarea>
 </div>     
 
       <button type="submit" id="submit-support-btn">Send inn</button>
-
     </form>
+    </section>
+
+    <section id="my-tickets-section" class="hidden">
+      <div class="tickets-header">
+        <h3>Mine saker</h3>
+      </div>
+
+      <div id="tickets-list">
+      </div>
+    </section>
 
   </div>
 </div>
 
-<footer>
-      <p class="left"></p>
-      <p class="center">© Gatherly 2026</p>
 
-      <nav class="right" aria-label="Linker til sosiale medier">
-        <a href="https://www.facebook.com" target="_blank">
-          <img
-            src="/public/assets/icons/facebook.png"
-            alt="Facebook"
-            class="icon"
-          />
-        </a>
-        <a href="https://www.instagram.com" target="_blank">
-          <img
-            src="/public/assets/icons/instagram.png"
-            alt="Instagram"
-            class="icon"
-          />
-        </a>
-        <a href="mailto:post@gatherly.no">
-          <img
-            src="/public/assets/icons/mail.png"
-            alt="E-post"
-            class="icon"
-          />
-        </a>
-      </nav>
+<footer>
+ 
     </footer>
 
 
 
 <script src="https://unpkg.com/lucide@latest"></script>
-<script src="./src/js/hero-slider.js"></script>
-<script src="./src/js/support.js"></script>
+<script src="src/pages/frontPage/js/hero-slider.js"></script>
+<script src="src/pages/frontPage/js/support.js"></script>
 <script src="./src/js/header.js"></script>
+<script src="/src/js/footer.js"></script>
     <script src="./src/js/burger.js"></script>
     <script type="module" src="index.ts" defer></script>
   </body>

@@ -26,6 +26,8 @@
 
 .step-icon {
   background: rgb(255, 255, 255);
+  color: var(--primary-color);
+  transition: 1s ease;
   border-radius: 10px;
   padding: 0.4rem;
   box-shadow: 0 4px 12px;
@@ -37,6 +39,7 @@
   width: 40px;
   height: 40px;
 }
+
 
 .step-text {
   line-height: 1.5;
@@ -76,6 +79,12 @@
     width: 80px;
     height: 80px;
   }
+
+  .step-icon .lucide {
+  width: 60px;
+  height: 60px;
+}
+
 
   .step-text {
     line-height: 2.5;
