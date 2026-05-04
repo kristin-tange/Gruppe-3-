@@ -1,6 +1,6 @@
 // KRISTIN TANGE
 
-import { postOverlay, editPost } from "./singleEvent";
+import { postOverlay, editPost } from "../singleEvent";
 import {
   fetchPosts,
   deletePost,
