@@ -8,7 +8,7 @@ import {
   createPost,
   updatePost,
 } from "./api";
-import { loadPosts, showPosts, isLoggedIn } from "./posts";
+import { loadPosts, showPosts, isLoggedIn, currentUser } from "./posts";
 import { formatDate, formatTime, meetupId } from "./helperFunctions";
 
 /* Variables */
@@ -37,26 +37,6 @@ export async function editPost(id) {
 
   editingPostId = id;
 }
-
-// EDIT COMMENT
-// let editingCommentId = null;
-// export async function editComment(postId, commentId) {
-//   const response = await fetch(`${BASE_URL}/posts/${postId}`);
-//   const post = await response.json();
-
-//   const comment = post.comments.find((c) => c.id === comment.id);
-//   if (!comment) return;
-
-//   const commentTxt = document.querySelector(".comment");
-//   if (commentTxt) {
-//     commentTxt.value = comment.comment;
-//   }
-//   editingCommentId = commentId;
-//   editingPostId = postId;
-
-//   const postCommentBtn = document.querySelector(".post-comment-btn");
-//   if (postCommentBtn) postCommentBtn.textContent = "Lagre endringer";
-// }
 /* RENDER SINGLE-EVENT */
 function showSingleEvent(event) {
   const heroContainer = document.getElementById("hero-container");
@@ -106,10 +86,38 @@ function showSingleEvent(event) {
 
   /* Placeholder "Sign-up" */
   const signUpBtn = document.getElementById("sign-up-btn");
+  const signUpKey = `${currentUser.id}signedUp${event.id}`;
+
+  if (localStorage.getItem(signUpKey)) {
+    signUpBtn.textContent = "Meld deg av";
+  }
+
   signUpBtn.addEventListener("click", () => {
-    const signUpInput = prompt("Skriv inn fornavn og etternavn: ");
-    if (signUpInput !== null && signUpInput.trim() !== "") {
-      alert(`${signUpInput} er nå påmeldt ${event.name}.`);
+    const isSignedUp = localStorage.getItem(signUpKey);
+
+    if (!isSignedUp) {
+      const signUpConfirm = confirm(`Vil du melde deg på ${event.name}?`);
+
+      if (signUpConfirm) {
+        localStorage.setItem(signUpKey, "true");
+
+        signUpBtn.textContent = "Meld deg av";
+
+        alert(`${currentUser.email} er nå påmeldt ${event.name}.`);
+      } else {
+        return;
+      }
+    } else {
+      const isConfirmed = confirm(
+        "Er du sikker på at du vil melde deg av dette arrangementet?"
+      );
+
+      if (isConfirmed) {
+        localStorage.removeItem(signUpKey);
+
+        signUpBtn.textContent = "Påmelding";
+        alert(`${currentUser.email} er nå meldt av ${event.name}.`);
+      }
     }
   });
 }
