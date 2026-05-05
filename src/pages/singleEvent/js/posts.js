@@ -1,9 +1,10 @@
 // KRISTIN TANGE
 
-import { postOverlay, editPost } from "../singleEvent";
+import { postOverlay, editPost } from "./singleEvent";
 import {
   fetchPosts,
   deletePost,
+  updatePostReactions,
   deleteComment,
   users,
   createComment,
@@ -13,7 +14,8 @@ import { formatDate } from "./helperFunctions";
 
 // VARIABLER
 let editingCommentId = null;
-// const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+export const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+const currentUserId = currentUser.id;
 export const isLoggedIn = localStorage.getItem("isLoggedIn");
 
 /* HELPER FUNCTIONS */
@@ -21,6 +23,21 @@ export const isLoggedIn = localStorage.getItem("isLoggedIn");
 function getUserName(userId) {
   const user = users.find((u) => u.id == userId);
   return user ? user.userName : "Ukjent forfatter";
+}
+
+function loadReactions(currentUserId, postId, likeBtn, dislikeBtn) {
+  if (dislikeBtn) dislikeBtn.classList.remove("active");
+  if (likeBtn) likeBtn.classList.remove("active");
+
+  const userDislike = localStorage.getItem(`${currentUserId}dislikes${postId}`);
+  const userLike = localStorage.getItem(`${currentUserId}likes${postId}`);
+
+  if (userDislike && dislikeBtn) {
+    dislikeBtn.classList.add("active");
+  }
+  if (userLike && likeBtn) {
+    likeBtn.classList.add("active");
+  }
 }
 
 /* RENDER POSTS AND COMMENTS */
@@ -152,17 +169,16 @@ export function showPosts(postList) {
     const commentBox = postArticle.querySelector(".hide-comment");
     const commentBtn = postArticle.querySelector(".comment-btn");
     const exitCommentBtn = postArticle.querySelector(".exit-comment-btn");
-    const addComment = postArticle.querySelector(".add-comment");
+    const commentForm = postArticle.querySelector(".add-comment");
     const commentTxt = postArticle.querySelector(".comment");
     const postCommentBtn = postArticle.querySelector(".post-comment-btn");
 
-    addComment.addEventListener("submit", async (e) => {
+    commentForm.addEventListener("submit", async (e) => {
       e.preventDefault();
+
       const newComment = commentTxt.value.trim();
 
-      if (newComment === "") {
-        return;
-      }
+      if (!newComment) return;
 
       try {
         if (editingCommentId !== null) {
@@ -170,7 +186,7 @@ export function showPosts(postList) {
           alert("Kommentaren er redigert.");
           editingCommentId = null;
         } else {
-          await createComment(post.id, post.comments || [], newComment);
+          await createComment(post.id, newComment);
           alert("Din kommentar er nå publisert.");
         }
         commentTxt.value = "";
@@ -238,11 +254,9 @@ export function showPosts(postList) {
             const isConfirmed = confirm(
               "Er du sikker på at du vil slette denne kommentaren?"
             );
-            // FIX: make modal with confirm
             if (isConfirmed) {
               await deleteComment(post.id, comment.id);
               await loadPosts();
-              //   Change to status-message
               alert("Kommentaren er slettet.");
             }
           } catch (error) {
@@ -257,6 +271,7 @@ export function showPosts(postList) {
     if (commentBtn) {
       commentBtn.addEventListener("click", () => {
         commentBox.classList.toggle("hide-comment");
+        commentTxt.style.backgroundColor = "";
 
         if (!isLoggedIn) {
           alert("Du må være innlogget for å kommentere.");
@@ -269,71 +284,91 @@ export function showPosts(postList) {
       exitCommentBtn.addEventListener("click", () => {
         commentBox.classList.add("hide-comment");
         commentTxt.value = "";
+        commentTxt.style.backgroundColor = "";
       });
     }
 
-    const likeBtn = postArticle.querySelectorAll(".like-btn");
+    const likeBtn = postArticle.querySelector(".like-btn");
     const dislikeBtn = postArticle.querySelector(".dislike-btn");
     const dislikesCounter = postArticle.querySelector(".dislikes-counter");
     const likesCounter = postArticle.querySelector(".likes-counter");
-    let likeCount = post.likes;
-    let dislikeCount = post.dislikes;
+
+    loadReactions(currentUserId, post.id, likeBtn, dislikeBtn);
+
+    let likeCount = post.likes || 0;
+    let dislikeCount = post.dislikes || 0;
 
     if (likeBtn) {
-      likeBtn.forEach((btn) => {
-        btn.addEventListener("click", async (event) => {
-          const id = Number(event.currentTarget.dataset.id);
-          if (!isLoggedIn) {
-            alert("Du må være innlogget for å reagere.");
-            return;
-          }
-          try {
-            btn.classList.toggle("active");
-            if (btn.classList.contains("active")) {
-              likeCount++;
-              localStorage.setItem(`userLike${post.id}`, "true");
-              // showUpdatedLikes();
-            } else {
-              localStorage.removeItem(`userLike${post.id}`);
-              likeCount--;
-              // showUpdatedLikes();
-            }
-            likesCounter.textContent = likeCount;
-          } catch (error) {
-            console.error(error);
-          }
-        });
-      });
-    }
-
-    // likeBtn.addEventListener("click", () => {
-    //   if (likeBtn.classList.contains("active")) {
-    //     localStorage.setItem("userLike");
-    //     likeCount++;
-    //     showUpdatedLikes();
-    //   } else {
-    //     likeCount--;
-    //     localStorage.removeItem("userLike");
-    //     showUpdatedLikes();
-    //   }
-    //   likesCounter.textContent = likeCount;
-    // });
-    if (dislikeBtn) {
-      dislikeBtn.addEventListener("click", () => {
+      likeBtn.addEventListener("click", async () => {
         if (!isLoggedIn) {
           alert("Du må være innlogget for å reagere.");
           return;
         }
-        dislikeBtn.classList.toggle("active");
-        // localStorage.setItem()
-        // localStorage.removeItem()
 
-        if (dislikeBtn.classList.contains("active")) {
-          dislikeCount++;
-        } else {
-          dislikeCount--;
+        try {
+          likeBtn.classList.toggle("active");
+          if (likeBtn.classList.contains("active")) {
+            likeCount++;
+            localStorage.setItem(`${currentUserId}likes${post.id}`, "true");
+
+            if (dislikeBtn.classList.contains("active")) {
+              dislikeBtn.classList.remove("active");
+
+              if (dislikeCount > 0) {
+                localStorage.removeItem(`${currentUserId}dislikes${post.id}`);
+                dislikeCount--;
+              }
+              dislikesCounter.textContent = dislikeCount;
+            }
+          } else {
+            if (likeCount > 0) {
+              likeCount--;
+            }
+            localStorage.removeItem(`${currentUserId}likes${post.id}`);
+          }
+          likesCounter.textContent = likeCount;
+          await updatePostReactions(post.id, likeCount, dislikeCount);
+        } catch (error) {
+          console.error(error);
         }
-        dislikesCounter.textContent = dislikeCount;
+      });
+    }
+
+    if (dislikeBtn) {
+      dislikeBtn.addEventListener("click", async () => {
+        if (!isLoggedIn) {
+          alert("Du må være innlogget for å reagere.");
+          return;
+        }
+
+        try {
+          dislikeBtn.classList.toggle("active");
+          if (dislikeBtn.classList.contains("active")) {
+            dislikeCount++;
+            localStorage.setItem(`${currentUserId}dislikes${post.id}`, "true");
+
+            if (likeBtn.classList.contains("active")) {
+              localStorage.removeItem(`${currentUserId}likes${post.id}`);
+              likeBtn.classList.remove("active");
+
+              if (likeCount > 0) {
+                likeCount--;
+              }
+
+              likesCounter.textContent = likeCount;
+            }
+          } else {
+            if (dislikeCount > 0) {
+              dislikeCount--;
+              localStorage.removeItem(`${currentUserId}dislikes${post.id}`);
+            }
+          }
+          dislikesCounter.textContent = dislikeCount;
+
+          await updatePostReactions(post.id, likeCount, dislikeCount);
+        } catch (error) {
+          console.error(error);
+        }
       });
     }
     postContainer.appendChild(postArticle);
@@ -362,9 +397,10 @@ export function showPosts(postList) {
           "Er du sikker på at du vil slette dette innlegget?"
         );
 
-        // FIX: make modal with confirm
         if (isConfirmed) {
           await deletePost(id);
+          localStorage.removeItem(`${currentUserId}dislikes${id}`);
+          localStorage.removeItem(`${currentUserId}likes${id}`);
           await loadPosts();
           alert("Innlegget er slettet.");
         }
