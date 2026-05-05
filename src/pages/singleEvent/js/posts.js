@@ -2,7 +2,7 @@
 
 import { postOverlay, editPost } from "./singleEvent";
 import {
-  fetchPosts,
+  fetchRelatedPosts,
   deletePost,
   updatePostReactions,
   deleteComment,
@@ -10,13 +10,13 @@ import {
   createComment,
   updateComment,
 } from "./api";
-import { formatDate } from "./helperFunctions";
+import { formatDate, meetupId } from "./helperFunctions";
 
 // VARIABLER
 let editingCommentId = null;
 export const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-const currentUserId = currentUser.id;
-export const isLoggedIn = localStorage.getItem("isLoggedIn");
+const currentUserId = currentUser?.id;
+export const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
 /* HELPER FUNCTIONS */
 /* Get userName from userId */
@@ -43,7 +43,7 @@ function loadReactions(currentUserId, postId, likeBtn, dislikeBtn) {
 /* RENDER POSTS AND COMMENTS */
 export async function loadPosts() {
   try {
-    const posts = await fetchPosts();
+    const posts = await fetchRelatedPosts(meetupId);
     showPosts(posts);
   } catch (error) {
     console.error("Kunne ikke hente poster:", error);
@@ -63,6 +63,7 @@ export function showPosts(postList) {
   const postCounter = document.getElementById("post-counter");
   postContainer.innerHTML = "";
   postCounter.innerHTML = `${postList.length}`;
+
   if (postList.length === 0) {
     postCounter.style.display = "none";
     postContainer.innerHTML = `<p> Ingen innlegg å vise ennå. </p>`;
@@ -70,6 +71,8 @@ export function showPosts(postList) {
   }
 
   postList.forEach((post) => {
+    const canEdit = Number(currentUserId) === Number(post.userId);
+
     const postArticle = document.createElement("article");
     postArticle.className = "published-post";
     postArticle.innerHTML = `
@@ -117,12 +120,12 @@ export function showPosts(postList) {
         </div>
         </div>
         ${
-          isLoggedIn
+          canEdit
             ? `<div class="edit-btns">
-         <button type="button" class="edit-post-btn edit-btns" data-id="${post.id}">
+         <button type="button" class="edit-post-btn edit-btns" data-id="${post.id}" data-user-id="${post.userId}">
                 Rediger
               </button>
-              <button type="button" class="delete-post-btn edit-btns" data-id="${post.id}">
+              <button type="button" class="delete-post-btn edit-btns" data-id="${post.id}" data-user-id="${post.userId}">
                 Slett
               </button>
       </div>`
@@ -187,7 +190,6 @@ export function showPosts(postList) {
           editingCommentId = null;
         } else {
           await createComment(post.id, newComment);
-          alert("Din kommentar er nå publisert.");
         }
         commentTxt.value = "";
         commentTxt.style.backgroundColor = "";
@@ -202,6 +204,7 @@ export function showPosts(postList) {
     const comments = post.comments || [];
 
     comments.forEach((comment) => {
+      const canEdit = Number(currentUserId) === Number(comment.userId);
       const commentElement = document.createElement("article");
       commentElement.innerHTML = `
           <div class="comment-container">
@@ -220,11 +223,11 @@ export function showPosts(postList) {
               <p class="comment-text">${comment.comment}</p>
             </div>
             <div class="second-row">${
-              isLoggedIn
-                ? `<button type="button" class="edit-comment-btn edit-btns" data-id="${comment.id}">
+              canEdit
+                ? `<button type="button" class="edit-comment-btn edit-btns" data-id="${comment.id}" data-user-id="${comment.userId}">
                 Rediger
               </button>
-              <button type="button" class="delete-comment-btn edit-btns" data-id="${comment.id}">
+              <button type="button" class="delete-comment-btn edit-btns" data-id="${comment.id}" data-user-id="${comment.userId}">
                 Slett
               </button>`
                 : ""
@@ -250,6 +253,8 @@ export function showPosts(postList) {
       );
       if (deleteCommentBtn) {
         deleteCommentBtn.addEventListener("click", async () => {
+          console.log("Post ID:", post.id);
+          console.log("Comment ID:", comment.id);
           try {
             const isConfirmed = confirm(
               "Er du sikker på at du vil slette denne kommentaren?"
@@ -274,8 +279,16 @@ export function showPosts(postList) {
         commentTxt.style.backgroundColor = "";
 
         if (!isLoggedIn) {
-          alert("Du må være innlogget for å kommentere.");
+          const isConfirmed = confirm(
+            "Du må være innlogget for å kommentere. Ønsker du å logge inn?"
+          );
+
           commentBox.classList.add("hide-comment");
+
+          if (!isConfirmed) return;
+
+          window.location.href = "/src/pages/login/login.html";
+          return;
         }
       });
     }
@@ -301,7 +314,13 @@ export function showPosts(postList) {
     if (likeBtn) {
       likeBtn.addEventListener("click", async () => {
         if (!isLoggedIn) {
-          alert("Du må være innlogget for å reagere.");
+          const isConfirmed = confirm(
+            "Du må være innlogget for å reagere. Ønsker du å logge inn?"
+          );
+
+          if (!isConfirmed) return;
+
+          window.location.href = "/src/pages/login/login.html";
           return;
         }
 
@@ -337,7 +356,13 @@ export function showPosts(postList) {
     if (dislikeBtn) {
       dislikeBtn.addEventListener("click", async () => {
         if (!isLoggedIn) {
-          alert("Du må være innlogget for å reagere.");
+          const isConfirmed = confirm(
+            "Du må være innlogget for å reagere. Ønsker du å logge inn?"
+          );
+
+          if (!isConfirmed) return;
+
+          window.location.href = "/src/pages/login/login.html";
           return;
         }
 
@@ -376,7 +401,8 @@ export function showPosts(postList) {
 
   document.querySelectorAll(".edit-post-btn").forEach((btn) => {
     btn.addEventListener("click", async (e) => {
-      const id = Number(e.target.dataset.id);
+      const id = Number(e.currentTarget.dataset.id);
+      const postUserId = Number(e.currentTarget.dataset.userId);
 
       try {
         await editPost(id);
@@ -389,21 +415,24 @@ export function showPosts(postList) {
 
   document.querySelectorAll(".delete-post-btn").forEach((btn) => {
     btn.addEventListener("click", async (e) => {
-      const id = Number(e.target.dataset.id);
+      const id = Number(e.currentTarget.dataset.id);
+      const postUserId = Number(e.currentTarget.dataset.userId);
 
       // Korte ned if (se eksempel: simple-todo)
       try {
+        if (currentUserId !== postUserId) {
+          return;
+        }
         const isConfirmed = confirm(
           "Er du sikker på at du vil slette dette innlegget?"
         );
+        if (!isConfirmed) return;
 
-        if (isConfirmed) {
-          await deletePost(id);
-          localStorage.removeItem(`${currentUserId}dislikes${id}`);
-          localStorage.removeItem(`${currentUserId}likes${id}`);
-          await loadPosts();
-          alert("Innlegget er slettet.");
-        }
+        await deletePost(id);
+        localStorage.removeItem(`${currentUserId}dislikes${id}`);
+        localStorage.removeItem(`${currentUserId}likes${id}`);
+        await loadPosts();
+        alert("Innlegget er slettet.");
       } catch (error) {
         console.error(error);
       }

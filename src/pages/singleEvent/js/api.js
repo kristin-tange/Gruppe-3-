@@ -80,12 +80,11 @@ export async function createPost(meetupId, title, txt) {
       },
       body: JSON.stringify({
         meetupId: Number(meetupId),
-
-        userId: currentUser,
-        likes: 0,
-        dislikes: 0,
+        userId: currentUser.id,
         postName: title,
         text: txt,
+        likes: 0,
+        dislikes: 0,
         comments: [],
       }),
     });
