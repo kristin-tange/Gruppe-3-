@@ -281,17 +281,3 @@ export async function deleteComment(postId, commentId) {
     throw error;
   }
 }
-
-/* REACTIONS */
-// TODO: connect to API
-// TODO: create reactions
-// TODO: edit reactions
-// TODO: delete reactions
-
-// function showUpdatedLikes() {
-//   const savedUserLikes = localStorage.getItem(`userLike${post.id}`);
-//   display.textContent =
-//   if (savedUserLikes === "true") {
-
-//   }
-// }
