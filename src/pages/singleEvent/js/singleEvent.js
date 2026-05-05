@@ -86,48 +86,67 @@ function showSingleEvent(event) {
 
   /* Placeholder "Sign-up" */
   const signUpBtn = document.getElementById("sign-up-btn");
-  const signUpKey = `${currentUser.id}signedUp${event.id}`;
+
+  const signUpKey = `${currentUser?.id}signedUp${event.id}`;
 
   if (localStorage.getItem(signUpKey)) {
     signUpBtn.textContent = "Meld deg av";
   }
 
   signUpBtn.addEventListener("click", () => {
+    if (!isLoggedIn) {
+      const isConfirmed = confirm(
+        "Du må være innlogget for å melde deg på arrangementer. Ønsker du å logge inn?"
+      );
+
+      if (!isConfirmed) return;
+      window.location.href = "/src/pages/login/login.html";
+      return;
+    }
+
     const isSignedUp = localStorage.getItem(signUpKey);
 
     if (!isSignedUp) {
       const signUpConfirm = confirm(`Vil du melde deg på ${event.name}?`);
 
-      if (signUpConfirm) {
-        localStorage.setItem(signUpKey, "true");
-
-        signUpBtn.textContent = "Meld deg av";
-
-        alert(`${currentUser.email} er nå påmeldt ${event.name}.`);
-      } else {
+      if (!signUpConfirm) {
         return;
       }
-    } else {
-      const isConfirmed = confirm(
-        "Er du sikker på at du vil melde deg av dette arrangementet?"
-      );
 
-      if (isConfirmed) {
-        localStorage.removeItem(signUpKey);
-
-        signUpBtn.textContent = "Påmelding";
-        alert(`${currentUser.email} er nå meldt av ${event.name}.`);
-      }
+      localStorage.setItem(signUpKey, "true");
+      signUpBtn.textContent = "Meld deg av";
+      alert(`${currentUser.email} er nå påmeldt ${event.name}.`);
+      return;
     }
+
+    const isConfirmed = confirm(
+      "Er du sikker på at du vil melde deg av dette arrangementet?"
+    );
+
+    if (!isConfirmed) {
+      return;
+    }
+
+    localStorage.removeItem(signUpKey);
+    signUpBtn.textContent = "Påmelding";
+    alert(`${currentUser.email} er nå meldt av ${event.name}.`);
+    return;
   });
 }
 
 /* EVENT-LISTENERS */
 overlayBtn.addEventListener("click", () => {
   if (!isLoggedIn) {
-    alert("Du må være innlogget for å opprette innlegg.");
+    const isConfirmed = confirm(
+      "Du må være innlogget for å opprette innlegg. Ønsker du å logge inn?"
+    );
+
+    if (!isConfirmed) return;
+
+    window.location.href = "/src/pages/login/login.html";
     return;
   }
+
   postOverlay.style.display = "block";
 });
 
@@ -150,7 +169,6 @@ postForm.addEventListener("submit", async (e) => {
       editingPostId = null;
     } else {
       await createPost(meetupId, title, txt);
-      alert("Ditt innlegg er nå publisert.");
     }
     postTitleInput.value = "";
     postTxtInput.value = "";
