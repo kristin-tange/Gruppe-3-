@@ -34,7 +34,7 @@
       rgba(255, 255, 255, 0.7) 40%,
       rgba(255, 255, 255, 0.2) 100%
     ),
-    url(../../../public/assets/img/Gatherly-hero.png) center / cover no-repeat;
+    url(../../../../public/assets/img/Gatherly-hero.png) center / cover no-repeat;
 
   text-align: center;
 }
