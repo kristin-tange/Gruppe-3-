@@ -1,25 +1,42 @@
 // KRISTIN TANGE
 
 import {
+  BASE_URL,
   fetchUsers,
   fetchSingleEvent,
   fetchRelatedPosts,
   createPost,
+  updatePost,
 } from "./api";
-import { loadPosts, showPosts } from "./posts";
+import { loadPosts, showPosts, isLoggedIn, currentUser } from "./posts";
 import { formatDate, formatTime, meetupId } from "./helperFunctions";
 
-/* VARIABLES */
-
-/* Post-overlay */
+/* Variables */
 const overlayBtn = document.getElementById("open-overlay-btn");
 const closeOverlayBtn = document.getElementById("close-btn");
-const postOverlay = document.getElementById("post-overlay");
+export const postOverlay = document.getElementById("post-overlay");
 const postForm = document.getElementById("post-form");
+const postHeading = document.getElementById("form-heading");
 const postTitleInput = document.getElementById("new-post-title");
 const postTxtInput = document.getElementById("new-post-txt");
-console.log(postForm);
+const publishBtn = document.getElementById("publish-btn");
 
+// FUNCTIONS
+
+// EDIT POST
+let editingPostId = null;
+export async function editPost(id) {
+  const response = await fetch(`${BASE_URL}/posts/${id}`);
+  const post = await response.json();
+  postTitleInput.value = post.postName;
+  postTxtInput.value = post.text;
+  if (publishBtn) publishBtn.textContent = "Lagre endringer";
+  if (postHeading) postHeading.textContent = "Rediger innlegg";
+  postTitleInput.style.backgroundColor = "#FFF8E1";
+  postTxtInput.style.backgroundColor = "#FFF8E1";
+
+  editingPostId = id;
+}
 /* RENDER SINGLE-EVENT */
 function showSingleEvent(event) {
   const heroContainer = document.getElementById("hero-container");
@@ -69,16 +86,67 @@ function showSingleEvent(event) {
 
   /* Placeholder "Sign-up" */
   const signUpBtn = document.getElementById("sign-up-btn");
+
+  const signUpKey = `${currentUser?.id}signedUp${event.id}`;
+
+  if (localStorage.getItem(signUpKey)) {
+    signUpBtn.textContent = "Meld deg av";
+  }
+
   signUpBtn.addEventListener("click", () => {
-    const signUpInput = prompt("Skriv inn fornavn og etternavn: ");
-    if (signUpInput !== null && signUpInput.trim() !== "") {
-      alert(`${signUpInput} er nå påmeldt ${event.name}.`);
+    if (!isLoggedIn) {
+      const isConfirmed = confirm(
+        "Du må være innlogget for å melde deg på arrangementer. Ønsker du å logge inn?"
+      );
+
+      if (!isConfirmed) return;
+      window.location.href = "/src/pages/login/login.html";
+      return;
     }
+
+    const isSignedUp = localStorage.getItem(signUpKey);
+
+    if (!isSignedUp) {
+      const signUpConfirm = confirm(`Vil du melde deg på ${event.name}?`);
+
+      if (!signUpConfirm) {
+        return;
+      }
+
+      localStorage.setItem(signUpKey, "true");
+      signUpBtn.textContent = "Meld deg av";
+      alert(`${currentUser.email} er nå påmeldt ${event.name}.`);
+      return;
+    }
+
+    const isConfirmed = confirm(
+      "Er du sikker på at du vil melde deg av dette arrangementet?"
+    );
+
+    if (!isConfirmed) {
+      return;
+    }
+
+    localStorage.removeItem(signUpKey);
+    signUpBtn.textContent = "Påmelding";
+    alert(`${currentUser.email} er nå meldt av ${event.name}.`);
+    return;
   });
 }
 
 /* EVENT-LISTENERS */
 overlayBtn.addEventListener("click", () => {
+  if (!isLoggedIn) {
+    const isConfirmed = confirm(
+      "Du må være innlogget for å opprette innlegg. Ønsker du å logge inn?"
+    );
+
+    if (!isConfirmed) return;
+
+    window.location.href = "/src/pages/login/login.html";
+    return;
+  }
+
   postOverlay.style.display = "block";
 });
 
@@ -86,22 +154,29 @@ closeOverlayBtn.addEventListener("click", () => {
   postOverlay.style.display = "none";
 });
 
-postForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
+postForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
   let title = postTitleInput.value.trim();
   let txt = postTxtInput.value.trim();
 
   try {
-    await createPost(meetupId, title, txt);
-    alert("Ditt innlegg er nå publisert.");
+    if (editingPostId) {
+      await updatePost(editingPostId, {
+        postName: title,
+        text: txt,
+      });
+      alert("Innlegget er redigert.");
+      editingPostId = null;
+    } else {
+      await createPost(meetupId, title, txt);
+    }
     postTitleInput.value = "";
     postTxtInput.value = "";
     postOverlay.style.display = "none";
     await loadPosts();
   } catch (error) {
-    console.error("Kunne ikke publisere innlegg:", error);
-    // Change to error-message
-    alert("Kunne ikke publisere innlegg.");
+    console.error("Kunne ikke lagre innlegg:", error);
+    alert("Kunne ikke lagre innlegg.");
   }
 });
 
