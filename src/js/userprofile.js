@@ -34,24 +34,24 @@ async function loadProfile() {
         }
       });
 
-      const freshUser = await res.json();
+      const existingUser = await res.json();
 
       // Fill form fields (NO PASSWORD)
       document.getElementById("usernameTitle").textContent =
-        `Velkommen ${freshUser.firstName}!`;
+        `Velkommen ${existingUser.firstName}!`;
 
-      document.getElementById("firstname").value = freshUser.firstName || "";
-      document.getElementById("lastname").value = freshUser.lastName || "";
-      document.getElementById("email").value = freshUser.email || "";
-      document.getElementById("description").value = freshUser.description || "";
-
+      document.getElementById("firstname").value = existingUser.firstName || "";
+      document.getElementById("lastname").value = existingUser.lastName || "";
+      document.getElementById("email").value = existingUser.email || "";
+      document.getElementById("description").value = existingUser.description || "";
+      
       // Gender
       document.querySelectorAll('input[name="gender"]').forEach(radio => {
-        radio.checked = radio.value === freshUser.gender;
+        radio.checked = radio.value === existingUser.gender;
       });
 
 
-      const gender = freshUser.gender?.toLowerCase().trim();
+      const gender = existingUser.gender?.toLowerCase().trim();
 
       if (gender === "mann") {
         profileImage.src = "/assets/img/profilepictureman.png";
@@ -93,13 +93,8 @@ document.getElementById("editbtn").addEventListener("click", () => {
     .forEach(input => input.disabled = false);
 
   // Keep gender disabled for existing users
-  if (!isNewUser) {
-    document.querySelectorAll('input[name="gender"]').forEach(radio => {
-      radio.disabled = true;
-    });
-  }
+ 
 });
-
 
 // Save profile
 document.getElementById("accountForm").addEventListener("submit", async (e) => {
@@ -116,6 +111,9 @@ document.getElementById("accountForm").addEventListener("submit", async (e) => {
     alert("Passord må være minst 8 tegn");
     return;
   }
+  const url = new URL(profileImage.src);
+  const relativePath = url.pathname;
+
 
   const updateUser = {
     firstName: document.getElementById("firstname").value,
@@ -123,9 +121,14 @@ document.getElementById("accountForm").addEventListener("submit", async (e) => {
     email: document.getElementById("email").value,
     description: document.getElementById("description").value,
     gender: document.querySelector('input[name="gender"]:checked')?.value,
-    password: isNewUser ? password : undefined 
+    image: relativePath
   };
-
+   
+  if (isNewUser) {
+    updateUser.password = password;
+  }else
+  {updateUser.password = user.password;
+  }
   try {
     let res;
 
@@ -164,8 +167,6 @@ document.getElementById("accountForm").addEventListener("submit", async (e) => {
     alert("Kunne ikke lagre profil: " + err);
   }
 });
-
-
 // Delete account
 document.getElementById("deletebtn")?.addEventListener("click", async () => {
   const user = JSON.parse(localStorage.getItem("currentUser") || "{}");

@@ -111,7 +111,7 @@ p {
   gap: 20px;
   justify-content: center;
   cursor: pointer;
-  display: inline-block;
+  flex-wrap: nowrap;
   text-decoration: none;
 }
 
