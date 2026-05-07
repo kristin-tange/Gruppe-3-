@@ -320,9 +320,7 @@ form textarea::placeholder {
 }
 
 .edit-post-btn:hover,
-.delete-post-btn:hover,
-.edit-comment-btn:hover,
-.delete-comment-btn:hover {
+.edit-comment-btn:hover {
   color: var(--primary-hover);
   transform: scale(1.2);
 }

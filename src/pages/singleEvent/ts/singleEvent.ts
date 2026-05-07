@@ -10,22 +10,35 @@ import {
 } from "./api";
 import { loadPosts, showPosts, isLoggedIn, currentUser } from "./posts";
 import { formatDate, formatTime, meetupId } from "./helperFunctions";
+import type { Meetup } from "./types";
 
 /* Variables */
-const overlayBtn = document.getElementById("open-overlay-btn");
-const closeOverlayBtn = document.getElementById("close-btn");
-export const postOverlay = document.getElementById("post-overlay");
-const postForm = document.getElementById("post-form");
-const postHeading = document.getElementById("form-heading");
-const postTitleInput = document.getElementById("new-post-title");
-const postTxtInput = document.getElementById("new-post-txt");
-const publishBtn = document.getElementById("publish-btn");
+const overlayBtn = document.getElementById(
+  "open-overlay-btn"
+) as HTMLButtonElement;
+const closeOverlayBtn = document.getElementById(
+  "close-btn"
+) as HTMLButtonElement;
+export const postOverlay = document.getElementById(
+  "post-overlay"
+) as HTMLElement;
+const postForm = document.getElementById("post-form") as HTMLFormElement;
+const postHeading = document.getElementById(
+  "form-heading"
+) as HTMLHeadingElement;
+const postTitleInput = document.getElementById(
+  "new-post-title"
+) as HTMLInputElement;
+const postTxtInput = document.getElementById(
+  "new-post-txt"
+) as HTMLTextAreaElement;
+const publishBtn = document.getElementById("publish-btn") as HTMLButtonElement;
 
 // FUNCTIONS
 
 // EDIT POST
-let editingPostId = null;
-export async function editPost(id) {
+let editingPostId: number | null = null;
+export async function editPost(id: number): Promise<void> {
   const response = await fetch(`${BASE_URL}/posts/${id}`);
   const post = await response.json();
   postTitleInput.value = post.postName;
@@ -38,9 +51,13 @@ export async function editPost(id) {
   editingPostId = id;
 }
 /* RENDER SINGLE-EVENT */
-function showSingleEvent(event) {
-  const heroContainer = document.getElementById("hero-container");
-  const descriptionContainer = document.getElementById("description-container");
+function showSingleEvent(event: Meetup): void {
+  const heroContainer = document.getElementById(
+    "hero-container"
+  ) as HTMLDivElement;
+  const descriptionContainer = document.getElementById(
+    "description-container"
+  ) as HTMLDivElement;
   const formattedTags = event.tags.join(", ");
 
   document.title = `${event.name}`;
@@ -81,11 +98,11 @@ function showSingleEvent(event) {
     event.updated
   )}</span>
           </p>
-            <button class="btn btn-primary" id="sign-up-btn">Påmelding</button>
+            <button class="btn btn-primary active" id="sign-up-btn">Påmelding</button>
         </section>`;
 
   /* Placeholder "Sign-up" */
-  const signUpBtn = document.getElementById("sign-up-btn");
+  const signUpBtn = document.getElementById("sign-up-btn") as HTMLButtonElement;
 
   const signUpKey = `${currentUser?.id}signedUp${event.id}`;
 
@@ -93,7 +110,7 @@ function showSingleEvent(event) {
     signUpBtn.textContent = "Meld deg av";
   }
 
-  signUpBtn.addEventListener("click", () => {
+  signUpBtn?.addEventListener("click", () => {
     if (!isLoggedIn) {
       const isConfirmed = confirm(
         "Du må være innlogget for å melde deg på arrangementer. Ønsker du å logge inn?"
@@ -115,7 +132,7 @@ function showSingleEvent(event) {
 
       localStorage.setItem(signUpKey, "true");
       signUpBtn.textContent = "Meld deg av";
-      alert(`${currentUser.email} er nå påmeldt ${event.name}.`);
+      alert(`${currentUser?.email} er nå påmeldt ${event.name}.`);
       return;
     }
 
@@ -129,7 +146,7 @@ function showSingleEvent(event) {
 
     localStorage.removeItem(signUpKey);
     signUpBtn.textContent = "Påmelding";
-    alert(`${currentUser.email} er nå meldt av ${event.name}.`);
+    alert(`${currentUser?.email} er nå meldt av ${event.name}.`);
     return;
   });
 }
@@ -168,7 +185,8 @@ postForm.addEventListener("submit", async (e) => {
       alert("Innlegget er redigert.");
       editingPostId = null;
     } else {
-      await createPost(meetupId, title, txt);
+      if (!currentUser) return;
+      await createPost(meetupId, title, txt, currentUser);
     }
     postTitleInput.value = "";
     postTxtInput.value = "";
@@ -180,7 +198,7 @@ postForm.addEventListener("submit", async (e) => {
   }
 });
 
-async function init() {
+async function init(): Promise<void> {
   await fetchUsers();
 
   const event = await fetchSingleEvent(meetupId);

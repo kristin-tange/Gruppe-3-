@@ -6,26 +6,32 @@ import {
   deletePost,
   updatePostReactions,
   deleteComment,
-  users,
   createComment,
   updateComment,
 } from "./api";
-import { formatDate, meetupId } from "./helperFunctions";
+import {
+  formatDate,
+  meetupId,
+  getUserName,
+  getProfilePicture,
+} from "./helperFunctions";
+import type { User, Post } from "./types";
 
 // VARIABLER
-let editingCommentId = null;
-export const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+let editingCommentId: number | null = null;
+
+export const currentUser: User | null = JSON.parse(
+  localStorage.getItem("currentUser") ?? "null"
+);
 const currentUserId = currentUser?.id;
 export const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 
-/* HELPER FUNCTIONS */
-/* Get userName from userId */
-function getUserName(userId) {
-  const user = users.find((u) => u.id == userId);
-  return user ? user.userName : "Ukjent forfatter";
-}
-
-function loadReactions(currentUserId, postId, likeBtn, dislikeBtn) {
+function loadReactions(
+  currentUserId: number,
+  postId: number,
+  likeBtn: HTMLButtonElement,
+  dislikeBtn: HTMLButtonElement
+): void {
   if (dislikeBtn) dislikeBtn.classList.remove("active");
   if (likeBtn) likeBtn.classList.remove("active");
 
@@ -41,7 +47,7 @@ function loadReactions(currentUserId, postId, likeBtn, dislikeBtn) {
 }
 
 /* RENDER POSTS AND COMMENTS */
-export async function loadPosts() {
+export async function loadPosts(): Promise<void> {
   try {
     const posts = await fetchRelatedPosts(meetupId);
     showPosts(posts);
@@ -50,17 +56,13 @@ export async function loadPosts() {
   }
 }
 
-export function showComments(commentList) {
-  commentList.innerHTML = "";
-  commentCounter.innerHTML = `${commentList.length}`;
-  if (commentList.length === 0) {
-    commentContainer.innerHTML = `<p> Ingen kommentarer å vise ennå. </p>`;
-  }
-}
-
-export function showPosts(postList) {
-  const postContainer = document.getElementById("post-container");
-  const postCounter = document.getElementById("post-counter");
+export function showPosts(postList: Post[]): void {
+  const postContainer = document.getElementById(
+    "post-container"
+  ) as HTMLDivElement;
+  const postCounter = document.getElementById(
+    "post-counter"
+  ) as HTMLSpanElement;
   postContainer.innerHTML = "";
   postCounter.innerHTML = `${postList.length}`;
 
@@ -77,12 +79,12 @@ export function showPosts(postList) {
     postArticle.className = "published-post";
     postArticle.innerHTML = `
     <div class="post-grid">
-    <div>
+    <div class="first-row">
     <div class="user">
     <img
-    src="/public/assets/img/placeholder-profile.png"
+    src="${getProfilePicture(post.userId)}"
     alt="profilbilde"
-    class="placeholder-profile"
+    class="profile-picture"
     width="32px"
     />
     <span class="user-name">${getUserName(post.userId)}</span>
@@ -138,10 +140,10 @@ export function showPosts(postList) {
     <form class="add-comment hide-comment">
     <div class="post-comments">
       <div class="user">
-        <img
-          src="/public/assets/img/placeholder-profile.png"
+        <img 
+          src=${getProfilePicture(post.userId)}
           alt="profilbilde"
-          class="placeholder-profile"
+          class="profile-picture"
           width="32px"
         />
         <span class="user-name"></span>
@@ -155,8 +157,8 @@ export function showPosts(postList) {
       ></textarea>
     </div>
     <div class="post-comments-btns">
-      <button class="post-comment-btn btn btn-primary" type="submit">Send</button>
-      <button class="exit-comment-btn btn btn-secondary" type="button">
+      <button class="post-comment-btn btn btn-primary active" type="submit">Send</button>
+      <button class="exit-comment-btn btn btn-secondary active" type="button">
         Avbryt
       </button>
     </div>
@@ -168,20 +170,34 @@ export function showPosts(postList) {
    </section>
     `;
 
-    const commentsContainer = postArticle.querySelector(".comment-list");
-    const commentBox = postArticle.querySelector(".hide-comment");
-    const commentBtn = postArticle.querySelector(".comment-btn");
-    const exitCommentBtn = postArticle.querySelector(".exit-comment-btn");
-    const commentForm = postArticle.querySelector(".add-comment");
-    const commentTxt = postArticle.querySelector(".comment");
-    const postCommentBtn = postArticle.querySelector(".post-comment-btn");
+    const commentsContainer = postArticle.querySelector(
+      ".comment-list"
+    ) as HTMLDivElement;
+    const commentBox = postArticle.querySelector(
+      ".add-comment"
+    ) as HTMLFormElement;
+    const commentBtn = postArticle.querySelector(
+      ".comment-btn"
+    ) as HTMLButtonElement;
+    const exitCommentBtn = postArticle.querySelector(
+      ".exit-comment-btn"
+    ) as HTMLButtonElement;
+    const commentForm = postArticle.querySelector(
+      ".add-comment"
+    ) as HTMLButtonElement;
+    const commentTxt = postArticle.querySelector(
+      ".comment"
+    ) as HTMLTextAreaElement;
+    const postCommentBtn = postArticle.querySelector(
+      ".post-comment-btn"
+    ) as HTMLButtonElement;
 
-    commentForm.addEventListener("submit", async (e) => {
+    commentForm?.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const newComment = commentTxt.value.trim();
+      const newComment: string | null = commentTxt?.value.trim();
 
-      if (!newComment) return;
+      if (!newComment || !currentUser) return;
 
       try {
         if (editingCommentId !== null) {
@@ -189,7 +205,7 @@ export function showPosts(postList) {
           alert("Kommentaren er redigert.");
           editingCommentId = null;
         } else {
-          await createComment(post.id, newComment);
+          await createComment(post.id, newComment, currentUser);
         }
         commentTxt.value = "";
         commentTxt.style.backgroundColor = "";
@@ -209,12 +225,12 @@ export function showPosts(postList) {
       commentElement.innerHTML = `
           <div class="comment-container">
           <p class="muted comment-date">${formatDate(comment.created)}</p>
-            <div>
+            
               <div class="user">
                 <img
-                  src="/public/assets/img/placeholder-profile.png"
+                  src=${getProfilePicture(comment.userId)}
                   alt="profilbilde"
-                  class="placeholder-profile"
+                  class="profile-picture"
                   width="32px"
                 />
                 <span class="user-name">${getUserName(comment.userId)}</span>
@@ -301,12 +317,19 @@ export function showPosts(postList) {
       });
     }
 
-    const likeBtn = postArticle.querySelector(".like-btn");
-    const dislikeBtn = postArticle.querySelector(".dislike-btn");
-    const dislikesCounter = postArticle.querySelector(".dislikes-counter");
-    const likesCounter = postArticle.querySelector(".likes-counter");
+    const likeBtn = postArticle.querySelector(".like-btn") as HTMLButtonElement;
+    const dislikeBtn = postArticle.querySelector(
+      ".dislike-btn"
+    ) as HTMLButtonElement;
+    const dislikesCounter = postArticle.querySelector(
+      ".dislikes-counter"
+    ) as HTMLSpanElement;
+    const likesCounter = postArticle.querySelector(
+      ".likes-counter"
+    ) as HTMLSpanElement;
 
-    loadReactions(currentUserId, post.id, likeBtn, dislikeBtn);
+    if (currentUserId)
+      loadReactions(currentUserId, post.id, likeBtn, dislikeBtn);
 
     let likeCount = post.likes || 0;
     let dislikeCount = post.dislikes || 0;
@@ -329,7 +352,6 @@ export function showPosts(postList) {
           if (likeBtn.classList.contains("active")) {
             likeCount++;
             localStorage.setItem(`${currentUserId}likes${post.id}`, "true");
-
             if (dislikeBtn.classList.contains("active")) {
               dislikeBtn.classList.remove("active");
 
@@ -337,7 +359,7 @@ export function showPosts(postList) {
                 localStorage.removeItem(`${currentUserId}dislikes${post.id}`);
                 dislikeCount--;
               }
-              dislikesCounter.textContent = dislikeCount;
+              dislikesCounter.textContent = `${dislikeCount}`;
             }
           } else {
             if (likeCount > 0) {
@@ -345,7 +367,7 @@ export function showPosts(postList) {
             }
             localStorage.removeItem(`${currentUserId}likes${post.id}`);
           }
-          likesCounter.textContent = likeCount;
+          likesCounter.textContent = `${likeCount}`;
           await updatePostReactions(post.id, likeCount, dislikeCount);
         } catch (error) {
           console.error(error);
@@ -380,7 +402,7 @@ export function showPosts(postList) {
                 likeCount--;
               }
 
-              likesCounter.textContent = likeCount;
+              likesCounter.textContent = `${likeCount}`;
             }
           } else {
             if (dislikeCount > 0) {
@@ -388,7 +410,7 @@ export function showPosts(postList) {
               localStorage.removeItem(`${currentUserId}dislikes${post.id}`);
             }
           }
-          dislikesCounter.textContent = dislikeCount;
+          dislikesCounter.textContent = `${dislikeCount}`;
 
           await updatePostReactions(post.id, likeCount, dislikeCount);
         } catch (error) {
@@ -401,12 +423,11 @@ export function showPosts(postList) {
 
   document.querySelectorAll(".edit-post-btn").forEach((btn) => {
     btn.addEventListener("click", async (e) => {
-      const id = Number(e.currentTarget.dataset.id);
-      const postUserId = Number(e.currentTarget.dataset.userId);
+      const id = Number((e.currentTarget as HTMLElement).dataset.id);
 
       try {
         await editPost(id);
-        postOverlay.style.display = "block";
+        if (postOverlay) postOverlay.style.display = "block";
       } catch (error) {
         console.error(error);
       }
@@ -415,8 +436,10 @@ export function showPosts(postList) {
 
   document.querySelectorAll(".delete-post-btn").forEach((btn) => {
     btn.addEventListener("click", async (e) => {
-      const id = Number(e.currentTarget.dataset.id);
-      const postUserId = Number(e.currentTarget.dataset.userId);
+      const id = Number((e.currentTarget as HTMLElement).dataset.id);
+      const postUserId = Number(
+        (e.currentTarget as HTMLElement).dataset.userId
+      );
 
       // Korte ned if (se eksempel: simple-todo)
       try {
