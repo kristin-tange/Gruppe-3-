@@ -3,8 +3,8 @@
 import type { User, Post, Comment, Meetup } from "./types";
 
 /* VARIABLES */
-export const BASE_URL = import.meta.env.VITE_BASE_URL;
-export const API_KEY = import.meta.env.VITE_API_KEY;
+export const BASE_URL = "http://localhost:3000/api";
+export const API_KEY = "group3api";
 
 export let posts: Post[] = [];
 export let users: User[] = [];
