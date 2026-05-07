@@ -324,6 +324,11 @@ form textarea::placeholder {
   color: var(--primary-hover);
   transform: scale(1.2);
 }
+.delete-post-btn:hover,
+.delete-comment-btn:hover {
+  color: var(--delete-hover);
+  transform: scale(1.2);
+}
 
 .post-icons {
   all: unset;
