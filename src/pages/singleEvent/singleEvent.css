@@ -462,17 +462,7 @@ form textarea::placeholder {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  min-width: 70%;
-
-  @media (width > 700px) {
-    min-width: 50%;
-  }
-  @media (width > 1000px) {
-    min-width: 30%;
-  }
-  @media (width > 1500px) {
-    min-width: 20%;
-  }
+  min-width: 350px;
 }
 
 #close-btn {
