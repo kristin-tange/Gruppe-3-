@@ -109,7 +109,6 @@ body {
   display: grid;
   gap: 1rem;
   padding: 2rem;
-  max-width: 600px;
   margin: 0 auto;
   justify-items: center;
 
@@ -127,7 +126,11 @@ body {
   align-self: flex-start;
   text-align: center;
   font-style: italic;
-  font-size: 20px;
+  font-size: 14px;
+
+  @media (width > 700px) {
+    font-size: 20px;
+  }
 }
 
 .muted {
@@ -146,7 +149,9 @@ body {
   grid-column-end: date;
   grid-row-end: date;
   justify-self: end;
-  align-self: center;
+  align-self: end;
+  font-size: 10px;
+  white-space: nowrap;
 }
 
 /* POSTS */
@@ -162,8 +167,7 @@ body {
   flex-direction: column;
   align-items: start;
   gap: 0.2rem;
-  height: auto;
-  min-width: fit-content;
+  width: 32px;
   grid-area: user;
 }
 
@@ -255,11 +259,20 @@ form textarea::placeholder {
   border: var(--card-border) var(--secondary-color);
   padding: 1rem 1.5rem;
   gap: 1rem;
+  min-width: 300px;
+
+  @media (width > 450px) {
+    min-width: 400px;
+  }
+
+  @media (width > 700px) {
+    min-width: 600px;
+  }
 }
 
 .first-row {
   display: flex;
-  gap: 2rem;
+  gap: 1rem;
   justify-self: start;
   align-self: start;
   grid-area: first-row;
@@ -358,13 +371,15 @@ form textarea::placeholder {
 
 .comment-container {
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-columns: 1fr auto;
   grid-template-areas:
-    "user date date"
-    "comment comment comment"
-    "second-row second-row second-row";
+    "user date"
+    "comment comment"
+    "second-row second-row";
   padding: 0.5rem;
   padding-left: 2rem;
+  max-width: 500px;
+  align-items: start;
 }
 
 .published-comment {
@@ -382,7 +397,7 @@ form textarea::placeholder {
   grid-area: comment;
 
   @media (width < 500px) {
-    min-width: 100px;
+    min-width: 200px;
   }
 }
 
@@ -416,8 +431,10 @@ form textarea::placeholder {
 
 .comment-date {
   grid-area: date;
-  min-width: max-content;
-  align-self: center;
+  justify-self: end;
+  align-self: end;
+  font-size: 10px;
+  white-space: nowrap;
 }
 
 /* ENDRE DISPLAY VED KLIKK PÅ KNAPP */
