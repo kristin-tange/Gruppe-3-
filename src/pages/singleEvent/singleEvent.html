@@ -44,16 +44,15 @@
           aria-label="Opprett innlegg"
         >
           <span id="create-post">Opprett innlegg</span>
-          <img
-            src="/public/assets/icons/pil.svg"
-            id="arrow"
-            alt="Opprett innlegg"
-          />
+          <img src="/assets/icons/pil.svg" id="arrow" alt="Opprett innlegg" />
         </button>
 
         <h4>Innlegg <span id="post-counter" class="highlight"></span></h4>
 
-        <div id="post-container"></div>
+        <div id="post-container">
+          <!-- TEST-SPINNER -->
+          <div id="loading-state"></div>
+        </div>
 
         <!-- OVERLAY: CREATE POST  -->
         <aside id="post-overlay" aria-label="Opprett innlegg">
@@ -65,7 +64,7 @@
               aria-label="Lukk vindu"
             >
               <img
-                src="/public/assets/icons/close.png"
+                src="/assets/icons/close.png"
                 alt="Lukk vindu"
                 width="10px"
               />

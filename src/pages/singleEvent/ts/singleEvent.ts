@@ -205,7 +205,9 @@ async function init(): Promise<void> {
   showSingleEvent(event);
 
   const relatedPosts = await fetchRelatedPosts(meetupId);
-  showPosts(relatedPosts);
+  setTimeout(() => {
+    showPosts(relatedPosts);
+  }, 3000);
 }
 
 init();
