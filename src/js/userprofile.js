@@ -42,6 +42,7 @@ async function loadProfile() {
 
       document.getElementById("firstname").value = existingUser.firstName || "";
       document.getElementById("lastname").value = existingUser.lastName || "";
+      document.getElementById("username").value = existingUser.username || "";
       document.getElementById("email").value = existingUser.email || "";
       document.getElementById("description").value = existingUser.description || "";
       
@@ -118,6 +119,7 @@ document.getElementById("accountForm").addEventListener("submit", async (e) => {
   const updateUser = {
     firstName: document.getElementById("firstname").value,
     lastName: document.getElementById("lastname").value,
+    username: document.getElementById("username").value,
     email: document.getElementById("email").value,
     description: document.getElementById("description").value,
     gender: document.querySelector('input[name="gender"]:checked')?.value,
