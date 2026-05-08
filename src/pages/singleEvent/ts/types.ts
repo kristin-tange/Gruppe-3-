@@ -5,12 +5,14 @@
 export interface User {
   id: number;
   firstName: string;
+  lastName: string;
+  username: string;
   description: string;
   password: string;
   email: string;
   gender: string;
   age: number;
-  profilePicture?: string;
+  image: string;
 }
 
 export interface Meetup {
