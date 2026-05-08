@@ -159,15 +159,13 @@ body {
   color: var(--primary-color);
   font-size: 12px;
   display: flex;
-  justify-self: end;
+  justify-self: start;
 }
 
 .user {
-  display: flex;
-  flex-direction: column;
   align-items: start;
-  gap: 0.2rem;
   width: 32px;
+  justify-self: start;
   grid-area: user;
 }
 
@@ -244,11 +242,13 @@ form textarea::placeholder {
 }
 .post-grid {
   display: grid;
+  grid-template-columns: auto 1fr;
   grid-template-areas:
-    "first-row first-row date"
-    "post-text post-text post-text"
-    "reaction-btns empty edit-btns";
+    "user date"
+    "post-text post-text"
+    "reaction-btns edit-btns";
   gap: 0.5rem;
+  min-width: 0;
 }
 
 .published-post {
@@ -259,23 +259,15 @@ form textarea::placeholder {
   border: var(--card-border) var(--secondary-color);
   padding: 1rem 1.5rem;
   gap: 1rem;
-  min-width: 300px;
+  max-width: 300px;
 
   @media (width > 450px) {
-    min-width: 400px;
+    max-width: 400px;
   }
 
   @media (width > 700px) {
-    min-width: 600px;
+    max-width: 600px;
   }
-}
-
-.first-row {
-  display: flex;
-  gap: 1rem;
-  justify-self: start;
-  align-self: start;
-  grid-area: first-row;
 }
 
 .profile-picture {
@@ -288,7 +280,8 @@ form textarea::placeholder {
 .post-name {
   color: var(--muted-text);
   align-self: center;
-  font-size: 16px;
+  font-size: 14px;
+  overflow-wrap: anywhere;
 
   @media (width > 500px) {
     font-size: 18px;
