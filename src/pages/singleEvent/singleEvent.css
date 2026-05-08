@@ -481,9 +481,9 @@ form textarea::placeholder {
 }
 
 .like-btn.active img {
-  content: url(/public/assets/icons/like-pressed.png);
+  content: url(/assets/icons/like-pressed.png);
 }
 
 .dislike-btn.active img {
-  content: url(/public/assets/icons/dislike-pressed.png);
+  content: url(/assets/icons/dislike-pressed.png);
 }

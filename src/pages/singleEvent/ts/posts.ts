@@ -19,6 +19,9 @@ import type { User, Post } from "./types";
 
 // VARIABLER
 let editingCommentId: number | null = null;
+const postContainer = document.getElementById(
+  "post-container"
+) as HTMLDivElement;
 
 export const currentUser: User | null = JSON.parse(
   localStorage.getItem("currentUser") ?? "null"
@@ -48,6 +51,7 @@ function loadReactions(
 
 /* RENDER POSTS AND COMMENTS */
 export async function loadPosts(): Promise<void> {
+  showLoading();
   try {
     const posts = await fetchRelatedPosts(meetupId);
     showPosts(posts);
@@ -55,17 +59,20 @@ export async function loadPosts(): Promise<void> {
     console.error("Kunne ikke hente poster:", error);
   }
 }
+// TESTER LOADING STATE:
+//  todo: lage egen
+// hente poster, ved publisering av innlegg og kommentar, ved påmelding?
+const loader = document.getElementById("spinner");
+function showLoading(): void {
+  loader?.removeAttribute("hidden");
+}
 
 export function showPosts(postList: Post[]): void {
-  const postContainer = document.getElementById(
-    "post-container"
-  ) as HTMLDivElement;
   const postCounter = document.getElementById(
     "post-counter"
   ) as HTMLSpanElement;
   postContainer.innerHTML = "";
   postCounter.innerHTML = `${postList.length}`;
-
   if (postList.length === 0) {
     postCounter.style.display = "none";
     postContainer.innerHTML = `<p> Ingen innlegg å vise ennå. </p>`;
@@ -100,7 +107,7 @@ export function showPosts(postList: Post[]): void {
     <div class="reaction-btns">
       <div class="likes">
         <button class="post-icons like-btn" type="button" data-id="${post.id}">
-          <img src="/public/assets/icons/like.png" width="20px" />
+          <img src="/assets/icons/like.png" width="20px" />
         </button>
         <span class="likes-counter muted">${post.likes || 0}</span>
       </div>
@@ -108,13 +115,13 @@ export function showPosts(postList: Post[]): void {
           <button class="post-icons dislike-btn" type="button" data-id="${
             post.id
           }">
-            <img src="/public/assets/icons/dislike.png" width="20px" />
+            <img src="/assets/icons/dislike.png" width="20px" />
           </button>
           <span class="dislikes-counter muted">${post.dislikes || 0}</span>
       </div>
         <div class="comments">
           <button class="post-icons comment-btn" type="button">
-            <img src="/public/assets/icons/comment.png" width="20px" />
+            <img src="/assets/icons/comment.png" width="20px" />
           </button>
           <span class="comment-counter muted">${
             post.comments?.length || 0
