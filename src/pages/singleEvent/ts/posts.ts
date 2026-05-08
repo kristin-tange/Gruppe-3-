@@ -22,6 +22,7 @@ let editingCommentId: number | null = null;
 const postContainer = document.getElementById(
   "post-container"
 ) as HTMLDivElement;
+const postCounter = document.getElementById("post-counter") as HTMLSpanElement;
 
 export const currentUser: User | null = JSON.parse(
   localStorage.getItem("currentUser") ?? "null"
@@ -51,10 +52,12 @@ function loadReactions(
 
 /* RENDER POSTS AND COMMENTS */
 export async function loadPosts(): Promise<void> {
-  showLoading();
+  showLoadingPosts();
   try {
     const posts = await fetchRelatedPosts(meetupId);
-    showPosts(posts);
+    setTimeout(() => {
+      showPosts(posts);
+    }, 1000);
   } catch (error) {
     console.error("Kunne ikke hente poster:", error);
   }
@@ -62,16 +65,15 @@ export async function loadPosts(): Promise<void> {
 // TESTER LOADING STATE:
 //  todo: lage egen
 // hente poster, ved publisering av innlegg og kommentar, ved påmelding?
-const loader = document.getElementById("spinner");
-function showLoading(): void {
-  loader?.removeAttribute("hidden");
+
+function showLoadingPosts(): void {
+  postContainer.innerHTML = `<div class="loading-container"><span class="spinner"></span></div>`;
+  postCounter.style.display = "none";
 }
 
 export function showPosts(postList: Post[]): void {
-  const postCounter = document.getElementById(
-    "post-counter"
-  ) as HTMLSpanElement;
   postContainer.innerHTML = "";
+  postCounter.style.display = "inline-flex";
   postCounter.innerHTML = `${postList.length}`;
   if (postList.length === 0) {
     postCounter.style.display = "none";

@@ -4,11 +4,10 @@ import {
   BASE_URL,
   fetchUsers,
   fetchSingleEvent,
-  fetchRelatedPosts,
   createPost,
   updatePost,
 } from "./api";
-import { loadPosts, showPosts, isLoggedIn, currentUser } from "./posts";
+import { loadPosts, isLoggedIn, currentUser } from "./posts";
 import { formatDate, formatTime, meetupId } from "./helperFunctions";
 import type { Meetup } from "./types";
 
@@ -33,8 +32,6 @@ const postTxtInput = document.getElementById(
   "new-post-txt"
 ) as HTMLTextAreaElement;
 const publishBtn = document.getElementById("publish-btn") as HTMLButtonElement;
-
-// FUNCTIONS
 
 // EDIT POST
 let editingPostId: number | null = null;
@@ -186,6 +183,7 @@ postForm.addEventListener("submit", async (e) => {
       editingPostId = null;
     } else {
       if (!currentUser) return;
+
       await createPost(meetupId, title, txt, currentUser);
     }
     postTitleInput.value = "";
@@ -204,10 +202,7 @@ async function init(): Promise<void> {
   const event = await fetchSingleEvent(meetupId);
   showSingleEvent(event);
 
-  const relatedPosts = await fetchRelatedPosts(meetupId);
-  setTimeout(() => {
-    showPosts(relatedPosts);
-  }, 3000);
+  await loadPosts();
 }
 
 init();
