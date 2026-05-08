@@ -39,6 +39,7 @@ function updateLoginArea() {
 
   logoutBtn.addEventListener("click", () => {
     localStorage.setItem("isLoggedIn", "false");
+    localStorage.removeItem("currentUser");
   });
 }
 
@@ -46,7 +47,7 @@ function setActiveNavLink() {
   const currentPath = window.location.pathname;
   const navLinks = document.querySelectorAll(".sideNav a");
 
-  navLinks.forEach(link => {
+  navLinks.forEach((link) => {
     link.classList.remove("active");
 
     if (currentPath.includes(link.getAttribute("href"))) {
