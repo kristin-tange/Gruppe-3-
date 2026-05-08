@@ -10,7 +10,7 @@ export const meetupId = Number(params.get("id"));
 /* Get userName from userId */
 export function getUserName(userId: number): string {
   const user = users.find((u) => u.id === userId);
-  return user ? user.username : "Ukjent forfatter";
+  return user ? user.username : "Ukjent";
 }
 
 export function getProfilePicture(userId: number): string {
