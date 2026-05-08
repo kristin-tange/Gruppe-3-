@@ -57,55 +57,36 @@
                 id="lastname"
               />
             </div>
+
             <div class="form-group">
-              <label for="phone">Telefonnummer</label>
+              <label for="username">Brukernavn</label>
               <input
-                aria-label="Telefonnummer"
-                type="number"
-                placeholder="Telefonnummer"
-                id="phone"
-              />
-            </div>
-            <div class="form-group">
-              <label for="location">Sted</label>
-              <input
-                aria-label="Sted"
+                aria-label="Brukernavn"
                 type="text"
-                placeholder="Sted"
-                id="location"
+                placeholder="Brukernavn"
+                id="username"
               />
             </div>
             <div class="form-group">
               <label for="email">E-post</label>
               <input
                 aria-label="E-post"
-                type="email"name="user_email"
-                placeholder="E-post"
-                id="email"
-              />
-            </div>
-            <div class="form-group">
+                type = "email" name="user_email"
+                placeholder= "E-post"
+                id = "email"
+                />
+             </div>
+            <div id="passwordGroup" class="form-group">
               <label for="password">passord</label>
               <input
                 type="password"
-                name="password" required minlength="8"
+                name="password" minlength="8"
                 placeholder="Password"
                 id="password"
-                name="password"
                 aria-label="Password"
-                required
               />
             </div>
-            <div class="form-group">
-              <label for="alder">Alder</label>
-              <input
-                aria-label="age"
-                type="number"
-                name="age"min="0" max="120"
-                placeholder="Alder"
-                id="age"
-              />
-            </div>
+           <div>
             <div class="form-group">
               <label for="description">Beskrivelse</label>
               <input
@@ -113,7 +94,8 @@
                 placeholder="Hva vil du at andre skal vite om deg?"
                 id="description"
               />
-            </div>
+              </div>
+          
             <div class="gender-group">
               <label class="gender-option">
                 <input type="radio" name="gender" value="mann" /> Mann
@@ -122,15 +104,15 @@
                 <input type="radio" name="gender" value="kvinne" /> Kvinne
               </label>
             </div>
-
+          
             <div class="button-group">
               <button type="button" id="editbtn" class="btn btn-secondary">
-                Rediger Profil
+                rediger Profil
               </button>
               <button type="button" id="deletebtn" class="btn btn-secondary">
-                Slett konto
+                slett konto
               </button>
-              <button type="button" id="savebtn" class="btn btn-primary">
+              <button type="submit" id="savebtn" class="btn btn-primary">
                 lagre endringer
               </button>
             </div>
@@ -139,41 +121,12 @@
       </div>
     </main>
 
-    <footer>
-      <p class="left"></p>
-
-      <p class="center">© Gatherly 2026</p>
-
-      <nav class="right" aria-label="Linker til sosiale medier">
-        <a
-          href="https://www.facebook.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img
-            src="/assets/icons/facebook.png"
-            class="icon"
-            alt="Facebook"
-          />
-        </a>
-        <a
-          href="https://www.instagram.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <img
-            src="/assets/icons/instagram.png"
-            alt="Instagram"
-            class="icon"
-          />
-        </a>
-        <a href="mailto:post@gatherly.no">
-          <img src="/assets/icons/mail.png" alt="E-post" class="icon" />
-        </a>
-      </nav>
-    </footer>
+    <footer></footer>
+     
+    
     <script src="/src/js/header.js"></script>
     <script src="/src/js/burger.js"></script>
     <script src="/src/js/userprofile.js"></script>
+    <script src="/src/js/footer.js"></script>
   </body>
 </html>
