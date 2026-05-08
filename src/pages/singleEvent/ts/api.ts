@@ -1,19 +1,20 @@
 // KRISTIN TANGE
 
-import { getUserName } from "./helperFunctions";
-import { currentUser } from "./posts";
+import type { User, Post, Comment, Meetup } from "./types";
+
 /* VARIABLES */
 export const BASE_URL = "http://localhost:3000/api";
-const API_KEY = "group3api";
-export let posts = [];
-export let users = [];
+export const API_KEY = "group3api";
 
-export async function fetchUsers() {
+export let posts: Post[] = [];
+export let users: User[] = [];
+
+export async function fetchUsers(): Promise<User[]> {
   try {
     const response = await fetch(`${BASE_URL}/users`);
 
     if (!response.ok) {
-      throw new Error("Kunne ikke hente brukere");
+      throw new Error(`Kunne ikke hente brukere: ${response.status}`);
     }
 
     users = await response.json();
@@ -25,12 +26,12 @@ export async function fetchUsers() {
 }
 /* MEETUPS */
 /* Fetch meetups from meetupId */
-export async function fetchSingleEvent(meetupId) {
+export async function fetchSingleEvent(meetupId: number): Promise<Meetup> {
   try {
     const response = await fetch(`${BASE_URL}/meetups/${meetupId}`);
 
     if (!response.ok) {
-      throw new Error("Kunne ikke hente arrangement");
+      throw new Error(`Kunne ikke hente arrangement: ${response.status}`);
     }
     return await response.json();
   } catch (error) {
@@ -41,12 +42,12 @@ export async function fetchSingleEvent(meetupId) {
 
 /* POSTS */
 /* Fetch posts */
-export async function fetchPosts() {
+export async function fetchPosts(): Promise<Post[]> {
   try {
     const response = await fetch(`${BASE_URL}/posts`);
 
     if (!response.ok) {
-      throw new Error("Kunne ikke hente poster");
+      throw new Error(`Kunne ikke hente poster: ${response.status}`);
     }
 
     posts = await response.json();
@@ -58,19 +59,25 @@ export async function fetchPosts() {
 }
 
 /* Fetch posts related to meetup */
-export async function fetchRelatedPosts(meetupId) {
+export async function fetchRelatedPosts(meetupId: number): Promise<Post[]> {
   try {
     const posts = await fetchPosts();
-    const relatedPosts = posts.filter((post) => post.meetupId == meetupId);
+    const relatedPosts = posts.filter((post) => post.meetupId === meetupId);
     return relatedPosts;
   } catch (error) {
-    console.error("Kunne ikke hente poster:", error);
+    console.error("Kunne ikke hente relaterte poster.");
+    return [];
   }
 }
 
 /* Create posts */
 
-export async function createPost(meetupId, title, txt) {
+export async function createPost(
+  meetupId: number,
+  title: string,
+  txt: string,
+  currentUser: User
+): Promise<Post> {
   try {
     const response = await fetch(`${BASE_URL}/posts`, {
       method: "POST",
@@ -102,7 +109,7 @@ export async function createPost(meetupId, title, txt) {
 }
 
 /* Update posts */
-export async function updatePost(id, updatedPost) {
+export async function updatePost(id: number, updatedPost: {}): Promise<Post> {
   try {
     const response = await fetch(`${BASE_URL}/posts/${id}`, {
       method: "PATCH",
@@ -125,7 +132,11 @@ export async function updatePost(id, updatedPost) {
   }
 }
 
-export async function updatePostReactions(id, likes, dislikes) {
+export async function updatePostReactions(
+  id: number,
+  likes: number,
+  dislikes: number
+): Promise<Post> {
   try {
     const response = await fetch(`${BASE_URL}/posts/${id}`, {
       method: "PATCH",
@@ -150,7 +161,7 @@ export async function updatePostReactions(id, likes, dislikes) {
   }
 }
 /* Delete posts */
-export async function deletePost(id) {
+export async function deletePost(id: number): Promise<void> {
   try {
     const response = await fetch(`${BASE_URL}/posts/${id}`, {
       method: "DELETE",
@@ -172,12 +183,16 @@ export async function deletePost(id) {
 }
 
 /* Create comments */
-export async function createComment(postId, newComment) {
+export async function createComment(
+  postId: number,
+  newComment: string,
+  currentUser: User
+): Promise<Comment> {
   try {
     const response = await fetch(`${BASE_URL}/posts/${postId}`);
     const post = await response.json();
 
-    const comments = post.comments || [];
+    const comments: Comment[] = post.comments || [];
 
     const newCommentObject = {
       id: comments.length > 0 ? Math.max(...comments.map((c) => c.id)) + 1 : 1,
@@ -210,12 +225,16 @@ export async function createComment(postId, newComment) {
   }
 }
 /* Update comments */
-export async function updateComment(postId, commentId, updatedComment) {
+export async function updateComment(
+  postId: number,
+  commentId: number,
+  updatedComment: string
+): Promise<Comment> {
   try {
     const response = await fetch(`${BASE_URL}/posts/${postId}`);
     const post = await response.json();
 
-    const comments = post.comments || [];
+    const comments: Comment[] = post.comments || [];
 
     const updatedComments = comments.map((comment) => {
       if (comment.id === commentId) {
@@ -249,11 +268,14 @@ export async function updateComment(postId, commentId, updatedComment) {
 }
 
 /* "Delete" comments */
-export async function deleteComment(postId, commentId) {
+export async function deleteComment(
+  postId: number,
+  commentId: number
+): Promise<void> {
   try {
     const response = await fetch(`${BASE_URL}/posts/${postId}`);
     const post = await response.json();
-    const comments = post.comments || [];
+    const comments: Comment[] = post.comments || [];
 
     const updatedComments = comments.filter(
       (comment) => comment.id !== commentId

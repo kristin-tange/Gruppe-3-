@@ -44,28 +44,27 @@
           aria-label="Opprett innlegg"
         >
           <span id="create-post">Opprett innlegg</span>
-          <img
-            src="/public/assets/icons/pil.svg"
-            id="arrow"
-            alt="Opprett innlegg"
-          />
+          <img src="/assets/icons/pil.svg" id="arrow" alt="Opprett innlegg" />
         </button>
 
         <h4>Innlegg <span id="post-counter" class="highlight"></span></h4>
 
-        <div id="post-container"></div>
+        <div id="post-container">
+          <!-- TEST-SPINNER -->
+          <div id="loading-state"></div>
+        </div>
 
         <!-- OVERLAY: CREATE POST  -->
         <aside id="post-overlay" aria-label="Opprett innlegg">
           <form id="post-form" class="form-container">
             <button
               id="close-btn"
-              class="btn btn-secondary"
+              class="btn btn-secondary active"
               type="button"
               aria-label="Lukk vindu"
             >
               <img
-                src="/public/assets/icons/close.png"
+                src="/assets/icons/close.png"
                 alt="Lukk vindu"
                 width="10px"
               />
@@ -93,7 +92,11 @@
               ><br />
             </div>
             <div class="button-group">
-              <button id="publish-btn" class="btn btn-primary" type="submit">
+              <button
+                id="publish-btn"
+                class="btn btn-primary active"
+                type="submit"
+              >
                 Publiser
               </button>
             </div>
@@ -111,13 +114,9 @@
 
     <script
       type="module"
-      src="/src/pages/singleEvent/js/singleEvent.js"
+      src="/src/pages/singleEvent/ts/singleEvent.ts"
     ></script>
-    <script type="module" src="/src/pages/singleEvent/js/api.js"></script>
-    <script type="module" src="/src/pages/singleEvent/js/posts.js"></script>
-    <script
-      type="module"
-      src="/src/pages/singleEvent/js/helperFunctions.js"
-    ></script>
+
+    <script type="module" src="/src/pages/singleEvent/ts/posts.ts"></script>
   </body>
 </html>
