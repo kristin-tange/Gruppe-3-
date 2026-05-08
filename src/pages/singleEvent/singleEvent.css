@@ -259,14 +259,14 @@ form textarea::placeholder {
   border: var(--card-border) var(--secondary-color);
   padding: 1rem 1.5rem;
   gap: 1rem;
-  max-width: 300px;
+  min-width: 300px;
 
   @media (width > 450px) {
-    max-width: 400px;
+    min-width: 400px;
   }
 
   @media (width > 700px) {
-    max-width: 600px;
+    min-width: 600px;
   }
 }
 
@@ -310,6 +310,7 @@ form textarea::placeholder {
   grid-area: edit-btns;
   justify-self: end;
   align-self: end;
+  white-space: nowrap;
 }
 
 .edit-post-btn:hover,
