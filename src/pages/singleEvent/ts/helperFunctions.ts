@@ -10,22 +10,15 @@ export const meetupId = Number(params.get("id"));
 /* Get userName from userId */
 export function getUserName(userId: number): string {
   const user = users.find((u) => u.id === userId);
-  return user ? user.firstName : "Ukjent forfatter";
+  return user ? user.username : "Ukjent forfatter";
 }
 
-export function getProfilePicture(userId: number) {
+export function getProfilePicture(userId: number): string {
   const user = users.find((u) => u.id === userId);
-
-  if (user?.gender === "mann" || user?.gender === "male") {
-    return "/assets/img/profilepictureman.png";
-  } else if (user?.gender === "kvinne") {
-    return "/assets/img/profilepicturewoman.jpeg";
-  } else {
-    return "/assets/img/placeholder-profile.png";
-  }
+  return user ? user.image : "/assets/img/placeholder-profile.png";
 }
 
-export function formatDate(data: string) {
+export function formatDate(data: string): string {
   const date = new Date(data);
   return date.toLocaleDateString("no-NO", {
     year: "numeric",
@@ -34,7 +27,7 @@ export function formatDate(data: string) {
   });
 }
 
-export function formatTime(data: string) {
+export function formatTime(data: string): string {
   const time = new Date(data);
   return time.toLocaleTimeString("no-NO", {
     hour: "2-digit",
