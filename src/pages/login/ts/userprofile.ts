@@ -1,5 +1,5 @@
 // siva
-alert("userprofile");
+
 document.addEventListener("DOMContentLoaded", loadProfile);
 
 const API_URL: string = "http://localhost:3000/api/users";

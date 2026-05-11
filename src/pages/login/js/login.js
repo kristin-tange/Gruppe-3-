@@ -52,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (registrerBtn) {
   registrerBtn.addEventListener("click", (event) => {
     event.preventDefault();
-    alert("reg");
+   
     // Create empty new user
     const newUser = {
       firstname:"",
