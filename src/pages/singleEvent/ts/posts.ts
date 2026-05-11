@@ -1,34 +1,54 @@
 // KRISTIN TANGE
 
-import { postOverlay, editPost } from "./singleEvent";
 import {
   fetchRelatedPosts,
   deletePost,
   updatePostReactions,
-  deleteComment,
-  createComment,
-  updateComment,
+  fetchSinglePost,
+  createPost,
+  updatePost,
 } from "./api";
 import {
   formatDate,
   meetupId,
   getUserName,
   getProfilePicture,
+  currentUser,
+  isLoggedIn,
 } from "./helperFunctions";
-import type { User, Post } from "./types";
+import type { Post } from "./types";
+import { showComments } from "./comment";
 
 // VARIABLER
-let editingCommentId: number | null = null;
+
+const currentUserId = currentUser?.id;
+const postOverlay = document.getElementById("post-overlay") as HTMLElement;
+const postForm = document.getElementById("post-form") as HTMLFormElement;
+const postHeading = document.getElementById(
+  "form-heading"
+) as HTMLHeadingElement;
+const postTitleInput = document.getElementById(
+  "new-post-title"
+) as HTMLInputElement;
+const postTxtInput = document.getElementById(
+  "new-post-txt"
+) as HTMLTextAreaElement;
+const publishBtn = document.getElementById("publish-btn") as HTMLButtonElement;
 const postContainer = document.getElementById(
   "post-container"
 ) as HTMLDivElement;
 const postCounter = document.getElementById("post-counter") as HTMLSpanElement;
+let editingPostId: number | null = null;
 
-export const currentUser: User | null = JSON.parse(
-  localStorage.getItem("currentUser") ?? "null"
-);
-const currentUserId = currentUser?.id;
-export const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+function showEditMode(post: Post) {
+  postTitleInput.value = post.postName;
+  postTxtInput.value = post.text;
+  if (publishBtn) publishBtn.textContent = "Lagre endringer";
+  if (postHeading) postHeading.textContent = "Rediger innlegg";
+  postTitleInput.style.backgroundColor = "#FFF8E1";
+  postTxtInput.style.backgroundColor = "#FFF8E1";
+  editingPostId = post.id;
+}
 
 function loadReactions(
   currentUserId: number,
@@ -63,30 +83,43 @@ export async function loadPosts(): Promise<void> {
   }
 }
 // TESTER LOADING STATE:
-//  todo: lage egen
-// hente poster, ved publisering av innlegg og kommentar, ved påmelding?
+// Skeleton på hele siden: hente meetups, ved publisering av innlegg og kommentar, ved påmelding?
 
 function showLoadingPosts(): void {
   postContainer.innerHTML = `<div class="loading-container"><span class="spinner"></span></div>`;
   postCounter.style.display = "none";
 }
 
-export function showPosts(postList: Post[]): void {
-  postContainer.innerHTML = "";
-  postCounter.style.display = "inline-flex";
-  postCounter.innerHTML = `${postList.length}`;
-  if (postList.length === 0) {
-    postCounter.style.display = "none";
-    postContainer.innerHTML = `<p> Ingen innlegg å vise ennå. </p>`;
-    return;
+postForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  let title = postTitleInput.value.trim();
+  let txt = postTxtInput.value.trim();
+
+  try {
+    if (editingPostId) {
+      await updatePost(editingPostId, {
+        postName: title,
+        text: txt,
+      });
+      alert("Innlegget er redigert.");
+      editingPostId = null;
+    } else {
+      if (!currentUser) return;
+
+      await createPost(meetupId, title, txt, currentUser);
+    }
+    postTitleInput.value = "";
+    postTxtInput.value = "";
+    postOverlay.style.display = "none";
+    await loadPosts();
+  } catch (error) {
+    console.error("Kunne ikke lagre innlegg:", error);
+    alert("Kunne ikke lagre innlegg.");
   }
+});
 
-  postList.forEach((post) => {
-    const canEdit = Number(currentUserId) === Number(post.userId);
-
-    const postArticle = document.createElement("article");
-    postArticle.className = "published-post";
-    postArticle.innerHTML = `
+function renderPost(post: Post, canEdit: boolean): string {
+  const postArticle = `
     <div class="post-grid">
     <div class="first-row">
     <div class="user">
@@ -178,153 +211,25 @@ export function showPosts(postList: Post[]): void {
     </div>
    </section>
     `;
+  return postArticle;
+}
 
-    const commentsContainer = postArticle.querySelector(
-      ".comment-list"
-    ) as HTMLDivElement;
-    const commentBox = postArticle.querySelector(
-      ".add-comment"
-    ) as HTMLFormElement;
-    const commentBtn = postArticle.querySelector(
-      ".comment-btn"
-    ) as HTMLButtonElement;
-    const exitCommentBtn = postArticle.querySelector(
-      ".exit-comment-btn"
-    ) as HTMLButtonElement;
-    const commentForm = postArticle.querySelector(
-      ".add-comment"
-    ) as HTMLButtonElement;
-    const commentTxt = postArticle.querySelector(
-      ".comment"
-    ) as HTMLTextAreaElement;
-    const postCommentBtn = postArticle.querySelector(
-      ".post-comment-btn"
-    ) as HTMLButtonElement;
+function showPosts(postList: Post[]) {
+  postContainer.innerHTML = "";
+  postCounter.style.display = "inline-flex";
+  postCounter.innerHTML = `${postList.length}`;
+  if (postList.length === 0) {
+    postCounter.style.display = "none";
+    postContainer.innerHTML = `<p> Ingen innlegg å vise ennå. </p>`;
+    return;
+  }
 
-    commentForm?.addEventListener("submit", async (e) => {
-      e.preventDefault();
+  postList.forEach((post) => {
+    const canEdit = Number(currentUserId) === Number(post.userId);
 
-      const newComment: string | null = commentTxt?.value.trim();
-
-      if (!newComment || !currentUser) return;
-
-      try {
-        if (editingCommentId !== null) {
-          await updateComment(post.id, editingCommentId, newComment);
-          alert("Kommentaren er redigert.");
-          editingCommentId = null;
-        } else {
-          await createComment(post.id, newComment, currentUser);
-        }
-        commentTxt.value = "";
-        commentTxt.style.backgroundColor = "";
-        commentBox.classList.add("hide-comment");
-        await loadPosts();
-      } catch (error) {
-        console.error("Kunne ikke publisere kommentar:", error);
-        alert("Kunne ikke publisere kommentar.");
-      }
-    });
-
-    const comments = post.comments || [];
-
-    comments.forEach((comment) => {
-      const canEdit = Number(currentUserId) === Number(comment.userId);
-      const commentElement = document.createElement("article");
-      commentElement.innerHTML = `
-          <div class="comment-container">
-          <p class="muted comment-date">${formatDate(comment.created)}</p>
-            
-              <div class="user">
-                <img
-                  src=${getProfilePicture(comment.userId)}
-                  alt="profilbilde"
-                  class="profile-picture"
-                  width="32px"
-                />
-                <span class="user-name">${getUserName(comment.userId)}</span>
-                
-              </div>
-              <p class="comment-text">${comment.comment}</p>
-            </div>
-            <div class="second-row">${
-              canEdit
-                ? `<button type="button" class="edit-comment-btn edit-btns" data-id="${comment.id}" data-user-id="${comment.userId}">
-                Rediger
-              </button>
-              <button type="button" class="delete-comment-btn edit-btns" data-id="${comment.id}" data-user-id="${comment.userId}">
-                Slett
-              </button>`
-                : ""
-            }
-             
-            </div>
-          </div>`;
-
-      const editCommentBtn = commentElement.querySelector(".edit-comment-btn");
-      if (editCommentBtn) {
-        editCommentBtn.addEventListener("click", async () => {
-          editingCommentId = comment.id;
-          commentTxt.value = comment.comment;
-          commentBox.classList.remove("hide-comment");
-          commentTxt.style.backgroundColor = "#FFF8E1";
-          commentTxt.focus();
-          if (postCommentBtn) postCommentBtn.textContent = "Lagre endringer";
-        });
-      }
-
-      const deleteCommentBtn = commentElement.querySelector(
-        ".delete-comment-btn"
-      );
-      if (deleteCommentBtn) {
-        deleteCommentBtn.addEventListener("click", async () => {
-          console.log("Post ID:", post.id);
-          console.log("Comment ID:", comment.id);
-          try {
-            const isConfirmed = confirm(
-              "Er du sikker på at du vil slette denne kommentaren?"
-            );
-            if (isConfirmed) {
-              await deleteComment(post.id, comment.id);
-              await loadPosts();
-              alert("Kommentaren er slettet.");
-            }
-          } catch (error) {
-            console.error(error);
-          }
-        });
-      }
-
-      commentsContainer.appendChild(commentElement);
-    });
-
-    if (commentBtn) {
-      commentBtn.addEventListener("click", () => {
-        commentBox.classList.toggle("hide-comment");
-        commentTxt.style.backgroundColor = "";
-
-        if (!isLoggedIn) {
-          const isConfirmed = confirm(
-            "Du må være innlogget for å kommentere. Ønsker du å logge inn?"
-          );
-
-          commentBox.classList.add("hide-comment");
-
-          if (!isConfirmed) return;
-
-          window.location.href = "/src/pages/login/login.html";
-          return;
-        }
-      });
-    }
-
-    if (exitCommentBtn) {
-      exitCommentBtn.addEventListener("click", () => {
-        commentBox.classList.add("hide-comment");
-        commentTxt.value = "";
-        commentTxt.style.backgroundColor = "";
-      });
-    }
+    const postArticle = document.createElement("article");
+    postArticle.className = "published-post";
+    postArticle.innerHTML = renderPost(post, canEdit);
 
     const likeBtn = postArticle.querySelector(".like-btn") as HTMLButtonElement;
     const dislikeBtn = postArticle.querySelector(
@@ -428,6 +333,8 @@ export function showPosts(postList: Post[]): void {
       });
     }
     postContainer.appendChild(postArticle);
+
+    showComments(post, postArticle, currentUser, isLoggedIn);
   });
 
   document.querySelectorAll(".edit-post-btn").forEach((btn) => {
@@ -435,7 +342,9 @@ export function showPosts(postList: Post[]): void {
       const id = Number((e.currentTarget as HTMLElement).dataset.id);
 
       try {
-        await editPost(id);
+        const post = await fetchSinglePost(id);
+        showEditMode(post);
+
         if (postOverlay) postOverlay.style.display = "block";
       } catch (error) {
         console.error(error);
@@ -450,7 +359,6 @@ export function showPosts(postList: Post[]): void {
         (e.currentTarget as HTMLElement).dataset.userId
       );
 
-      // Korte ned if (se eksempel: simple-todo)
       try {
         if (currentUserId !== postUserId) {
           return;

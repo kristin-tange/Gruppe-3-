@@ -1,60 +1,32 @@
 // KRISTIN TANGE
 
+import { fetchUsers, fetchSingleEvent } from "./api";
+import { loadPosts } from "./posts";
 import {
-  BASE_URL,
-  fetchUsers,
-  fetchSingleEvent,
-  createPost,
-  updatePost,
-} from "./api";
-import { loadPosts, isLoggedIn, currentUser } from "./posts";
-import { formatDate, formatTime, meetupId } from "./helperFunctions";
+  formatDate,
+  formatTime,
+  meetupId,
+  isLoggedIn,
+  currentUser,
+} from "./helperFunctions";
 import type { Meetup } from "./types";
 
-/* Variables */
 const overlayBtn = document.getElementById(
   "open-overlay-btn"
 ) as HTMLButtonElement;
 const closeOverlayBtn = document.getElementById(
   "close-btn"
 ) as HTMLButtonElement;
-export const postOverlay = document.getElementById(
-  "post-overlay"
-) as HTMLElement;
-const postForm = document.getElementById("post-form") as HTMLFormElement;
-const postHeading = document.getElementById(
-  "form-heading"
-) as HTMLHeadingElement;
-const postTitleInput = document.getElementById(
-  "new-post-title"
-) as HTMLInputElement;
-const postTxtInput = document.getElementById(
-  "new-post-txt"
-) as HTMLTextAreaElement;
-const publishBtn = document.getElementById("publish-btn") as HTMLButtonElement;
+const postOverlay = document.getElementById("post-overlay") as HTMLElement;
 
-// EDIT POST
-let editingPostId: number | null = null;
-export async function editPost(id: number): Promise<void> {
-  const response = await fetch(`${BASE_URL}/posts/${id}`);
-  const post = await response.json();
-  postTitleInput.value = post.postName;
-  postTxtInput.value = post.text;
-  if (publishBtn) publishBtn.textContent = "Lagre endringer";
-  if (postHeading) postHeading.textContent = "Rediger innlegg";
-  postTitleInput.style.backgroundColor = "#FFF8E1";
-  postTxtInput.style.backgroundColor = "#FFF8E1";
+const heroContainer = document.getElementById(
+  "hero-container"
+) as HTMLDivElement;
+const descriptionContainer = document.getElementById(
+  "description-container"
+) as HTMLDivElement;
 
-  editingPostId = id;
-}
-/* RENDER SINGLE-EVENT */
 function showSingleEvent(event: Meetup): void {
-  const heroContainer = document.getElementById(
-    "hero-container"
-  ) as HTMLDivElement;
-  const descriptionContainer = document.getElementById(
-    "description-container"
-  ) as HTMLDivElement;
   const formattedTags = event.tags.join(", ");
 
   document.title = `${event.name}`;
@@ -105,6 +77,7 @@ function showSingleEvent(event: Meetup): void {
 
   if (localStorage.getItem(signUpKey)) {
     signUpBtn.textContent = "Meld deg av";
+    signUpBtn.style.backgroundColor = "grey";
   }
 
   signUpBtn?.addEventListener("click", () => {
@@ -129,6 +102,8 @@ function showSingleEvent(event: Meetup): void {
 
       localStorage.setItem(signUpKey, "true");
       signUpBtn.textContent = "Meld deg av";
+      signUpBtn.style.backgroundColor = "grey";
+
       alert(`${currentUser?.email} er nå påmeldt ${event.name}.`);
       return;
     }
@@ -143,12 +118,12 @@ function showSingleEvent(event: Meetup): void {
 
     localStorage.removeItem(signUpKey);
     signUpBtn.textContent = "Påmelding";
+    signUpBtn.style.backgroundColor = "#4a90e2";
     alert(`${currentUser?.email} er nå meldt av ${event.name}.`);
     return;
   });
 }
 
-/* EVENT-LISTENERS */
 overlayBtn.addEventListener("click", () => {
   if (!isLoggedIn) {
     const isConfirmed = confirm(
@@ -166,34 +141,6 @@ overlayBtn.addEventListener("click", () => {
 
 closeOverlayBtn.addEventListener("click", () => {
   postOverlay.style.display = "none";
-});
-
-postForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  let title = postTitleInput.value.trim();
-  let txt = postTxtInput.value.trim();
-
-  try {
-    if (editingPostId) {
-      await updatePost(editingPostId, {
-        postName: title,
-        text: txt,
-      });
-      alert("Innlegget er redigert.");
-      editingPostId = null;
-    } else {
-      if (!currentUser) return;
-
-      await createPost(meetupId, title, txt, currentUser);
-    }
-    postTitleInput.value = "";
-    postTxtInput.value = "";
-    postOverlay.style.display = "none";
-    await loadPosts();
-  } catch (error) {
-    console.error("Kunne ikke lagre innlegg:", error);
-    alert("Kunne ikke lagre innlegg.");
-  }
 });
 
 async function init(): Promise<void> {

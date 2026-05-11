@@ -1,13 +1,11 @@
 // KRISTIN TANGE
 
 import { users } from "./api";
-/* HELPER FUNCTIONS  */
+import type { User } from "./types";
 
-/* Get ID from window */
 export const params = new URLSearchParams(window.location.search);
 export const meetupId = Number(params.get("id"));
 
-/* Get userName from userId */
 export function getUserName(userId: number): string {
   const user = users.find((u) => u.id === userId);
   return user ? user.username : "Ukjent";
@@ -34,3 +32,9 @@ export function formatTime(data: string): string {
     minute: "2-digit",
   });
 }
+
+export const currentUser: User | null = JSON.parse(
+  localStorage.getItem("currentUser") ?? "null"
+);
+
+export const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";

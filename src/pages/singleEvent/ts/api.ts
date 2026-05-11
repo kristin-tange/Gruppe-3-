@@ -132,6 +132,13 @@ export async function updatePost(id: number, updatedPost: {}): Promise<Post> {
   }
 }
 
+export async function fetchSinglePost(id: number): Promise<Post> {
+  const response = await fetch(`${BASE_URL}/posts/${id}`);
+  const post = await response.json();
+
+  return post;
+}
+
 export async function updatePostReactions(
   id: number,
   likes: number,
@@ -262,7 +269,7 @@ export async function updateComment(
     return await updateResponse.json();
   } catch (error) {
     console.error(error);
-    alert("Kunne ikke oppdatere kommentar.)");
+    alert("Kunne ikke oppdatere kommentar.)"); // TODO overflødig )
     throw error;
   }
 }
