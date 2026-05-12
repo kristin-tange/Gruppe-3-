@@ -75,7 +75,6 @@ function showSingleEvent(event: Meetup): void {
 
   /* Placeholder "Sign-up" */
   const signUpBtn = document.getElementById("sign-up-btn") as HTMLButtonElement;
-
   const signUpKey = `${currentUser?.id}signedUp${event.id}`;
 
   if (localStorage.getItem(signUpKey)) {

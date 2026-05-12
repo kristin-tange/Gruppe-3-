@@ -21,8 +21,6 @@ import {
 import type { Post } from "./types";
 import { showComments } from "./comment";
 
-// VARIABLER
-
 const currentUserId = currentUser?.id;
 const postOverlay = document.getElementById("post-overlay") as HTMLElement;
 const postForm = document.getElementById("post-form") as HTMLFormElement;
@@ -78,7 +76,6 @@ function loadReactions(
   }
 }
 
-/* RENDER POSTS AND COMMENTS */
 export async function loadPosts(): Promise<void> {
   showLoadingPosts();
   try {
@@ -90,8 +87,6 @@ export async function loadPosts(): Promise<void> {
     console.error("Kunne ikke hente poster:", error);
   }
 }
-// TESTER LOADING STATE:
-// Skeleton på hele siden: hente meetups, ved publisering av innlegg og kommentar, ved påmelding?
 
 function showLoadingPosts(): void {
   postContainer.innerHTML = `<span>Laster innlegg...</span><div class="loading-container" aria-live="polite"><span class="spinner" aria-hidden="true"></span></div>`;
