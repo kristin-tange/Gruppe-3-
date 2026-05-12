@@ -226,7 +226,7 @@ form textarea::placeholder {
   align-items: center;
   justify-content: center;
   padding: 0 6px;
-  border-radius: 999px;
+  border-radius: 50%;
   line-height: 1;
 }
 
@@ -504,4 +504,27 @@ form textarea::placeholder {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.success-message,
+.error-message {
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  z-index: 1000;
+  box-shadow: 0 4px 12px black;
+}
+.success-message {
+  background-color: green;
+}
+
+.error-message {
+  background-color: red;
+}
+
+.hide-message {
+  display: none;
 }
