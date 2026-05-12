@@ -133,8 +133,6 @@
   font-weight: 500;
 }
 
-/* Login required message */
-
 .login-required-message {
   background-color: var(--secondary-color);
   color: var(--text-color);
@@ -154,8 +152,6 @@
   color: var(--primary-hover);
 }
 
-/* Disabled form when user is not logged in */
-
 .create-event-page input:disabled,
 .create-event-page textarea:disabled,
 .create-event-page select:disabled,
@@ -163,8 +159,6 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
-
-/* Existing events / CRUD list */
 
 .existing-events-section {
   border-top: 1px solid #d9d9d9;
@@ -241,7 +235,6 @@
   background-color: var(--secondary-hover);
 }
 
-/* Screen reader only */
 
 .sr-only {
   position: absolute;
@@ -254,8 +247,6 @@
   white-space: nowrap;
   border: 0;
 }
-
-/* Mobile */
 
 @media (max-width: 768px) {
   .create-event-page {
