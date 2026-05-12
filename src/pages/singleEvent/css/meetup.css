@@ -1,0 +1,149 @@
+/* HERO */
+
+.event-hero {
+  position: relative;
+  width: 100%;
+  min-height: 30vh;
+  margin: 0 auto;
+
+  @media (width > 700px) {
+    height: 50vh;
+  }
+
+  @media (width > 1500px) {
+    width: 80%;
+  }
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 2fr 1fr 1fr;
+  grid-template-areas:
+    "title title title"
+    "date date none"
+    "info info tag";
+  padding: 1rem;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero-tag {
+  height: auto;
+  grid-area: tag;
+  align-self: start;
+}
+
+.event-title {
+  color: var(--primary-color);
+  background-color: var(--header-color);
+  grid-area: title;
+  justify-self: center;
+  align-self: center;
+  padding: 0.4rem;
+  border-radius: 12px;
+  text-align: center;
+  font-size: 22px;
+
+  @media (width > 700px) {
+    font-size: 32px;
+  }
+}
+
+.hero-textbox {
+  color: var(--primary-hover);
+  background-color: var(--header-color);
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 12px;
+  font-weight: 500;
+  align-self: center;
+}
+
+.event-info {
+  grid-area: info;
+  justify-self: start;
+  align-self: start;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.event-date,
+.event-place,
+.event-time,
+.event-price {
+  font-size: 10px;
+
+  @media (width > 450px) {
+    font-size: 12px;
+  }
+  @media (width > 600px) {
+    font-size: 18px;
+  }
+}
+
+.event-date {
+  grid-area: date;
+  justify-self: start;
+  align-self: end;
+  width: fit-content;
+}
+@media (width < 450px) {
+  .category {
+    font-size: 0.8rem;
+  }
+}
+/* EVENT DESCRIPTION */
+
+.section-grid {
+  display: grid;
+  gap: 1rem;
+  padding: 2rem;
+  margin: 0 auto;
+  justify-items: center;
+
+  @media (width > 700px) {
+    max-width: 800px;
+  }
+}
+
+.description-header {
+  justify-items: center;
+}
+
+.tags {
+  color: var(--muted-text);
+  align-self: flex-start;
+  text-align: center;
+  font-style: italic;
+  font-size: 14px;
+
+  @media (width > 700px) {
+    font-size: 20px;
+  }
+}
+
+.muted {
+  color: var(--muted-text);
+  font-size: 14px;
+  justify-self: start;
+}
+
+.created-date {
+  font-size: 10px;
+  align-self: end;
+  padding-right: 1rem;
+}
+
+.post-date {
+  grid-column-end: date;
+  grid-row-end: date;
+  justify-self: end;
+  align-self: end;
+  font-size: 10px;
+  white-space: nowrap;
+}
