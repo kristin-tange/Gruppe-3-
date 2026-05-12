@@ -8,8 +8,9 @@ import {
   meetupId,
   isLoggedIn,
   currentUser,
-} from "./helperFunctions";
+} from "./helpers";
 import type { Meetup } from "./types";
+import { showSuccessMessage } from "./helpers";
 
 const heroContainer = document.getElementById(
   "hero-container"
@@ -106,7 +107,7 @@ function showSingleEvent(event: Meetup): void {
       signUpBtn.textContent = "Meld deg av";
       signUpBtn.style.backgroundColor = "grey";
 
-      alert(`${currentUser?.email} er nå påmeldt ${event.name}.`);
+      showSuccessMessage(`${currentUser?.email} er nå påmeldt ${event.name}.`);
       return;
     }
 
@@ -121,7 +122,7 @@ function showSingleEvent(event: Meetup): void {
     localStorage.removeItem(signUpKey);
     signUpBtn.textContent = "Påmelding";
     signUpBtn.style.backgroundColor = "#4a90e2";
-    alert(`${currentUser?.email} er nå meldt av ${event.name}.`);
+    showSuccessMessage(`${currentUser?.email} er nå meldt av ${event.name}.`);
     return;
   });
 }

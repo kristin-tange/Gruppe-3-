@@ -15,7 +15,9 @@ import {
   getProfilePicture,
   currentUser,
   isLoggedIn,
-} from "./helperFunctions";
+  showErrorMessage,
+  showSuccessMessage,
+} from "./helpers";
 import type { Post } from "./types";
 import { showComments } from "./comment";
 
@@ -39,10 +41,16 @@ const postContainer = document.getElementById(
 ) as HTMLDivElement;
 const postCounter = document.getElementById("post-counter") as HTMLSpanElement;
 let editingPostId: number | null = null;
+let originalTitle = "";
+let originalTxt = "";
 
 function showEditMode(post: Post) {
   postTitleInput.value = post.postName;
   postTxtInput.value = post.text;
+
+  originalTitle = post.postName;
+  originalTxt = post.text;
+
   if (publishBtn) publishBtn.textContent = "Lagre endringer";
   if (postHeading) postHeading.textContent = "Rediger innlegg";
   postTitleInput.style.backgroundColor = "#FFF8E1";
@@ -97,16 +105,21 @@ postForm.addEventListener("submit", async (e) => {
 
   try {
     if (editingPostId) {
+      if (title === originalTitle && txt === originalTxt) {
+        showErrorMessage("Ingen endringer å lagre.");
+        return;
+      }
       await updatePost(editingPostId, {
         postName: title,
         text: txt,
       });
-      alert("Innlegget er redigert.");
+      showSuccessMessage("Innlegget er redigert.");
       editingPostId = null;
     } else {
       if (!currentUser) return;
 
       await createPost(meetupId, title, txt, currentUser);
+      showSuccessMessage("Innlegget er publisert.");
     }
     postTitleInput.value = "";
     postTxtInput.value = "";
@@ -114,7 +127,7 @@ postForm.addEventListener("submit", async (e) => {
     await loadPosts();
   } catch (error) {
     console.error("Kunne ikke lagre innlegg:", error);
-    alert("Kunne ikke lagre innlegg.");
+    showErrorMessage("Kunne ikke publisere innlegg.");
   }
 });
 
@@ -169,10 +182,10 @@ function renderPost(post: Post, canEdit: boolean): string {
         ${
           canEdit
             ? `<div class="edit-btns">
-         <button type="button" class="edit-post-btn edit-btns" data-id="${post.id}" data-user-id="${post.userId}">
+         <button type="button" class="edit-post-btn edit-btns" aria-label="Rediger innlegg" data-id="${post.id}" data-user-id="${post.userId}">
                 Rediger
               </button>
-              <button type="button" class="delete-post-btn edit-btns" data-id="${post.id}" data-user-id="${post.userId}">
+              <button type="button" class="delete-post-btn edit-btns" aria-label="Slett innlegg" data-id="${post.id}" data-user-id="${post.userId}">
                 Slett
               </button>
       </div>`
@@ -378,7 +391,7 @@ function showPosts(postList: Post[]) {
         localStorage.removeItem(`${currentUserId}dislikes${id}`);
         localStorage.removeItem(`${currentUserId}likes${id}`);
         await loadPosts();
-        alert("Innlegget er slettet.");
+        showSuccessMessage("Innlegget er slettet.");
       } catch (error) {
         console.error(error);
       }

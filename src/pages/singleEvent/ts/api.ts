@@ -1,5 +1,6 @@
 // KRISTIN TANGE
 
+import { showErrorMessage } from "./helpers";
 import type { User, Post, Comment, Meetup } from "./types";
 
 /* VARIABLES */
@@ -41,7 +42,7 @@ export async function fetchSingleEvent(meetupId: number): Promise<Meetup> {
 }
 
 /* POSTS */
-/* Fetch posts */
+/* Fetch all posts */
 export async function fetchPosts(): Promise<Post[]> {
   try {
     const response = await fetch(`${BASE_URL}/posts`);
@@ -71,7 +72,6 @@ export async function fetchRelatedPosts(meetupId: number): Promise<Post[]> {
 }
 
 /* Create posts */
-
 export async function createPost(
   meetupId: number,
   title: string,
@@ -127,7 +127,7 @@ export async function updatePost(id: number, updatedPost: {}): Promise<Post> {
     return await response.json();
   } catch (error) {
     console.error(error);
-    alert("Kunne ikke oppdatere innlegg");
+    showErrorMessage("Kunne ikke oppdatere innlegg");
     throw error;
   }
 }
@@ -163,7 +163,7 @@ export async function updatePostReactions(
     return await response.json();
   } catch (error) {
     console.error(error);
-    alert("Kunne ikke oppdatere reaksjoner.");
+    showErrorMessage("Kunne ikke oppdatere reaksjoner.");
     throw error;
   }
 }
@@ -184,7 +184,7 @@ export async function deletePost(id: number): Promise<void> {
     }
     return;
   } catch (error) {
-    alert("Kunne ikke slette innlegg.");
+    showErrorMessage("Kunne ikke slette innlegg.");
     throw error;
   }
 }
@@ -227,7 +227,7 @@ export async function createComment(
     return await updateResponse.json();
   } catch (error) {
     console.error(error);
-    alert("Kunne ikke poste kommentar.");
+    showErrorMessage("Kunne ikke poste kommentar.");
     throw error;
   }
 }
@@ -269,7 +269,6 @@ export async function updateComment(
     return await updateResponse.json();
   } catch (error) {
     console.error(error);
-    alert("Kunne ikke oppdatere kommentar.)"); // TODO overflødig )
     throw error;
   }
 }
@@ -305,7 +304,7 @@ export async function deleteComment(
     return updateResponse.json();
   } catch (error) {
     console.error(error);
-    alert("Kunne ikke slette kommentar");
+    showErrorMessage("Kunne ikke slette kommentar");
     throw error;
   }
 }
