@@ -3,6 +3,7 @@
 import { users } from "./api";
 import type { User } from "./types";
 
+export const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 export const params = new URLSearchParams(window.location.search);
 export const meetupId = Number(params.get("id"));
 
@@ -37,4 +38,27 @@ export const currentUser: User | null = JSON.parse(
   localStorage.getItem("currentUser") ?? "null"
 );
 
-export const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+const errorMessage = document.getElementById("error-message") as HTMLDivElement;
+const successMessage = document.getElementById(
+  "success-message"
+) as HTMLDivElement;
+
+export function showErrorMessage(message: string): void {
+  errorMessage.textContent = message;
+
+  errorMessage?.classList.remove("hide-message");
+
+  setTimeout(() => {
+    errorMessage?.classList.add("hide-message");
+  }, 3000);
+}
+
+export function showSuccessMessage(message: string): void {
+  successMessage.textContent = message;
+
+  successMessage.classList.remove("hide-message");
+
+  setTimeout(() => {
+    successMessage.classList.add("hide-message");
+  }, 3000);
+}
