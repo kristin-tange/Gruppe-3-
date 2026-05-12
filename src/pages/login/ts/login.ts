@@ -1,96 +1,107 @@
 //siva
 
+document.addEventListener("DOMContentLoaded", (): void => {
 
-document.addEventListener("DOMContentLoaded", () => {
+  const logBtn = document.getElementById("loginBtn") as HTMLButtonElement | null;
+  const registrerBtn = document.getElementById("registrer") as HTMLButtonElement | null;
 
-  const logBtn = document.getElementById("loginBtn");
-  const registrerBtn = document.getElementById("registrer");
+  const API_URL = "http://localhost:3000/api/users";
+  const API_KEY = "group3api";
 
-  const API_URL: string = "http://localhost:3000/api/users";
-  const API_KEY: string = "group3api";
-
-  //user interface
-    interface User {
-    id?: number;
-    firstName: string;
-    lastName: string;
-    username: string;
+  interface User {
+    id: number;
+    firstName?: string;
+    lastName?: string;
+    username?: string;
     email: string;
-    password: string;
-    description: string;
-    }
+    password?: string;
+    description?: string;
+    gender?:string;
+  }
 
   // -----------------------
   // Login existing user
   // -----------------------
    
    if (logBtn){
-      logBtn.addEventListener("click",  async(event: Event): Promise<void> => {
-    event.preventDefault();
+      logBtn.addEventListener("click", async (event: Event): Promise<void> => {
 
-    const email = (document.getElementById("email") as HTMLInputElement).value.trim();
-    const password = (document.getElementById("password") as HTMLInputElement).value.trim();
-     
+      event.preventDefault();
+
+    const emailInput = document.getElementById("email")  as HTMLInputElement | null;
+    const passwordInput = document.getElementById("password") as HTMLInputElement | null;
+
+     if (!emailInput || !passwordInput) return;
+
+     const email: string = emailInput.value.trim();
+     const password: string = passwordInput.value.trim();
 
     try {
       // Fetch users from backend (json-server)
       const res: Response = await fetch(API_URL, {
         headers: {
-            "Authorization": `Bearer ${API_KEY}`
+          "Authorization":  `Bearer ${API_KEY}`
         }
+      
       });
+
+      if (!res.ok) {
+        throw new Error("kunne ikke hente brukere");
+      }
       const users: User[] = await res.json();
 
       // Find user with matching email & password
-      const user = users.find((u: User) => u.email === email && u.password === password);
+      const user: User | undefined = users.find(u => u.email === email && u.password === password);
 
       if (!user) {
         alert("Feil e-post eller passord");
         return;
       }
 
+      //safe storage
+       const safeUser = {
+        id: user.id,
+        firstName: user.firstName,
+          lastName: user.lastName,
+          username: user.username,
+          email: user.email,
+          description: user.description,
+          gender:user.gender
+      };
+
+
       // Save user to localStorage
-      localStorage.setItem("currentUser", JSON.stringify(user));
+      localStorage.setItem("currentUser", JSON.stringify(safeUser));
       localStorage.setItem("isLoggedIn", "true");
       
   
       // Navigate to index page
       window.location.href = "../../../index.html";
+ } catch (err: unknown) {
 
-    } catch (err) {
         if (err instanceof Error) {
-      alert("Kunne ikke logge inn: " + err.message);
-    } else {
-        alert("An unknown error occurred during login.");
-    }
-}
-
-  });
-   }
-  // -----------------------
+          alert("Kunne ikke logge inn: " + err.message);
+        } else {
+          alert("Ukjent feil ved innlogging");
+        }
+      }
+    });
+  } 
+  
   // New user registration
-  // -----------------------
+
   if (registrerBtn) {
   registrerBtn.addEventListener("click", (event: Event): void => {
     event.preventDefault();
-    
-    // Create empty new user
-    const newUser = {
-      firstname:"",
-      lastname: "",
-      email: "",
-      password: "",
-      description: "", 
-    };
-
-    localStorage.setItem("currentUser", JSON.stringify(newUser));
-    localStorage.setItem("isLoggedIn", "false");
+  
+    localStorage.setItem("isNewUser", "true");
     
     // Navigate to profile page
     window.location.href = "profile.html";
   });
 
   }
+   
+});
+  
 
-
-  });

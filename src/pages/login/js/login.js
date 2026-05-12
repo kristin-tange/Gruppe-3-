@@ -33,8 +33,15 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
+      //safe storage
+       const safeUser = {
+        id: user.id,
+        email: user.email
+      };
+
+
       // Save user to localStorage
-      localStorage.setItem("currentUser", JSON.stringify(user));
+      localStorage.setItem("currentUser", JSON.stringify(safeUser));
       localStorage.setItem("isLoggedIn", "true");
       
   
@@ -52,18 +59,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (registrerBtn) {
   registrerBtn.addEventListener("click", (event) => {
     event.preventDefault();
-   
-    // Create empty new user
-    const newUser = {
-      firstname:"",
-      lastname: "",
-      email: "",
-      password: "",
-      description: "", 
-    };
-
-    localStorage.setItem("currentUser", JSON.stringify(newUser));
-    localStorage.setItem("isLoggedIn", "false");
+  
+    localStorage.setItem("isNewUser", "true");
     
     // Navigate to profile page
     window.location.href = "profile.html";

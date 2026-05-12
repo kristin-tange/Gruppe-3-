@@ -48,7 +48,7 @@ async function loadProfile() {
 
       document.getElementById("firstname").value = existingUser.firstName || "";
       document.getElementById("lastname").value = existingUser.lastName || "";
-      document.getElementById("username").value = existingUser.username || "";
+      document.getElementById("username").value = existingUser.userName || "";
       document.getElementById("email").value = existingUser.email || "";
       document.getElementById("description").value = existingUser.description || "";
       
@@ -108,13 +108,7 @@ document.getElementById("accountForm").addEventListener("submit", async (e) => {
 
   const passwordInput = document.getElementById("password");
   const password = passwordInput ? passwordInput.value.trim() : "";
-
-  // Validate password ONLY for new users
-  if (isNewUser && password.length < 8) {
-    alert("Passord må være minst 8 tegn");
-    return;
-  }
-
+ 
   // Get profile image 
   const profileImage = document.getElementById("profileImage");
 
@@ -129,65 +123,89 @@ document.getElementById("accountForm").addEventListener("submit", async (e) => {
   const updateUser = {
     firstName: document.getElementById("firstname").value,
     lastName: document.getElementById("lastname").value,
-    username: document.getElementById("username").value,
+    userName: document.getElementById("username").value,
     email: document.getElementById("email").value,
     description: document.getElementById("description").value,
     gender: document.querySelector('input[name="gender"]:checked')?.value,
     image: relativePath
   };
 
-  //Add password only if it's a new user, otherwise keep existing password
+  //create user (only time password is included)
    
-  if (isNewUser) {
-    updateUser.password = password;
-  }else
-  {updateUser.password = user.password;
-  }
   try {
-    let res;
-    // create user
 
-    if (isNewUser) {
-      // Create user
-      res = await fetch(API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${API_KEY}`
-        },
-        body: JSON.stringify(updateUser)
-      });
-    } else {
+  let res;
 
-      // Update user
-      res = await fetch(`${API_URL}/${user.id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${API_KEY}`
-        },
-        body: JSON.stringify(updateUser)
-      });
+  // CREATE NEW USER
+  if (isNewUser) {
+
+    if (password.length < 8) {
+      alert("Passord må være minst 8 tegn langt.");
+      return;
     }
+
+    updateUser.password = password;
+
+    res = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${API_KEY}`
+      },
+      body: JSON.stringify(updateUser)
+    });
+
+    if (!res.ok) {
+      throw new Error("Kunne ikke opprette konto");
+    }
+
+    alert("Konto opprettet! Vennligst logg inn.");
+
+    localStorage.removeItem("currentUser");
+
+    window.location.href = "login.html";
+
+    return;
+
+  } else {
+
+    // UPDATE EXISTING USER
+    res = await fetch(`${API_URL}/${user.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${API_KEY}`
+      },
+      body: JSON.stringify(updateUser)
+    });
+
+    if (!res.ok) {
+      throw new Error("Kunne ikke oppdatere profil");
+    }
+  }
+  
   // Convert response to json
     const savedUser = await res.json();
 
-    //new user
+     // SAFE STORAGE (NO PASSWORD)
+      const safeUser = {
+        id: savedUser.id,
+        firstName: savedUser.firstName,
+        lastName: savedUser.lastName,
+        userName: savedUser.userName,
+        email: savedUser.email,
+        description: savedUser.description,
+        gender: savedUser.gender,
+        image: savedUser.image
+      };
 
-    if (isNewUser) {
-      alert("Konto opprettet! Vennligst logg inn.");
-      window.location.href = "login.html";
-       
-    } else {
-      // save updated user to localStorage
     
-         localStorage.setItem("currentUser", JSON.stringify(savedUser));
+         localStorage.setItem("currentUser", JSON.stringify(safeUser));
          
 
     // Disable again
     document.querySelectorAll("#accountForm input, #accountForm textarea")
       .forEach(input => input.disabled = true);
-    }
 
   } catch (err) {
     alert("Kunne ikke lagre profil: " + err);
