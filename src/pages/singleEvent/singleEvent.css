@@ -159,15 +159,13 @@ body {
   color: var(--primary-color);
   font-size: 12px;
   display: flex;
-  justify-self: end;
+  justify-self: start;
 }
 
 .user {
-  display: flex;
-  flex-direction: column;
   align-items: start;
-  gap: 0.2rem;
   width: 32px;
+  justify-self: start;
   grid-area: user;
 }
 
@@ -244,11 +242,13 @@ form textarea::placeholder {
 }
 .post-grid {
   display: grid;
+  grid-template-columns: auto 1fr;
   grid-template-areas:
-    "first-row first-row date"
-    "post-text post-text post-text"
-    "reaction-btns empty edit-btns";
+    "user date"
+    "post-text post-text"
+    "reaction-btns edit-btns";
   gap: 0.5rem;
+  min-width: 0;
 }
 
 .published-post {
@@ -270,14 +270,6 @@ form textarea::placeholder {
   }
 }
 
-.first-row {
-  display: flex;
-  gap: 1rem;
-  justify-self: start;
-  align-self: start;
-  grid-area: first-row;
-}
-
 .profile-picture {
   border-radius: 50%;
   border: 2px solid var(--primary-color);
@@ -288,7 +280,8 @@ form textarea::placeholder {
 .post-name {
   color: var(--muted-text);
   align-self: center;
-  font-size: 16px;
+  font-size: 14px;
+  overflow-wrap: anywhere;
 
   @media (width > 500px) {
     font-size: 18px;
@@ -317,6 +310,7 @@ form textarea::placeholder {
   grid-area: edit-btns;
   justify-self: end;
   align-self: end;
+  white-space: nowrap;
 }
 
 .edit-post-btn:hover,
@@ -486,4 +480,28 @@ form textarea::placeholder {
 
 .dislike-btn.active img {
   content: url(/assets/icons/dislike-pressed.png);
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.spinner {
+  display: inline-block;
+  border-top: 8px dotted var(--primary-color);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
