@@ -3,10 +3,20 @@
 const BASE_URL = "http://localhost:3000/api";
 const API_KEY = "group3api";
 
-localStorage.setItem("apiKey", API_KEY);
-
 let meetups = [];
 let folders = [];
+
+const loggedIn = localStorage.getItem("isLoggedIn") === "true";
+let currentUser = null;
+let userId = null;
+
+if (loggedIn) {
+  const storedUser = localStorage.getItem("currentUser");
+  if (storedUser) {
+    currentUser = JSON.parse(storedUser);
+    userId = currentUser.id;
+  }
+}
 
 async function fetchMeetups() {
   const response = await fetch(`${BASE_URL}/meetups`);
@@ -18,7 +28,12 @@ async function fetchMeetups() {
 
 async function fetchFolders() {
   try {
-    const response = await fetch(`${BASE_URL}/folders`);
+    if (!loggedIn) {
+      folders = [];
+      return;
+    }
+
+    const response = await fetch(`${BASE_URL}/folders?userId=${userId}`);
     if (!response.ok) {
       console.warn("Folders API not ready yet");
       folders = [];
@@ -40,6 +55,11 @@ function getColumnCount() {
 }
 
 function displayMeetups(list = meetups) {
+  if (selectionMode && activeFolderId !== null) {
+    const folder = folders.find(f => f.id === activeFolderId);
+    list = list.filter(event => !folder.events.includes(event.id));
+  }
+
   const eventsContainer = document.getElementById("events-container");
   eventsContainer.innerHTML = "";
 
@@ -48,42 +68,111 @@ function displayMeetups(list = meetups) {
 
   for (let i = 0; i < columns; i++) {
     const col = document.createElement("div");
-
     col.classList.add("column");
     colElements.push(col);
     eventsContainer.appendChild(col);
   }
 
-  const folderCard = document.createElement("div");
-  folderCard.classList.add("arrangementCard", "folderCard");
-  folderCard.innerHTML = `
-  <div class="folder-card-content">
-  <h2>Mapper</h2>
-  <p>Organiser dine eventer</p>
-  <button id="createFolderBtn">+ Ny Mappe</button>
-  <select name="Mapper" id="folderSelect">
-    <option value="" disabled selected hidden>Velg mappe</option>
-    ${folders.map(folder => `<option value="${folder.id}">${folder.name}</option>`).join("")}
-  </select>
-  </div>
+  // FOLDER CARD
+
+  let folderCard = null;
+
+  if (loggedIn) {
+    folderCard = document.createElement("div");
+    folderCard.classList.add("arrangementCard", "folderCard");
+
+    folderCard.innerHTML = `
+    <div class="folder-card-content card-content">
+      <h2>Mapper</h2>
+      <p>Organiser dine eventer</p>
+      <button id="createFolderBtn" class="btn">+ Ny Mappe</button>
+
+      <div id="folderButtons">
+        ${folders
+          .map(
+            folder => `
+              <div class="folderRow">
+                <button class="folderFilterBtn btn" data-folder="${folder.id}">
+                  ${folder.name}
+                </button>
+                <button class="deleteFolderBtn btn" data-folder="${folder.id}">
+                  ✕
+                </button>
+              </div>
+            `,
+          )
+          .join("")}
+      </div>
+    </div>
   `;
-  colElements[0].appendChild(folderCard);
+
+    colElements[0].appendChild(folderCard);
+  }
+  // MEETUP CARDS
 
   list.forEach((event, index) => {
     const card = document.createElement("div");
     card.classList.add("arrangementCard");
 
-    card.innerHTML = `<a href="/src/pages/singleEvent/singleEvent.html?id=${event.id}" class="card-link">
-      <div>
-        <h2>${event.name}</h2>
-        <p>${event.summary}</p>
-      </div>
-      <div id="filter${event.category}" class="category tag">${event.category}</div>
-      <img src="${event.image}" alt=""> </a>
-    `;
+    card.innerHTML = `
+  <a href="/src/pages/singleEvent/singleEvent.html?id=${event.id}" class="card-link">
+    <div class="card-content">
+      <h2>${event.name}</h2>
+      <p>${event.summary}</p>
+    </div>
+    
+  </a>
+
+  <div class="card-top-row ">
+    <div id="filter${event.category}" class="card-content category tag">${event.category}</div>
+
+    ${
+      activeFolderId !== null && !selectionMode
+        ? `<button class="removeFromFolderBtn removeFromFolderBtn btn" data-id="${event.id}">Fjern fra mappen</button>`
+        : ""
+    }
+  </div>
+  <img src="${event.image}" alt="">
+`;
 
     colElements[(index + 1) % columns].appendChild(card);
+
+    card.dataset.eventId = event.id;
+
+    // Selection mode (velge flere meetups)
+    card.addEventListener("click", e => {
+      if (!selectionMode) return;
+      e.preventDefault();
+
+      const id = Number(card.dataset.eventId);
+
+      if (selectedMeetups.has(id)) {
+        selectedMeetups.delete(id);
+        card.classList.remove("selected");
+      } else {
+        selectedMeetups.add(id);
+        card.classList.add("selected");
+      }
+    });
   });
+
+  // LEGG TIL MEETUPS I MAPPE
+
+  if (activeFolderId !== null && !selectionMode) {
+    const addBtn = document.createElement("button");
+    addBtn.id = "addMeetupsBtn";
+    addBtn.textContent = "Legg til meetups i denne mappen";
+    folderCard.appendChild(addBtn);
+  }
+
+  // LAGRE VALGTE MEETUPS
+
+  if (selectionMode) {
+    const okBtn = document.createElement("button");
+    okBtn.id = "confirmSelectionBtn";
+    okBtn.textContent = "Lagre valgte meetups";
+    folderCard.appendChild(okBtn);
+  }
 }
 
 window.addEventListener("resize", () => displayMeetups());
@@ -105,11 +194,143 @@ document.addEventListener("click", async e => {
         "Content-Type": "application/json",
         Authorization: `Bearer ${API_KEY}`,
       },
-      body: JSON.stringify({ name }),
+      body: JSON.stringify({
+        name,
+        events: [],
+        userId: userId,
+      }),
     });
 
     const newFolder = await response.json();
     folders.push(newFolder);
+
+    displayMeetups();
+  }
+});
+
+async function updateFolder(folderId, updatedData) {
+  const response = await fetch(`${BASE_URL}/folders/${folderId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${API_KEY}`,
+    },
+    body: JSON.stringify(updatedData),
+  });
+
+  if (!response.ok) throw new Error("Failed to update folder");
+  return await response.json();
+}
+
+async function deleteFolder(folderId) {
+  const response = await fetch(`${BASE_URL}/folders/${folderId}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${API_KEY}`,
+    },
+  });
+
+  if (!response.ok) throw new Error("Kunne ikke slette mappe");
+}
+
+document.addEventListener("change", async e => {
+  if (e.target.id === "folderSelect") {
+    const folderId = Number(e.target.value);
+    const eventId = Number(prompt("Hvilket meetup vil du legge til i mappen?"));
+
+    if (!eventId) return;
+
+    const folder = folders.find(f => f.id === folderId);
+    if (!folder) return;
+
+    const updatedEvents = [...new Set([...(folder.events || []), eventId])];
+
+    const updatedFolder = await updateFolder(folderId, {
+      events: updatedEvents,
+    });
+
+    folder.events = updatedFolder.events;
+
+    alert("Meetup lagt til i mappen!");
+  }
+});
+
+document.addEventListener("click", async e => {
+  if (e.target.classList.contains("removeFromFolderBtn")) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const eventId = Number(e.target.dataset.id);
+    const folder = folders.find(f => f.id === activeFolderId);
+    if (!folder) return;
+
+    folder.events = folder.events.filter(id => id !== eventId);
+
+    await updateFolder(activeFolderId, { events: folder.events });
+
+    filterByFolder(activeFolderId);
+  }
+});
+
+function filterByFolder(folderId) {
+  const folder = folders.find(f => f.id === folderId);
+  if (!folder || !folder.events) return;
+
+  const filtered = meetups.filter(event => folder.events.includes(event.id));
+  displayMeetups(filtered);
+}
+
+let activeFolderId = null;
+let selectionMode = false;
+let selectedMeetups = new Set();
+
+document.addEventListener("click", e => {
+  if (e.target.classList.contains("folderFilterBtn")) {
+    activeFolderId = Number(e.target.dataset.folder);
+    filterByFolder(activeFolderId);
+  }
+});
+
+document.addEventListener("click", e => {
+  if (e.target.id === "addMeetupsBtn") {
+    selectionMode = true;
+    selectedMeetups.clear();
+    displayMeetups();
+  }
+});
+
+document.addEventListener("click", async e => {
+  if (e.target.id === "confirmSelectionBtn") {
+    if (!activeFolderId) return;
+
+    const folder = folders.find(f => f.id === activeFolderId);
+    const updatedEvents = [
+      ...new Set([...(folder.events || []), ...selectedMeetups]),
+    ];
+
+    await updateFolder(activeFolderId, { events: updatedEvents });
+
+    folder.events = updatedEvents;
+
+    selectionMode = false;
+    selectedMeetups.clear();
+
+    filterByFolder(activeFolderId);
+  }
+});
+
+document.addEventListener("click", async e => {
+  if (e.target.classList.contains("deleteFolderBtn")) {
+    e.stopPropagation();
+
+    const folderId = Number(e.target.dataset.folder);
+    const folder = folders.find(f => f.id === folderId);
+
+    if (!confirm(`Vil du slette "${folder.name}"?`)) return;
+
+    await deleteFolder(folderId);
+
+    folders = folders.filter(f => f.id !== folderId);
 
     displayMeetups();
   }
@@ -120,26 +341,40 @@ function filterMeetups(category) {
   displayMeetups(filtered);
 }
 
-document
-  .getElementById("filterAll")
-  .addEventListener("click", () => displayMeetups());
-document
-  .getElementById("filterAcademia")
-  .addEventListener("click", () => filterMeetups("Academia"));
-document
-  .getElementById("filterEntertainment")
-  .addEventListener("click", () => filterMeetups("Entertainment"));
-document
-  .getElementById("filterProfessional")
-  .addEventListener("click", () => filterMeetups("Professional"));
-document
-  .getElementById("filterLiterature")
-  .addEventListener("click", () => filterMeetups("Literature"));
-document
-  .getElementById("filterTechnology")
-  .addEventListener("click", () => filterMeetups("Technology"));
-document
-  .getElementById("filterSports")
-  .addEventListener("click", () => filterMeetups("Sports"));
+document.getElementById("filterAll").addEventListener("click", () => {
+  activeFolderId = null;
+  selectionMode = false;
+  displayMeetups();
+});
+document.getElementById("filterAcademia").addEventListener("click", () => {
+  activeFolderId = null;
+  selectionMode = false;
+  filterMeetups("Academia");
+});
+document.getElementById("filterEntertainment").addEventListener("click", () => {
+  activeFolderId = null;
+  selectionMode = false;
+  filterMeetups("Entertainment");
+});
+document.getElementById("filterProfessional").addEventListener("click", () => {
+  activeFolderId = null;
+  selectionMode = false;
+  filterMeetups("Professional");
+});
+document.getElementById("filterLiterature").addEventListener("click", () => {
+  activeFolderId = null;
+  selectionMode = false;
+  filterMeetups("Literature");
+});
+document.getElementById("filterTechnology").addEventListener("click", () => {
+  activeFolderId = null;
+  selectionMode = false;
+  filterMeetups("Technology");
+});
+document.getElementById("filterSports").addEventListener("click", () => {
+  activeFolderId = null;
+  selectionMode = false;
+  filterMeetups("Sports");
+});
 
 init();
