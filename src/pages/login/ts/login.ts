@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", (): void => {
       //safe storage
        const safeUser = {
         id: user.id,
-        firstName: user.firstName,
+          firstName: user.firstName,
           lastName: user.lastName,
           username: user.username,
           email: user.email,
