@@ -7,13 +7,18 @@ const API_KEY = "group3api";
 
 // Load profile on page load
 async function loadProfile() {
+
+  // Get user from localStorage 
   const user = JSON.parse(localStorage.getItem("currentUser") || "{}");
   const isNewUser = !user.id;
 
+  // Get all inputs
   const inputs = document.querySelectorAll("#accountForm input, #accountForm textarea");
+
+
   const passwordContainer = document.getElementById("passwordGroup");
- 
   const profileImage = document.getElementById("profileImage");
+ 
 
   // Existing user → disable inputs
   if (!isNewUser) {
@@ -34,6 +39,7 @@ async function loadProfile() {
         }
       });
 
+      //Convert to json
       const existingUser = await res.json();
 
       // Fill form fields (NO PASSWORD)
@@ -46,13 +52,13 @@ async function loadProfile() {
       document.getElementById("email").value = existingUser.email || "";
       document.getElementById("description").value = existingUser.description || "";
       
-      // Gender
+      // Set Gender
       document.querySelectorAll('input[name="gender"]').forEach(radio => {
         radio.checked = radio.value === existingUser.gender;
       });
 
-
-      const gender = existingUser.gender?.toLowerCase().trim();
+     // change profile image based on gender
+      const gender = existingUser.gender;
 
       if (gender === "mann") {
         profileImage.src = "/assets/img/profilepictureman.png";
@@ -65,7 +71,7 @@ async function loadProfile() {
     }
   }
 
-  // Gender change handler
+  // Gender image change 
   document.querySelectorAll('input[name="gender"]').forEach(radio => {
 
     // Disable for existing user
@@ -83,23 +89,19 @@ async function loadProfile() {
     });
   });
 }
-
-
 // Enable edit mode
 document.getElementById("editbtn").addEventListener("click", () => {
-  const user = JSON.parse(localStorage.getItem("currentUser") || "{}");
-  const isNewUser = !user.id;
-
+//enable all inputs
   document.querySelectorAll("#accountForm input, #accountForm textarea")
     .forEach(input => input.disabled = false);
 
-  // Keep gender disabled for existing users
- 
 });
 
 // Save profile
 document.getElementById("accountForm").addEventListener("submit", async (e) => {
   e.preventDefault();
+
+  // Get user from localStorage to check if it's a new user or existing
 
   const user = JSON.parse(localStorage.getItem("currentUser") || "{}");
   const isNewUser = !user.id;
@@ -112,9 +114,17 @@ document.getElementById("accountForm").addEventListener("submit", async (e) => {
     alert("Passord må være minst 8 tegn");
     return;
   }
+
+  // Get profile image 
+  const profileImage = document.getElementById("profileImage");
+
+  if (!profileImage.src) {
+    console.error("Ingen profilbilde valgt");
+    return;
+  }    
   const url = new URL(profileImage.src);
   const relativePath = url.pathname;
-
+ // create user object to send to backend
 
   const updateUser = {
     firstName: document.getElementById("firstname").value,
@@ -125,6 +135,8 @@ document.getElementById("accountForm").addEventListener("submit", async (e) => {
     gender: document.querySelector('input[name="gender"]:checked')?.value,
     image: relativePath
   };
+
+  //Add password only if it's a new user, otherwise keep existing password
    
   if (isNewUser) {
     updateUser.password = password;
@@ -133,6 +145,7 @@ document.getElementById("accountForm").addEventListener("submit", async (e) => {
   }
   try {
     let res;
+    // create user
 
     if (isNewUser) {
       // Create user
@@ -145,6 +158,7 @@ document.getElementById("accountForm").addEventListener("submit", async (e) => {
         body: JSON.stringify(updateUser)
       });
     } else {
+
       // Update user
       res = await fetch(`${API_URL}/${user.id}`, {
         method: "PUT",
@@ -155,15 +169,25 @@ document.getElementById("accountForm").addEventListener("submit", async (e) => {
         body: JSON.stringify(updateUser)
       });
     }
-
+  // Convert response to json
     const savedUser = await res.json();
-    localStorage.setItem("currentUser", JSON.stringify(savedUser));
+
+    //new user
+
+    if (isNewUser) {
+      alert("Konto opprettet! Vennligst logg inn.");
+      window.location.href = "login.html";
+       
+    } else {
+      // save updated user to localStorage
+    
+         localStorage.setItem("currentUser", JSON.stringify(savedUser));
+         
 
     // Disable again
     document.querySelectorAll("#accountForm input, #accountForm textarea")
       .forEach(input => input.disabled = true);
-
-    alert("Profil lagret!");
+    }
 
   } catch (err) {
     alert("Kunne ikke lagre profil: " + err);
@@ -173,6 +197,7 @@ document.getElementById("accountForm").addEventListener("submit", async (e) => {
 document.getElementById("deletebtn")?.addEventListener("click", async () => {
   const user = JSON.parse(localStorage.getItem("currentUser") || "{}");
 
+// stop if no user or new user
   if (!user.id) return;
 
   if (confirm("Er du sikker på at du vil slette kontoen?")) {
@@ -182,9 +207,13 @@ document.getElementById("deletebtn")?.addEventListener("click", async () => {
         headers: { "Authorization": `Bearer ${API_KEY}` }
       });
 
+      //remove local storage
+
       localStorage.removeItem("currentUser");
 
       alert("Konto slettet!");
+
+      // Redirect to login page
       window.location.href = "login.html";
 
     } catch (err) {

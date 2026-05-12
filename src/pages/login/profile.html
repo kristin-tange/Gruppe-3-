@@ -12,7 +12,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/src/css/style.css" />
-    <link rel="stylesheet" href="/src/css/profileandlogin.css" />
+    <link rel="stylesheet" href="/src/pages/login/profileandlogin.css" />
 
     <!-- Favicon -->
     <link
@@ -28,7 +28,7 @@
     <main>
       <div class="account-page-wrapper">
         <div class="form-container">
-          <h2 class="name" id="usernameTitle">profilside</h2>
+          <h1 class="name" id="usernameTitle">profilside</h1>
           <div class="profile-picture-wrapper">
             <img
               id="profileImage"
@@ -86,7 +86,7 @@
                 aria-label="Password"
               />
             </div>
-           <div>
+          
             <div class="form-group">
               <label for="description">Beskrivelse</label>
               <input
@@ -116,17 +116,19 @@
                 lagre endringer
               </button>
             </div>
+          
           </form>
-        </div>
+      </div>
       </div>
     </main>
-
     <footer></footer>
-     
     
     <script src="/src/js/header.js"></script>
     <script src="/src/js/burger.js"></script>
-    <script src="/src/js/userprofile.js"></script>
+    
     <script src="/src/js/footer.js"></script>
+
+    <script type="module" src="/src/pages/login/ts/userprofile.ts"></script>
+      
   </body>
 </html>
