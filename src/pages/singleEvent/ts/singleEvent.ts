@@ -11,6 +11,12 @@ import {
 } from "./helperFunctions";
 import type { Meetup } from "./types";
 
+const heroContainer = document.getElementById(
+  "hero-container"
+) as HTMLDivElement;
+const descriptionContainer = document.getElementById(
+  "description-container"
+) as HTMLDivElement;
 const overlayBtn = document.getElementById(
   "open-overlay-btn"
 ) as HTMLButtonElement;
@@ -18,20 +24,16 @@ const closeOverlayBtn = document.getElementById(
   "close-btn"
 ) as HTMLButtonElement;
 const postOverlay = document.getElementById("post-overlay") as HTMLElement;
-
-const heroContainer = document.getElementById(
-  "hero-container"
-) as HTMLDivElement;
-const descriptionContainer = document.getElementById(
-  "description-container"
-) as HTMLDivElement;
+const postTitleInput = document.getElementById(
+  "new-post-title"
+) as HTMLInputElement;
 
 function showSingleEvent(event: Meetup): void {
   const formattedTags = event.tags.join(", ");
 
   document.title = `${event.name}`;
 
-  heroContainer.innerHTML = `<section role="img" class="event-hero"  alt="${
+  heroContainer.innerHTML = `<section role="img" class="event-hero"  aria-label="${
     event.imageAlt
   }" style="background: linear-gradient(rgba(207, 207, 207, 0.55),rgba(131, 131, 131, 0.55)), url('${
     event.image
@@ -137,10 +139,12 @@ overlayBtn.addEventListener("click", () => {
   }
 
   postOverlay.style.display = "block";
+  postTitleInput.focus();
 });
 
 closeOverlayBtn.addEventListener("click", () => {
   postOverlay.style.display = "none";
+  overlayBtn.focus();
 });
 
 async function init(): Promise<void> {

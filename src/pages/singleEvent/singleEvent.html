@@ -28,7 +28,6 @@
   <body>
     <header></header>
 
-    <div id=""></div>
     <div id="hero-container"></div>
 
     <main>
@@ -46,19 +45,26 @@
           type="button"
           aria-label="Opprett innlegg"
         >
-          <span id="create-post">Opprett innlegg</span>
-          <img src="/assets/icons/pil.svg" id="arrow" alt="Opprett innlegg" />
+          <span id="create-post" aria-label="Opprett innlegg"
+            >Opprett innlegg</span
+          >
+          <img
+            src="/assets/icons/pil.svg"
+            id="arrow"
+            alt=""
+            aria-hidden="true"
+          />
         </button>
 
         <h4>
           Innlegg
-          <span id="post-counter" class="highlight"></span>
+          <span id="post-counter" class="highlight" aria-live="polite"></span>
         </h4>
         <div id="post-container">
           <div id="loading-state"></div>
         </div>
 
-        <aside id="post-overlay" aria-label="Opprett innlegg">
+        <aside id="post-overlay" aria-labelledby="form-heading">
           <form id="post-form" class="form-container">
             <button
               id="close-btn"
@@ -68,8 +74,9 @@
             >
               <img
                 src="/assets/icons/close.png"
-                alt="Lukk vindu"
-                width="10px"
+                alt=""
+                aria-hidden="true"
+                width="10"
               />
             </button>
             <h3 id="form-heading">Opprett innlegg</h3>

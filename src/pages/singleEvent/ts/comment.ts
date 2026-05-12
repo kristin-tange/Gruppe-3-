@@ -21,9 +21,10 @@ function renderComment(
               <div class="user">
                 <img
                   src=${getProfilePicture(comment.userId)}
-                  alt="profilbilde"
+                  alt=""
+                  aria-hidden="true"
                   class="profile-picture"
-                  width="32px"
+                  width="32"
                 />
                 <span class="user-name">${getUserName(comment.userId)}</span>
                 

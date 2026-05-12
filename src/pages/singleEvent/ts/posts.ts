@@ -77,7 +77,7 @@ export async function loadPosts(): Promise<void> {
     const posts = await fetchRelatedPosts(meetupId);
     setTimeout(() => {
       showPosts(posts);
-    }, 1000);
+    }, 2000);
   } catch (error) {
     console.error("Kunne ikke hente poster:", error);
   }
@@ -86,7 +86,7 @@ export async function loadPosts(): Promise<void> {
 // Skeleton på hele siden: hente meetups, ved publisering av innlegg og kommentar, ved påmelding?
 
 function showLoadingPosts(): void {
-  postContainer.innerHTML = `<div class="loading-container"><span class="spinner"></span></div>`;
+  postContainer.innerHTML = `<span>Laster innlegg...</span><div class="loading-container" aria-live="polite"><span class="spinner" aria-hidden="true"></span></div>`;
   postCounter.style.display = "none";
 }
 
@@ -125,9 +125,10 @@ function renderPost(post: Post, canEdit: boolean): string {
     <div class="user">
     <img
     src="${getProfilePicture(post.userId)}"
-    alt="profilbilde"
+    alt=""
+    aria-hidden="true"
     class="profile-picture"
-    width="32px"
+    width="32"
     />
     <span class="user-name">${getUserName(post.userId)}</span>
     </div>
@@ -141,22 +142,24 @@ function renderPost(post: Post, canEdit: boolean): string {
  
     <div class="reaction-btns">
       <div class="likes">
-        <button class="post-icons like-btn" type="button" data-id="${post.id}">
-          <img src="/assets/icons/like.png" width="20px" />
+        <button class="post-icons like-btn" type="button" aria-label="Lik innlegg" data-id="${
+          post.id
+        }">
+          <img src="/assets/icons/like.png" width="20" alt="" aria-hidden="true"/>
         </button>
         <span class="likes-counter muted">${post.likes || 0}</span>
       </div>
       <div class="dislikes">
-          <button class="post-icons dislike-btn" type="button" data-id="${
+          <button class="post-icons dislike-btn" type="button" aria-label="Mislik innlegg" data-id="${
             post.id
           }">
-            <img src="/assets/icons/dislike.png" width="20px" />
+            <img src="/assets/icons/dislike.png" width="20" alt="" aria-hidden="true"/>
           </button>
           <span class="dislikes-counter muted">${post.dislikes || 0}</span>
       </div>
         <div class="comments">
-          <button class="post-icons comment-btn" type="button">
-            <img src="/assets/icons/comment.png" width="20px" />
+          <button class="post-icons comment-btn" type="button" aria-label="Kommenter innlegg">
+            <img src="/assets/icons/comment.png" width="20" alt="" aria-hidden="true"/>
           </button>
           <span class="comment-counter muted">${
             post.comments?.length || 0
@@ -184,14 +187,17 @@ function renderPost(post: Post, canEdit: boolean): string {
       <div class="user">
         <img 
           src=${getProfilePicture(post.userId)}
-          alt="profilbilde"
+          alt=""
+          aria-hidden="true"
           class="profile-picture"
-          width="32px"
+          width="32"
         />
         <span class="user-name"></span>
       </div>
       <textarea
+      id="comment"
         class="comment"
+        aria-label="Skriv inn din kommentar"
         name="kommentar"
         rows="4"
         cols="30"
