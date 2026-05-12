@@ -51,15 +51,15 @@ Prosjektet benytter [Gatherly-CrudOps](https://github.com/oscarwirum/crudops) so
 #### Sider i løsningen:
 
 *   Forside: Adrian
-    *   Ressurs:
+    *   Ressurs for full CRUD: supportTicket?
 *   Brukerkonto/innlogging: Siva
-    *   Ressurs: Users
+    *   Ressurs for full CRUD: Users
 *   Lag arrangementer: Jan-Roger
-    *   Ressurs: Meetups
+    *   Ressurs for full CRUD: Meetups
 *   Samleside for arrangementer: Oscar
-    *   Ressurs: Meetups,
+    *   Ressurs: Folders?
 *   Enkeltarrangement: Kristin
-    *   Ressurs: Post
+    *   Ressurs for full CRUD: Post
  
 ### Mappestruktur
 
