@@ -84,11 +84,11 @@ function renderComment(
         const isConfirmed = confirm(
           "Er du sikker på at du vil slette denne kommentaren?"
         );
-        if (isConfirmed) return;
-
-        await deleteComment(post.id, comment.id);
-        await loadPosts();
-        showSuccessMessage("Kommentaren er slettet.");
+        if (isConfirmed) {
+          await deleteComment(post.id, comment.id);
+          await loadPosts();
+          showSuccessMessage("Kommentaren er slettet.");
+        }
       } catch (error) {
         console.error(error);
       }
