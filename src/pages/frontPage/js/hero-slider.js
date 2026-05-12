@@ -1,5 +1,4 @@
 // Adrian Persen
-console.log("hero-slider.js kjører");
 
 const BASE_URL = "http://localhost:3000/api";
 
@@ -34,9 +33,7 @@ prevButton.addEventListener("click", () => {
     showSlide(currentSlide);
 });
 
-// startet på å hente meetups fra api
-
-
+//Array som lagrer meetupene fra API-et
 
 let meetups = [];
 

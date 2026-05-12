@@ -95,11 +95,11 @@
   border-radius: 32px;
   margin-top: 1rem;
   display: inline-block;
+  transition: 0.3s;
 }
 
 .arrangement-link:hover {
   background-color: #3a7bd5;
-  transition: 0.3s;
 }
 
 .hero-overlay {
