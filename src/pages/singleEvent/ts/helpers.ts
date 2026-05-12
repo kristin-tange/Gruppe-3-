@@ -62,3 +62,35 @@ export function showSuccessMessage(message: string): void {
     successMessage.classList.add("hide-message");
   }, 3000);
 }
+
+export function resetPostOverlay(): void {
+  let editingPostId: number | null = null;
+  let originalTitle = "";
+  let originalTxt = "";
+  const postHeading = document.getElementById(
+    "form-heading"
+  ) as HTMLHeadingElement;
+  let postTitleInput = document.getElementById(
+    "new-post-title"
+  ) as HTMLInputElement;
+  let postTxtInput = document.getElementById(
+    "new-post-txt"
+  ) as HTMLTextAreaElement;
+  const publishBtn = document.getElementById(
+    "publish-btn"
+  ) as HTMLButtonElement;
+  const postOverlay = document.getElementById("post-overlay") as HTMLElement;
+
+  editingPostId = null;
+  originalTitle = "";
+  originalTxt = "";
+
+  postTitleInput.value = "";
+  postTxtInput.value = "";
+
+  postOverlay.style.display = "none";
+  postTitleInput.style.backgroundColor = "";
+  postTxtInput.style.backgroundColor = "";
+  publishBtn.textContent = "Publiser innlegg";
+  postHeading.textContent = "Opprett innlegg";
+}

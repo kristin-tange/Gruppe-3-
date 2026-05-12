@@ -17,6 +17,7 @@ import {
   isLoggedIn,
   showErrorMessage,
   showSuccessMessage,
+  resetPostOverlay,
 } from "./helpers";
 import type { Post } from "./types";
 import { showComments } from "./comment";
@@ -27,10 +28,10 @@ const postForm = document.getElementById("post-form") as HTMLFormElement;
 const postHeading = document.getElementById(
   "form-heading"
 ) as HTMLHeadingElement;
-const postTitleInput = document.getElementById(
+let postTitleInput = document.getElementById(
   "new-post-title"
 ) as HTMLInputElement;
-const postTxtInput = document.getElementById(
+let postTxtInput = document.getElementById(
   "new-post-txt"
 ) as HTMLTextAreaElement;
 const publishBtn = document.getElementById("publish-btn") as HTMLButtonElement;
@@ -116,10 +117,8 @@ postForm.addEventListener("submit", async (e) => {
       await createPost(meetupId, title, txt, currentUser);
       showSuccessMessage("Innlegget er publisert.");
     }
-    postTitleInput.value = "";
-    postTxtInput.value = "";
-    postOverlay.style.display = "none";
     await loadPosts();
+    resetPostOverlay();
   } catch (error) {
     console.error("Kunne ikke lagre innlegg:", error);
     showErrorMessage("Kunne ikke publisere innlegg.");

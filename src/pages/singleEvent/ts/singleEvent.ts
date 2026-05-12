@@ -8,6 +8,7 @@ import {
   meetupId,
   isLoggedIn,
   currentUser,
+  resetPostOverlay,
 } from "./helpers";
 import type { Meetup } from "./types";
 import { showSuccessMessage } from "./helpers";
@@ -25,7 +26,7 @@ const closeOverlayBtn = document.getElementById(
   "close-btn"
 ) as HTMLButtonElement;
 const postOverlay = document.getElementById("post-overlay") as HTMLElement;
-const postTitleInput = document.getElementById(
+let postTitleInput = document.getElementById(
   "new-post-title"
 ) as HTMLInputElement;
 
@@ -144,6 +145,7 @@ overlayBtn.addEventListener("click", () => {
 
 closeOverlayBtn.addEventListener("click", () => {
   postOverlay.style.display = "none";
+  resetPostOverlay();
   overlayBtn.focus();
 });
 
