@@ -23,6 +23,33 @@ const descriptionInput = document.querySelector("#description");
 
 let meetups = [];
 
+const categoryImages = {
+  Academia: {
+    image: "/assets/img/categories/academia1.jpg",
+    imageAlt: "Academic event",
+  },
+  Entertainment: {
+    image: "/assets/img/categories/entertaintment1.jpg",
+    imageAlt: "Entertainment event",
+  },
+  Professional: {
+    image: "/assets/img/categories/professional1.jpg",
+    imageAlt: "Professional event",
+  },
+  Literature: {
+    image: "/assets/img/categories/lerature1.jpg",
+    imageAlt: "Literature event",
+  },
+  Technology: {
+    image: "/assets/img/categories/technology1.jpg",
+    imageAlt: "Technology event",
+  },
+  Sports: {
+    image: "/assets/img/categories/sports1.jpg",
+    imageAlt: "Sports event",
+  },
+};
+
 function showStatusMessage(message) {
   statusMessage.textContent = message;
 }
@@ -143,6 +170,8 @@ function getMeetupFromForm(existingMeetup = null) {
 
   const eventDateTime = `${dateInput.value}T${timeInput.value}:00`;
 
+  const selectedCategoryImage = categoryImages[categoryInput.value];
+
   return {
     name: eventTitleInput.value.trim(),
     summary: summaryInput.value.trim(),
@@ -151,8 +180,8 @@ function getMeetupFromForm(existingMeetup = null) {
     location: locationInput.value.trim(),
     date: eventDateTime,
     tags: tags,
-    image: existingMeetup?.image ?? "",
-    imageAlt: existingMeetup?.imageAlt ?? "",
+    image: selectedCategoryImage?.image ?? "",
+    imageAlt: selectedCategoryImage?.imageAlt ?? "",
     price: existingMeetup?.price ?? "",
     created: existingMeetup?.created ?? new Date().toISOString(),
     updated: new Date().toISOString(),
