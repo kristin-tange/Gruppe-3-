@@ -37,6 +37,8 @@
           <h1>Opprett arrangement</h1>
         </div>
 
+        <p id="event-status-message" aria-live="polite"></p>
+
         <div class="general-info-content">
           <div class="general-info-left">
             <label for="event-title">Navn på arrangement</label>
@@ -65,14 +67,31 @@
               </div>
 
               <div class="field-group">
-                <label for="tags">Tags</label>
-                <input
-                  type="text"
-                  id="tags"
-                  name="tags"
-                  placeholder="frontend, student, gratis"
-                />
+                <label for="price">Pris</label>
+                <select id="price" name="price" required>
+                  <option value="">Velg pris</option>
+                  <option value="gratis inngang">gratis inngang</option>
+                  <option value="100kr">100kr</option>
+                  <option value="150kr">150kr</option>
+                  <option value="200kr">200kr</option>
+                  <option value="250kr">250kr</option>
+                  <option value="300kr">300kr</option>
+                  <option value="350kr">350kr</option>
+                  <option value="400kr">400kr</option>
+                  <option value="450kr">450kr</option>
+                  <option value="500kr">500kr</option>
+                </select>
               </div>
+            </div>
+
+            <div class="field-group">
+              <label for="tags">Tags</label>
+              <input
+                type="text"
+                id="tags"
+                name="tags"
+                placeholder="frontend, student, gratis"
+              />
             </div>
           </div>
         </div>
@@ -126,8 +145,6 @@
           Nullstill
         </button>
       </section>
-
-      <p id="event-status-message" aria-live="polite"></p>
     </form>
 
     <section class="existing-events-section">

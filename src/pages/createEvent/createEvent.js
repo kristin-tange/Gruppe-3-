@@ -11,10 +11,12 @@ const submitEventBtn = document.querySelector("#submit-event-btn");
 const resetFormBtn = document.querySelector("#reset-form-btn");
 const statusMessage = document.querySelector("#event-status-message");
 const meetupsList = document.querySelector("#meetups-list");
+const existingEventsSection = document.querySelector(".existing-events-section");
 
 const eventTitleInput = document.querySelector("#event-title");
 const summaryInput = document.querySelector("#short-description");
 const categoryInput = document.querySelector("#category");
+const priceInput = document.querySelector("#price");
 const tagsInput = document.querySelector("#tags");
 const dateInput = document.querySelector("#date");
 const timeInput = document.querySelector("#time");
@@ -50,8 +52,38 @@ const categoryImages = {
   },
 };
 
+function isUserLoggedIn() {
+  return localStorage.getItem("isLoggedIn") === "true";
+}
+
 function showStatusMessage(message) {
   statusMessage.textContent = message;
+}
+
+function showLoginRequiredMessage() {
+  statusMessage.innerHTML = `
+    Du må være logget inn for å opprette, redigere eller slette arrangementer.
+    <br />
+    <a href="/src/pages/login/login.html">Gå til innlogging</a>
+  `;
+
+  statusMessage.classList.add("login-required-message");
+}
+
+function lockCreateEventPage() {
+  const formElements = createEventForm.querySelectorAll(
+    "input, select, textarea, button"
+  );
+
+  formElements.forEach((element) => {
+    element.disabled = true;
+  });
+
+  showLoginRequiredMessage();
+
+  if (existingEventsSection) {
+    existingEventsSection.style.display = "none";
+  }
 }
 
 function formatDate(dateString) {
@@ -108,6 +140,7 @@ function getTimeValue(dateString) {
 function resetFormMode() {
   meetupIdInput.value = "";
   submitEventBtn.textContent = "Publiser";
+  statusMessage.classList.remove("login-required-message");
   showStatusMessage("");
 }
 
@@ -143,7 +176,9 @@ function displayMeetups() {
       <div class="meetup-item-info">
         <h3 class="meetup-item-title">${meetup.name}</h3>
         <p class="meetup-item-meta">
-          ${meetup.category} | ${meetup.location} | ${formatDate(meetup.date)} kl. ${formatTime(meetup.date)}
+          ${meetup.category} | ${meetup.price || "Ingen pris"} | ${
+      meetup.location
+    } | ${formatDate(meetup.date)} kl. ${formatTime(meetup.date)}
         </p>
         <p>${meetup.summary}</p>
       </div>
@@ -182,7 +217,7 @@ function getMeetupFromForm(existingMeetup = null) {
     tags: tags,
     image: selectedCategoryImage?.image ?? "",
     imageAlt: selectedCategoryImage?.imageAlt ?? "",
-    price: existingMeetup?.price ?? "",
+    price: priceInput.value,
     created: existingMeetup?.created ?? new Date().toISOString(),
     updated: new Date().toISOString(),
   };
@@ -282,6 +317,7 @@ function fillFormForEdit(id) {
   eventTitleInput.value = meetup.name ?? "";
   summaryInput.value = meetup.summary ?? "";
   categoryInput.value = meetup.category ?? "";
+  priceInput.value = meetup.price ?? "";
   tagsInput.value = Array.isArray(meetup.tags) ? meetup.tags.join(", ") : "";
   dateInput.value = getDateValue(meetup.date);
   timeInput.value = getTimeValue(meetup.date);
@@ -300,6 +336,11 @@ function fillFormForEdit(id) {
 function handleCreateEvent(event) {
   event.preventDefault();
 
+  if (!isUserLoggedIn()) {
+    lockCreateEventPage();
+    return;
+  }
+
   const meetupId = meetupIdInput.value;
   const existingMeetup = meetups.find((meetup) => meetup.id == meetupId);
   const meetup = getMeetupFromForm(existingMeetup);
@@ -313,37 +354,52 @@ function handleCreateEvent(event) {
   }
 }
 
-if (createEventForm) {
+function initCreateEventPage() {
+  if (!createEventForm) {
+    console.error("Create event form not found.");
+    return;
+  }
+
   createEventForm.addEventListener("submit", handleCreateEvent);
-} else {
-  console.error("Create event form not found.");
-}
 
-if (resetFormBtn) {
-  resetFormBtn.addEventListener("click", resetFormMode);
-}
+  if (resetFormBtn) {
+    resetFormBtn.addEventListener("click", resetFormMode);
+  }
 
-if (meetupsList) {
-  meetupsList.addEventListener("click", async function (event) {
-    const clickedElement = event.target;
+  if (meetupsList) {
+    meetupsList.addEventListener("click", async function (event) {
+      const clickedElement = event.target;
 
-    if (clickedElement.classList.contains("delete-meetup-btn")) {
-      const meetupId = clickedElement.dataset.id;
-
-      const isConfirmed = confirm(
-        "Er du sikker på at du vil slette dette arrangementet?"
-      );
-
-      if (isConfirmed) {
-        await deleteMeetup(meetupId);
+      if (!isUserLoggedIn()) {
+        lockCreateEventPage();
+        return;
       }
-    }
 
-    if (clickedElement.classList.contains("edit-meetup-btn")) {
-      const meetupId = clickedElement.dataset.id;
-      fillFormForEdit(meetupId);
-    }
-  });
+      if (clickedElement.classList.contains("delete-meetup-btn")) {
+        const meetupId = clickedElement.dataset.id;
+
+        const isConfirmed = confirm(
+          "Er du sikker på at du vil slette dette arrangementet?"
+        );
+
+        if (isConfirmed) {
+          await deleteMeetup(meetupId);
+        }
+      }
+
+      if (clickedElement.classList.contains("edit-meetup-btn")) {
+        const meetupId = clickedElement.dataset.id;
+        fillFormForEdit(meetupId);
+      }
+    });
+  }
+
+  if (!isUserLoggedIn()) {
+    lockCreateEventPage();
+    return;
+  }
+
+  fetchMeetups();
 }
 
-fetchMeetups();
+initCreateEventPage();
