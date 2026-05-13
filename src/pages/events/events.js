@@ -19,11 +19,15 @@ if (loggedIn) {
 }
 
 async function fetchMeetups() {
-  const response = await fetch(`${BASE_URL}/meetups`);
-  if (!response.ok) throw new Error("Failed to fetch meetups");
-  const data = await response.json();
-  meetups = data;
-  return meetups;
+  try {
+    const response = await fetch(`${BASE_URL}/meetups`);
+
+    const data = await response.json();
+    meetups = data;
+    return meetups;
+  } catch (err) {
+    console.error("Error fetching meetups:", err);
+  }
 }
 
 async function fetchFolders() {

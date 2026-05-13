@@ -1,18 +1,19 @@
 // Adrian Persen
 
+// API-url og API-nøkkel
 const SUPPORT_BASE_URL = "http://localhost:3000/api";
+const API_KEY = "group3api";
 
+//Holder styr på om brukeren redigerer en sak eller lager en ny
+//Hvis den er null, betyr det at brukeren lager ny sak
 let editingTicketId = null;
 
-//Henter HTML elementer
-
+//Henter HTML elementene som brukes i support-boksen
 const supportBtn = document.getElementById("support-btn");
 const supportBox = document.getElementById("support-box");
 const closeBtn = document.getElementById("close-support-btn");
 const supportForm = document.getElementById("support-form");
 const ticketsList = document.getElementById("tickets-list");
-
-/*funksjon for å switche mellom "Send inn saker" og "Mine saker" */
 
 const sendTicketTab = document.getElementById("send-ticket-tab");
 const myTicketsTab = document.getElementById("my-tickets-tab");
@@ -20,102 +21,161 @@ const myTicketsTab = document.getElementById("my-tickets-tab");
 const sendTicketSection = document.getElementById("send-ticket-section");
 const myTicketsSection = document.getElementById("my-tickets-section");
 
-//Markerer Send inn knappen som aktiv
-//Fjerner aktiv/styling fra Mine saker
+//Hjelpefunksjoner for innlogging
+//Henter brukeren som er logget inn
+function getCurrentUser() {
+  return JSON.parse(localStorage.getItem("currentUser"));
+}
+//Sjekker om brukeren er logget inn
+function userIsLoggedIn() {
+  return localStorage.getItem("isLoggedIn") === "true";
+}
 
+//Lager en melding som vises hvis brukeren ikke er logget inn
+function getLoginMessage() {
+  return `
+    <div class="support-login-message">
+    <p>Du må være logget inn for å bruke support.</p>
+    <a href="/src/pages/login/login.html" class="support-login-btn">
+    Logg inn
+    </a>
+    </div>
+    `;
+}
+
+//Bytter mellom "Send inn sak" og "Mine saker"
 sendTicketTab.addEventListener("click", () => {
-    sendTicketSection.classList.remove("hidden");
-    myTicketsSection.classList.add("hidden");
+  sendTicketSection.classList.remove("hidden");
+  myTicketsSection.classList.add("hidden");
 
-    sendTicketTab.classList.add("active");
-    myTicketsTab.classList.remove("active");
+  sendTicketTab.classList.add("active");
+  myTicketsTab.classList.remove("active");
 });
 
 myTicketsTab.addEventListener("click", async () => {
-    myTicketsSection.classList.remove("hidden");
-    sendTicketSection.classList.add("hidden");
+  myTicketsSection.classList.remove("hidden");
+  sendTicketSection.classList.add("hidden");
 
-    myTicketsTab.classList.add("active");
-    sendTicketTab.classList.remove("active");
+  myTicketsTab.classList.add("active");
+  sendTicketTab.classList.remove("active");
 
-    await loadTickets();
+  await loadTickets();
 });
 
+// Åpner supportboksen og sjekker om bruker er logget inn
 
 supportBtn.addEventListener("click", () => {
-    supportBox.classList.add("active");
+  supportBox.classList.add("active");
+
+  if (!userIsLoggedIn()) {
+    supportForm.classList.add("hidden");
+
+    if (!document.querySelector(".support-login-message")) {
+      sendTicketSection.innerHTML += getLoginMessage();
+    }
+    return;
+  }
+
+  supportForm.classList.remove("hidden");
+
+  const loginMessage = document.querySelector(".support-login-message");
+
+  if (loginMessage) {
+    loginMessage.remove();
+  }
 });
 
 closeBtn.addEventListener("click", () => {
-    supportBox.classList.remove("active");
+  supportBox.classList.remove("active");
 });
 
 window.addEventListener("click", (e) => {
-    if (e.target === supportBox) {
-        supportBox.classList.remove("active");
-    }
+  if (e.target === supportBox) {
+    supportBox.classList.remove("active");
+  }
 });
 
+//Funksjon som sender en ny support sak til API-et
+
 async function createSupportTicket(ticket) {
-    const response = await fetch(`${SUPPORT_BASE_URL}/supportTickets`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer group3api"
-        },
-        //Gjør JS objektet om til JSON så api-et kan lagre det
-        body: JSON.stringify(ticket)
-    });
+  const response = await fetch(`${SUPPORT_BASE_URL}/supportTickets`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${API_KEY}`,
+    },
+    //Gjør JS objektet om til JSON så api-et kan lagre det
+    body: JSON.stringify(ticket),
+  });
 
-const responseText = await response.text();
+  const responseText = await response.text();
 
-console.log("STATUS:", response.status);
-console.log("RESPONSE TEXT:", responseText);
+  if (!response.ok) {
+    throw new Error(
+      `Kunne ikke sende supportsak. Status: ${response.status}. Svar: ${responseText}`,
+    );
+  }
 
-    if (!response.ok) {
-        throw new Error(`Kunne ikke sende supportsak. Status: ${response.status}. Svar: ${responseText}`);
-    }
-
-    return responseText ? JSON.parse(responseText) : null;
+  return responseText ? JSON.parse(responseText) : null;
 }
 
-// funksjon som henter support saker fra apiet 
+//Funksjon som henter support saker fra apiet
 
 async function getSupportTickets() {
-    const response = await fetch(`${SUPPORT_BASE_URL}/supportTickets`, {
-        headers: {
-            "Authorization": "Bearer group3api"
-        }
-    });
+  const response = await fetch(`${SUPPORT_BASE_URL}/supportTickets`, {
+    headers: {
+      Authorization: `Bearer ${API_KEY}`,
+    },
+  });
 
-    if (!response.ok) {
-        throw new Error("Kunne ikke hente supportsaker");
-    }
+  if (!response.ok) {
+    throw new Error("Kunne ikke hente supportsaker");
+  }
 
-    return await response.json()
+  return await response.json();
 }
 
+//Funksjon som henter og viser sakene som tilhører innlogget bruker
+
 async function loadTickets() {
-    const tickets = await getSupportTickets();
+  const tickets = await getSupportTickets();
 
-    ticketsList.innerHTML="";
+  if (!userIsLoggedIn()) {
+    ticketsList.innerHTML = getLoginMessage();
+    return;
+  }
 
-    if (tickets.length == 0) {
-        ticketsList.innerHTML ="<p>Ingen saker sendt inn enda.</p>";
-        return;
-    }
+  const currentUser = getCurrentUser();
 
+  const myTickets = tickets.filter((ticket) => {
+    return Number(ticket.userId) === Number(currentUser.id);
+  });
 
-// Går igjennom sakene og forEach lager ett kort for hver sak
-    tickets.forEach((ticket) => {
-        ticketsList.innerHTML += `
+  ticketsList.innerHTML = "";
+
+  if (myTickets.length == 0) {
+    ticketsList.innerHTML = "<p>Ingen saker sendt inn enda.</p>";
+    return;
+  }
+
+  // Går igjennom sakene og forEach lager ett kort for hver sak
+  myTickets.forEach((ticket) => {
+    ticketsList.innerHTML += `
         <div class = "ticket-card">
 
         <div class="ticket-header">
 
         <div class="ticket-info">
-        <p><strong>Navn:</strong> ${ticket.name}</p>
-        <p><strong>E-post:</strong> ${ticket.email}</p>
+
+        <div class="ticket-row">
+        <i data-lucide="user"></i>
+
+        <div>
+        <p class="ticket-label">Navn:</p>
+        <p class="ticket-value">${ticket.name}</p>
+        </div>
+        </div>
+
         </div>
 
         <div class="ticket-actions">
@@ -125,122 +185,176 @@ async function loadTickets() {
 
         </div>
 
-        <p class="ticket-message">
-        <strong>Melding:</strong> ${ticket.message}
-        </p>
+          <div class="ticket-row">
+        <i data-lucide="mail"></i>
+
+        <div>
+        <p class="ticket-label">E-post:</p>
+        <p class="ticket-value">${ticket.email}</p>
+        </div>
+        </div>
+
+       
+        <div class="ticket-row">
+        <i data-lucide="file-text"></i>
+
+        <div>
+        <p class="ticket-label">Tittel:</p>
+        <p class="ticket-value">${ticket.title}</p>
+        </div>
+        </div>
+
+       <div class="ticket-row">
+       <i data-lucide="message-square"></i>
+
+       <div class="ticket-message-wrap">
+       <p class="ticket-label">Melding:</p>
+       <p class="ticket-message">${ticket.message}</p>
+       </div>
+       </div>
 
         </div>`;
+  });
+
+  lucide.createIcons();
+
+  //Henter alle sletteknappene
+  const deleteButtons = document.querySelectorAll(".delete-ticket-btn");
+
+  //Går igjennom hver knapp og sletter knapp med riktig id
+  deleteButtons.forEach((button) => {
+    button.addEventListener("click", async () => {
+      const id = button.dataset.id;
+
+      //Gir en popup der brukeren må bekrefte sletting
+      const confirmed = confirm("Er du sikker på at du vil slette saken?");
+      if (!confirmed) return;
+
+      await deleteTicket(id);
+      await loadTickets();
     });
+  });
 
-    lucide.createIcons();
+  //Henter alle redigeringsknappene
+  const editButtons = document.querySelectorAll(".edit-ticket-btn");
 
-    const deleteButtons = document.querySelectorAll(".delete-ticket-btn");
-//Går igjennom hver knapp og sletter knapp med riktig id
-    deleteButtons.forEach((button) => {
-        button.addEventListener("click", async () => {
-            const id = button.dataset.id;
-//Gir en popupp der du må bekrefte at du vil slette saken
-            const confirmed = confirm("Er du sikker på at du vil slette saken?");
-            if (!confirmed) return;
+  editButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const id = button.dataset.id;
 
-            await deleteTicket(id);
-            await loadTickets();
-        });
+      //Finner saken som matcher id-en til knappen
+      const ticket = myTickets.find((ticket) => ticket.id == id);
+
+      //Fyller skjemaet med eksisterende informasjon
+      document.getElementById("title").value = ticket.title;
+      document.getElementById("message").value = ticket.message;
+
+      //Lagrer id-en til saken som redigeres
+      editingTicketId = id;
+
+      //Bytter tilbake til "send inn sak" tabben
+      sendTicketSection.classList.remove("hidden");
+      myTicketsSection.classList.add("hidden");
+
+      //Oppdaterer aktiv tab
+      sendTicketTab.classList.add("active");
+      myTicketsTab.classList.remove("active");
+
+      //Endrer tekst så bruker kan se at saken redigeres
+      sendTicketTab.textContent = "Rediger sak";
+      document.getElementById("submit-support-btn").textContent =
+        "Lagre endringer";
     });
-
-    const editButtons = document.querySelectorAll(".edit-ticket-btn");
-
-    editButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-            const id = button.dataset.id;
-
-            const ticket = tickets.find((ticket) => ticket.id == id);
-
-            document.getElementById("name").value = ticket.name;
-            document.getElementById("email").value = ticket.email;
-            document.getElementById("message").value = ticket.message;
-
-            editingTicketId = id;
-
-            sendTicketSection.classList.remove("hidden");
-            myTicketsSection.classList.add("hidden");
-
-            sendTicketTab.classList.add("active");
-            myTicketsTab.classList.remove("active");
-
-            sendTicketTab.textContent ="Rediger sak"
-            document.getElementById("submit-support-btn").textContent = "Lagre endringer";
-            
-        });
-    }); 
-
-
+  });
 }
 
 // sletter supportsak basert på id
 async function deleteTicket(id) {
-    await fetch(`${SUPPORT_BASE_URL}/supportTickets/${id}`, {
-        method: "DELETE",
-        headers: {
-            Authorization: "Bearer group3api"
-        }
-    });
+  const response = await fetch(`${SUPPORT_BASE_URL}/supportTickets/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${API_KEY}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Kunne ikke slette supportsak");
+  }
 }
 
-//Rediger sak funksjon basert på id
+//Oppdaterer supportsak basert på id
 
 async function updateTicket(id, updatedTicket) {
-    await fetch(`${SUPPORT_BASE_URL}/supportTickets/${id}`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer group3api"
-        },
-        body: JSON.stringify(updatedTicket)
-    });
-}
+  const response = await fetch(`${SUPPORT_BASE_URL}/supportTickets/${id}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${API_KEY}`,
+    },
+    body: JSON.stringify(updatedTicket),
+  });
 
+  if (!response.ok) {
+    throw new Error("Kunne ikke oppdatere supportsak");
+  }
+}
 
 // Stopper siden fra å refreshe sånn at skjemaet rekker å sende inn
 supportForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    const name = document.getElementById("name").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const message = document.getElementById("message").value.trim();
+  //Sjekker om bruker er logget inn / Saken blir bare sendt inn om bruker er innlogget
+  if (!userIsLoggedIn()) {
+    const isConfirmed = confirm(
+      "Du må være innlogget for å sende inn en sak. Ønsker du å logge inn?",
+    );
 
-    const newTicket = {
-        name: name,
-        email: email,
-        message: message
-    };
+    if (!isConfirmed) return;
 
-    // sender ticket til api-et
-    try {
+    window.location.href = "/src/pages/login/login.html";
+    return;
+  }
 
-        if (editingTicketId !==null) {
-            await updateTicket(editingTicketId, newTicket);
-            alert("Saken din er oppdatert!");
+  //Henter informasjon om brukeren som er logget inn
+  const currentUser = getCurrentUser();
 
-            editingTicketId = null;
-            document.getElementById("submit-support-btn").textContent = "Send inn";
-            sendTicketTab.textContent = "Send inn sak"
+  if (!currentUser) {
+    alert("Fant ikke brukerdata");
+    return;
+  }
 
-        } else {
-            const savedTicket = await createSupportTicket(newTicket);
-            console.log("LAGRET:", savedTicket);
-            alert("Saken din er sendt inn!")
-        }
+  const fullName = `${currentUser.firstName} ${currentUser.lastName}`;
 
-        supportForm.reset();
-        supportBox.classList.remove("active");
+  const title = document.getElementById("title").value.trim();
+  const message = document.getElementById("message").value.trim();
 
-    } catch (error) {
-        console.error("FEIL VED INNSENDING", error);
-        alert("Noe gikk galt ved innsending av saken.");
+  //Lager objektet som skal sendes til API-et
+  const newTicket = {
+    title: title,
+    name: fullName,
+    email: currentUser.email,
+    message: message,
+    userId: currentUser.id,
+  };
+
+  //Sender eller oppdaterer saken i API-et
+  try {
+    if (editingTicketId !== null) {
+      await updateTicket(editingTicketId, newTicket);
+      alert("Saken din er oppdatert!");
+
+      editingTicketId = null;
+      document.getElementById("submit-support-btn").textContent = "Send inn";
+      sendTicketTab.textContent = "Send inn sak";
+    } else {
+      await createSupportTicket(newTicket);
+      alert("Saken din er sendt inn!");
     }
 
-
-
+    supportForm.reset();
+    supportBox.classList.remove("active");
+  } catch (error) {
+    console.error("FEIL VED INNSENDING", error);
+    alert("Noe gikk galt ved innsending av saken.");
+  }
 });
-

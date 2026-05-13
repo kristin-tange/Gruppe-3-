@@ -93,6 +93,32 @@
   gap: 1rem;
 }
 
+#support-form.hidden {
+  display: none;
+}
+
+.support-login-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.support-login-btn {
+  color: white;
+  font-weight: 600;
+  background-color: var(--primary-color);
+  text-decoration: none;
+
+  padding: 1rem 2rem;
+  margin-top: 1rem;
+  border-radius: 32px;
+}
+
+.support-login-btn:hover {
+  background-color: #3a7bd5;
+}
+
 .support-header {
   display: flex;
   justify-content: space-between;
@@ -103,10 +129,6 @@
   width: 100%;
 }
 
-.support-header h2 {
-  margin: 0;
-  line-height: 1;
-}
 
 /* global form styling */
 
@@ -129,14 +151,14 @@ form {
 }
 
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 24px;
 }
 
 form input,
 form textarea,
 form select {
   width: 100%;
-  padding: 12px;
+  padding: 16px;
   margin-top: 6px;
   border: 1px solid var(--secondary-color);
   border-radius: 6px;
@@ -199,56 +221,64 @@ form textarea::placeholder {
 }
 
 #tickets-list {
-  padding: 0 20px 20px;
+  padding: 0 8px 20px;
 }
 
-.ticket-card {
-   display: flex;
-   flex-direction: column;
-   gap: .5rem;
- 
 
-  border: 1px solid var(--secondary-color);
-  border-radius: 2rem;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  background-color: var(--card-bg);
-}
-
-.ticket-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.ticket-actions {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.ticket-info p {
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
-.ticket-message {
-  width: 100%;
-  max-height: 120px;
-  overflow-y: auto;
-}
 
 #tickets-list {
   overflow-y: auto;
   max-height: 100%;
 }
 
+/* ny Mine saker styling */
 
-.edit-ticket-btn, .delete-ticket-btn {
-  border: none;
+
+.ticket-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  
   background-color: var(--card-bg);
-  padding: .5rem;
-  border-radius: .5rem;
+  border: 1px solid var(--secondary-color);
+  border-radius: 1.5rem;
+
+  padding: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.ticket-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.ticket-actions {
+  display: flex;
+  gap: .5rem;
+}
+
+.edit-ticket-btn,
+.delete-ticket-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 32px;
+  height: 32px;
+
+  border: 1px solid var(--secondary-color);
+  border-radius: .8rem;
+
+  background-color: white;
   cursor: pointer;
+}
+
+.edit-ticket-btn .lucide,
+.delete-ticket-btn .lucide {
+  width: 16px;
+  height: 16px;
 }
 
 .edit-ticket-btn:hover {
@@ -258,6 +288,65 @@ form textarea::placeholder {
 .delete-ticket-btn:hover {
   color: #ca1010;
 }
+
+.ticket-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.ticket-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+}
+
+.ticket-row .lucide {
+  width: 20px;
+  height: 20px;
+
+  flex-shrink: 0;
+  margin-top: .2rem;
+}
+
+.ticket-message {
+  background-color: rgba(0, 0, 0, 0.165);
+  padding: 0.9rem;
+  border-radius: 1rem;
+}
+
+.ticket-label,
+.ticket-value,
+.ticket-message {
+  margin: 0;
+}
+
+.ticket-label {
+  font-weight: 700;
+}
+
+.ticket-value,
+.ticket-message {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+
+
+
+
+
+#message {
+  min-height: 180px;
+}
+
+
+
+
+
+
+
+
 
 /* tablet */
 
@@ -273,6 +362,18 @@ form textarea::placeholder {
   #support-btn .lucide {
   width: 35px;
   height: 35px;
+}
+
+.edit-ticket-btn,
+.delete-ticket-btn {
+  width: 40px;
+  height: 40px;
+}
+
+.edit-ticket-btn .lucide,
+.delete-ticket-btn .lucide {
+  width: 24px;
+  height: 24px;
 }
 
 }

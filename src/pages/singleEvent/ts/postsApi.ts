@@ -1,30 +1,11 @@
 // KRISTIN TANGE
 
 import { showErrorMessage } from "./helpers";
-import type { User, Post, Comment, Meetup } from "./types";
+import type { User, Post, Comment, Meetup } from "../../../ts/types";
+import { BASE_URL, API_KEY } from "../../../ts/config";
 
-/* VARIABLES */
-export const BASE_URL = "http://localhost:3000/api";
-export const API_KEY = "group3api";
+let posts: Post[] = [];
 
-export let posts: Post[] = [];
-export let users: User[] = [];
-
-export async function fetchUsers(): Promise<User[]> {
-  try {
-    const response = await fetch(`${BASE_URL}/users`);
-
-    if (!response.ok) {
-      throw new Error(`Kunne ikke hente brukere: ${response.status}`);
-    }
-
-    users = await response.json();
-    return users;
-  } catch (error) {
-    console.error(error);
-    throw error;
-  }
-}
 /* MEETUPS */
 /* Fetch meetups from meetupId */
 export async function fetchSingleEvent(meetupId: number): Promise<Meetup> {

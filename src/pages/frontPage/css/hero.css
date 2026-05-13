@@ -18,7 +18,7 @@
   position: absolute;
   inset: 0;
   opacity: 0;
-  transition: opacity 0.5s ease-in-out;
+  transition: opacity 0.8s ease-in-out;
 
   padding: 1rem;
 
@@ -26,6 +26,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  pointer-events: none;
 }
 
 .slide-1 {
@@ -41,6 +43,7 @@
 
 .hero-slide.active {
   opacity: 1;
+  pointer-events: auto;
 }
 
 .hero-prev,
@@ -92,11 +95,11 @@
   border-radius: 32px;
   margin-top: 1rem;
   display: inline-block;
+  transition: 0.3s;
 }
 
 .arrangement-link:hover {
   background-color: #3a7bd5;
-  transition: 0.3s;
 }
 
 .hero-overlay {

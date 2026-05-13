@@ -48,7 +48,6 @@ button:hover {
   background: var(--header-color);
   border-radius: 1rem;
   width: 300px;
-  min-height: 200px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.5s;
 }
