@@ -14,23 +14,23 @@ I dag er informasjon om arrangementer ofte spredt på ulike plattformer, noe som
 ### Funksjonalitet i løsningen
 
 #### Gjest
-
+*   Logge inn
+*   Opprette brukerkonto
 *   Se alle arrangementer
 *   Sortere arrangementer etter kategori
-*   Sende spørsmål til kundesupport
-*   Se detaljer om enkelarrangement
-*   Melde seg på enkeltarrangementer
+*   Se detaljer om enkeltarrangement
 
 #### Innlogget bruker
-
-*   Opprette og slette brukerkonto
-*   Logge inn og ut
+*   Logge ut
+*   Redigere og slette brukerkonto
 *   Redigere egen kontoinformasjon
-*   Publisere og slette innlegg knyttet til arrangementer
+*   Sende spørsmål til kundesupport
+*   Melde seg på enkeltarrangementer
+*   Publisere og slette egne innlegg knyttet til arrangementer
 *   Reagere og avreagere på innlegg
 *   Kommentere på innlegg, samt redigere og slette egne kommentarer
-*   Opprette, redigere og slette en “huskemappe” for kommende arrangementer
-*   Opprette, redigere og slette egne arrangementer
+*   Opprette, redigere og slette mapper for kommende arrangementer
+*   Opprette, redigere og slette arrangementer
 
 
 CrudOps
@@ -40,10 +40,11 @@ Prosjektet benytter [Gatherly-CrudOps](https://github.com/oscarwirum/crudops) so
 
 ### Endringer i Gatherly-templaten
 
-*   lagt til flere felter under users-endepunktet (eks: firstName, lastName, gender, age, image
-*   FLERE ENDRINGER?
-*   lagt til flere meetups i meetups-endepunktet
-*   lagt til felter i meetups (eks: summary, category, price, image)
+*   lagt til flere felter under users-endepunktet (eks: firstName, lastName, username, gender, image)
+*   lagt til felter i meetups (eks: summary, category, price, image, imageAlt).
+*   lagt til flere meetups i meetups-endepunktet for å ha mer innhold på sidene.
+*   lagt til nytt endepunkt kalt folders, som inneholder feltene: name, events, userId. 
+*   lagt til nytt endepunkt kalt suportTickets, som inneholder feltene: title, name, email, message, userId.
 
 
 ### Ansvarsfordeling
@@ -51,19 +52,22 @@ Prosjektet benytter [Gatherly-CrudOps](https://github.com/oscarwirum/crudops) so
 #### Sider i løsningen:
 
 *   Forside: Adrian
-    *   Ressurs for full CRUD: supportTicket?
+    * index.html
+    *   Ressurs for full CRUD: supportTicket
 *   Brukerkonto/innlogging: Siva
+    * login.html + profile.html  
     *   Ressurs for full CRUD: Users
 *   Lag arrangementer: Jan-Roger
+    *   createEvent.html
     *   Ressurs for full CRUD: Meetups
 *   Samleside for arrangementer: Oscar
-    *   Ressurs: Folders?
+    *   events.html   
+    *   Ressurs: Folders
 *   Enkeltarrangement: Kristin
+    *   singleEvent.html  
     *   Ressurs for full CRUD: Post
  
-### Mappestruktur
 
-Kommer senere... 
 
 
 
