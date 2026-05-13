@@ -166,8 +166,16 @@ async function loadTickets() {
         <div class="ticket-header">
 
         <div class="ticket-info">
-        <p><strong>Navn:</strong> ${ticket.name}</p>
-        <p><strong>E-post:</strong> ${ticket.email}</p>
+
+        <div class="ticket-row">
+        <i data-lucide="user"></i>
+
+        <div>
+        <p class="ticket-label">Navn:</p>
+        <p class="ticket-value">${ticket.name}</p>
+        </div>
+        </div>
+
         </div>
 
         <div class="ticket-actions">
@@ -177,13 +185,33 @@ async function loadTickets() {
 
         </div>
 
-        <p class="ticket-title">
-        <strong>Tittel:</strong> ${ticket.title}
-        </p>
+          <div class="ticket-row">
+        <i data-lucide="mail"></i>
 
-        <p class="ticket-message">
-        <strong>Melding:</strong> ${ticket.message}
-        </p>
+        <div>
+        <p class="ticket-label">E-post:</p>
+        <p class="ticket-value">${ticket.email}</p>
+        </div>
+        </div>
+
+       
+        <div class="ticket-row">
+        <i data-lucide="file-text"></i>
+
+        <div>
+        <p class="ticket-label">Tittel:</p>
+        <p class="ticket-value">${ticket.title}</p>
+        </div>
+        </div>
+
+       <div class="ticket-row">
+       <i data-lucide="message-square"></i>
+
+       <div class="ticket-message-wrap">
+       <p class="ticket-label">Melding:</p>
+       <p class="ticket-message">${ticket.message}</p>
+       </div>
+       </div>
 
         </div>`;
   });
