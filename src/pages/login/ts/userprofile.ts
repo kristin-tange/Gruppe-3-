@@ -11,7 +11,7 @@ interface User {
   email: string;
   description: string;
   gender?: string;
-  profileImage?: string;
+  image?: string;
   password?: string;
 }
 
@@ -29,7 +29,7 @@ async function loadProfile(): Promise<void> {
   const user = getCurrentUser();
   const isNewUser = !user.id;
 
-  const profileImage = document.getElementById("profileImage") as HTMLImageElement;
+  const image = document.getElementById("profileImage") as HTMLImageElement;
 
   const inputs = document.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>(
     "#accountForm input, #accountForm textarea"
@@ -61,11 +61,11 @@ async function loadProfile(): Promise<void> {
     radio.addEventListener("change", () => {
 
       if (radio.value === "mann") {
-        profileImage.src = "/assets/img/profilepictureman.png";
+        image.src = "/assets/img/profilepictureman.png";
       }
 
       else if (radio.value === "kvinne") {
-        profileImage.src = "/assets/img/profilepicturewoman.jpeg";
+        image.src = "/assets/img/profilepicturewoman.jpeg";
       }
     });
   });
@@ -114,9 +114,9 @@ async function loadProfile(): Promise<void> {
       radio.checked = radio.value === gender;
     });
 
-    // Profile image
-    profileImage.src =
-      existingUser.profileImage ||
+    //  image
+    image.src =
+      existingUser.image ||
       "/assets/img/profilepictureman.png";
 
   } catch (err) {
@@ -151,7 +151,7 @@ document.getElementById("accountForm")?.addEventListener("submit", async (e: Eve
   const passwordInput = document.getElementById("password") as HTMLInputElement;
   const password = passwordInput?.value.trim();
 
-  const profileImage = document.getElementById("profileImage") as HTMLImageElement;
+  const image = document.getElementById("image") as HTMLImageElement;
 
   // Selected gender
   const selectedGender = document.querySelector<HTMLInputElement>(
@@ -173,7 +173,7 @@ document.getElementById("accountForm")?.addEventListener("submit", async (e: Eve
 
     gender: selectedGender,
 
-    profileImage: profileImage.src
+    image: image.src
   };
 
   try {
@@ -240,7 +240,7 @@ document.getElementById("accountForm")?.addEventListener("submit", async (e: Eve
   email: savedUser.email,
   description: savedUser.description,
   gender: savedUser.gender,
-  profileImage: savedUser.profileImage
+  image: savedUser.image
 };
 //Save safe user only
 localStorage.setItem("currentUser", JSON.stringify(safeUser));
