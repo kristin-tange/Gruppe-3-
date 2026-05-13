@@ -1,5 +1,5 @@
 /* ---ROOT---- */
-
+/* KRISTIN TANGE */
 :root {
   /* FARGER */
   --bg-color: #f6f6f6;
@@ -8,11 +8,11 @@
   --secondary-color: #e6e6e6;
   --secondary-hover: #d0d0d0;
   --text-color: #161616;
-  --muted-text: #16161696;
+  --muted-text: #161616bb;
   --header-color: white;
   --delete-hover: #ca1010;
 
-  /* KATEGORIFARGER */
+  /* KATEGORIFARGER*/
   --academia-cat: #4a90e2;
   --entertainment-cat: #de2ebe;
   --professional-cat: #e9e329;
@@ -96,7 +96,7 @@ p {
   font-size: var(--main-text);
   line-height: 1.6;
 }
-
+/* SIVA SANKARI */
 /* ---GLOBAL BUTTON STYLING--- */
 .btn {
   width: auto;
@@ -136,7 +136,7 @@ p {
 }
 .btn:active {
   transform: translateY(2px);
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 /* GLOBAL STYLE FOR FORM*/
@@ -212,8 +212,8 @@ form textarea::placeholder {
     flex-direction: column;
   }
 }
-
-/* category buttons */
+/* OSCAR WIRUM */
+/* category buttons: */
 .category {
   border: none;
   padding: 0.5rem;

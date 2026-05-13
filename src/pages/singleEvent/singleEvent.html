@@ -8,16 +8,15 @@
     <meta name="description" content="Arrangementinformasjon" />
     <meta name="author" content="Kristin Tange" />
     <link rel="stylesheet" href="/src/css/style.css" />
-    <link rel="stylesheet" href="/src/pages/singleEvent/singleEvent.css" />
+    <link rel="stylesheet" href="/src/pages/singleEvent/css/singleEvent.css" />
 
-    <!-- ROBOTO-FONT -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
       rel="stylesheet"
     />
-    <!-- Favicon -->
+
     <link
       rel="shortcut icon"
       href="/assets/icons/logo.png"
@@ -29,14 +28,23 @@
   <body>
     <header></header>
 
-    <!-- HERO -->
+    <div
+      id="success-message"
+      class="success-message hide-message"
+      role="status"
+    ></div>
+
+    <div
+      id="error-message"
+      class="error-message hide-message"
+      role="alert"
+    ></div>
+
     <div id="hero-container"></div>
 
     <main>
-      <!-- EVENT-INFO -->
       <div id="description-container"></div>
 
-      <!-- POSTS -->
       <section class="posts section-grid">
         <h3>Noe på hjertet?</h3>
         <p class="post-info">
@@ -49,21 +57,26 @@
           type="button"
           aria-label="Opprett innlegg"
         >
-          <span id="create-post">Opprett innlegg</span>
-          <img src="/assets/icons/pil.svg" id="arrow" alt="Opprett innlegg" />
+          <span id="create-post" aria-label="Opprett innlegg"
+            >Opprett innlegg</span
+          >
+          <img
+            src="/assets/icons/pil.svg"
+            id="arrow"
+            alt=""
+            aria-hidden="true"
+          />
         </button>
 
         <h4>
           Innlegg
-          <span id="post-counter" class="highlight"></span>
+          <span id="post-counter" class="highlight" aria-live="polite"></span>
         </h4>
         <div id="post-container">
-          <!-- TEST-SPINNER -->
           <div id="loading-state"></div>
         </div>
 
-        <!-- OVERLAY: CREATE POST  -->
-        <aside id="post-overlay" aria-label="Opprett innlegg">
+        <aside id="post-overlay" aria-labelledby="form-heading">
           <form id="post-form" class="form-container">
             <button
               id="close-btn"
@@ -73,8 +86,9 @@
             >
               <img
                 src="/assets/icons/close.png"
-                alt="Lukk vindu"
-                width="10px"
+                alt=""
+                aria-hidden="true"
+                width="10"
               />
             </button>
             <h3 id="form-heading">Opprett innlegg</h3>
@@ -114,7 +128,6 @@
       </section>
     </main>
 
-    <!-- FOOTER -->
     <footer></footer>
 
     <script type="module" src="/src/js/header.js"></script>

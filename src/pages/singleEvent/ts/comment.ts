@@ -1,6 +1,12 @@
 import type { User, Comment, Post } from "./types";
 import { deleteComment, createComment, updateComment } from "./api";
-import { formatDate, getProfilePicture, getUserName } from "./helperFunctions";
+import {
+  formatDate,
+  getProfilePicture,
+  getUserName,
+  showErrorMessage,
+  showSuccessMessage,
+} from "./helpers";
 import { loadPosts } from "./posts";
 
 let editingCommentId: number | null = null;
@@ -21,9 +27,10 @@ function renderComment(
               <div class="user">
                 <img
                   src=${getProfilePicture(comment.userId)}
-                  alt="profilbilde"
+                  alt=""
+                  aria-hidden="true"
                   class="profile-picture"
-                  width="32px"
+                  width="32"
                 />
                 <span class="user-name">${getUserName(comment.userId)}</span>
                 
@@ -32,10 +39,10 @@ function renderComment(
             </div>
             <div class="second-row">${
               canEdit
-                ? `<button type="button" class="edit-comment-btn edit-btns" data-id="${comment.id}" data-user-id="${comment.userId}">
+                ? `<button type="button" class="edit-comment-btn edit-btns" aria-label="Rediger kommentar" data-id="${comment.id}" data-user-id="${comment.userId}">
                 Rediger
               </button>
-              <button type="button" class="delete-comment-btn edit-btns" data-id="${comment.id}" data-user-id="${comment.userId}">
+              <button type="button" class="delete-comment-btn edit-btns" aria-label="Slett kommentar" data-id="${comment.id}" data-user-id="${comment.userId}">
                 Slett
               </button>`
                 : ""
@@ -80,7 +87,7 @@ function renderComment(
         if (isConfirmed) {
           await deleteComment(post.id, comment.id);
           await loadPosts();
-          alert("Kommentaren er slettet.");
+          showSuccessMessage("Kommentaren er slettet.");
         }
       } catch (error) {
         console.error(error);
@@ -151,10 +158,11 @@ export function showComments(
     try {
       if (editingCommentId !== null) {
         await updateComment(post.id, editingCommentId, newComment);
-        alert("Kommentaren er redigert.");
+        showSuccessMessage("Kommentaren er redigert.");
         editingCommentId = null;
       } else {
         await createComment(post.id, newComment, currentUser);
+        showSuccessMessage("Kommentaren er publisert.");
       }
       commentTxt.value = "";
       commentTxt.style.backgroundColor = "";
@@ -162,7 +170,7 @@ export function showComments(
       await loadPosts();
     } catch (error) {
       console.error("Kunne ikke publisere kommentar:", error);
-      alert("Kunne ikke publisere kommentar.");
+      showErrorMessage("Kunne ikke publisere kommentar.");
     }
   });
   const comments = post.comments || [];

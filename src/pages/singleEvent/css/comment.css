@@ -1,0 +1,88 @@
+.post-comments {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.post-comments-btns {
+  justify-self: end;
+  margin-top: 0.5rem;
+}
+
+.post-comment-btn,
+.exit-comment-btn {
+  font-size: 12px;
+  padding: 0.5rem;
+}
+
+.comment-container {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-areas:
+    "user date"
+    "comment comment"
+    "second-row second-row";
+  padding: 0.5rem;
+  padding-left: 2rem;
+  max-width: 500px;
+  align-items: start;
+}
+
+.published-comment {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.comment-text {
+  background-color: var(--bg-color);
+  border-radius: var(--card-radius);
+  padding: 1rem;
+  font-size: 14px;
+  min-width: 200px;
+  grid-area: comment;
+
+  @media (width < 500px) {
+    min-width: 200px;
+  }
+}
+
+.comment-btns:hover {
+  color: var(--text-font);
+  transform: scale(1.1);
+}
+
+.comment-section {
+  display: flex;
+  flex-direction: column;
+  justify-self: flex-start;
+  align-self: flex-start;
+  max-width: 400px;
+}
+
+.comment input {
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+.second-row {
+  display: flex;
+  padding-right: 1rem;
+  grid-area: second-row;
+  justify-content: end;
+}
+
+.comment-date {
+  grid-area: date;
+  justify-self: end;
+  align-self: end;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.hide-comment {
+  display: none;
+}

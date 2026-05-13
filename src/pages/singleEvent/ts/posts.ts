@@ -15,11 +15,12 @@ import {
   getProfilePicture,
   currentUser,
   isLoggedIn,
-} from "./helperFunctions";
+  showErrorMessage,
+  showSuccessMessage,
+  resetPostOverlay,
+} from "./helpers";
 import type { Post } from "./types";
 import { showComments } from "./comment";
-
-// VARIABLER
 
 const currentUserId = currentUser?.id;
 const postOverlay = document.getElementById("post-overlay") as HTMLElement;
@@ -27,10 +28,10 @@ const postForm = document.getElementById("post-form") as HTMLFormElement;
 const postHeading = document.getElementById(
   "form-heading"
 ) as HTMLHeadingElement;
-const postTitleInput = document.getElementById(
+let postTitleInput = document.getElementById(
   "new-post-title"
 ) as HTMLInputElement;
-const postTxtInput = document.getElementById(
+let postTxtInput = document.getElementById(
   "new-post-txt"
 ) as HTMLTextAreaElement;
 const publishBtn = document.getElementById("publish-btn") as HTMLButtonElement;
@@ -39,10 +40,16 @@ const postContainer = document.getElementById(
 ) as HTMLDivElement;
 const postCounter = document.getElementById("post-counter") as HTMLSpanElement;
 let editingPostId: number | null = null;
+let originalTitle = "";
+let originalTxt = "";
 
 function showEditMode(post: Post) {
   postTitleInput.value = post.postName;
   postTxtInput.value = post.text;
+
+  originalTitle = post.postName;
+  originalTxt = post.text;
+
   if (publishBtn) publishBtn.textContent = "Lagre endringer";
   if (postHeading) postHeading.textContent = "Rediger innlegg";
   postTitleInput.style.backgroundColor = "#FFF8E1";
@@ -70,23 +77,20 @@ function loadReactions(
   }
 }
 
-/* RENDER POSTS AND COMMENTS */
 export async function loadPosts(): Promise<void> {
   showLoadingPosts();
   try {
     const posts = await fetchRelatedPosts(meetupId);
     setTimeout(() => {
       showPosts(posts);
-    }, 1000);
+    }, 2000);
   } catch (error) {
     console.error("Kunne ikke hente poster:", error);
   }
 }
-// TESTER LOADING STATE:
-// Skeleton på hele siden: hente meetups, ved publisering av innlegg og kommentar, ved påmelding?
 
 function showLoadingPosts(): void {
-  postContainer.innerHTML = `<div class="loading-container"><span class="spinner"></span></div>`;
+  postContainer.innerHTML = `<span>Laster innlegg...</span><div class="loading-container" aria-live="polite"><span class="spinner" aria-hidden="true"></span></div>`;
   postCounter.style.display = "none";
 }
 
@@ -97,24 +101,27 @@ postForm.addEventListener("submit", async (e) => {
 
   try {
     if (editingPostId) {
+      if (title === originalTitle && txt === originalTxt) {
+        showErrorMessage("Ingen endringer å lagre.");
+        return;
+      }
       await updatePost(editingPostId, {
         postName: title,
         text: txt,
       });
-      alert("Innlegget er redigert.");
+      showSuccessMessage("Innlegget er redigert.");
       editingPostId = null;
     } else {
       if (!currentUser) return;
 
       await createPost(meetupId, title, txt, currentUser);
+      showSuccessMessage("Innlegget er publisert.");
     }
-    postTitleInput.value = "";
-    postTxtInput.value = "";
-    postOverlay.style.display = "none";
     await loadPosts();
+    resetPostOverlay();
   } catch (error) {
     console.error("Kunne ikke lagre innlegg:", error);
-    alert("Kunne ikke lagre innlegg.");
+    showErrorMessage("Kunne ikke publisere innlegg.");
   }
 });
 
@@ -125,9 +132,10 @@ function renderPost(post: Post, canEdit: boolean): string {
     <div class="user">
     <img
     src="${getProfilePicture(post.userId)}"
-    alt="profilbilde"
+    alt=""
+    aria-hidden="true"
     class="profile-picture"
-    width="32px"
+    width="32"
     />
     <span class="user-name">${getUserName(post.userId)}</span>
     </div>
@@ -141,22 +149,24 @@ function renderPost(post: Post, canEdit: boolean): string {
  
     <div class="reaction-btns">
       <div class="likes">
-        <button class="post-icons like-btn" type="button" data-id="${post.id}">
-          <img src="/assets/icons/like.png" width="20px" />
+        <button class="post-icons like-btn" type="button" aria-label="Lik innlegg" data-id="${
+          post.id
+        }">
+          <img src="/assets/icons/like.png" width="20" alt="" aria-hidden="true"/>
         </button>
         <span class="likes-counter muted">${post.likes || 0}</span>
       </div>
       <div class="dislikes">
-          <button class="post-icons dislike-btn" type="button" data-id="${
+          <button class="post-icons dislike-btn" type="button" aria-label="Mislik innlegg" data-id="${
             post.id
           }">
-            <img src="/assets/icons/dislike.png" width="20px" />
+            <img src="/assets/icons/dislike.png" width="20" alt="" aria-hidden="true"/>
           </button>
           <span class="dislikes-counter muted">${post.dislikes || 0}</span>
       </div>
         <div class="comments">
-          <button class="post-icons comment-btn" type="button">
-            <img src="/assets/icons/comment.png" width="20px" />
+          <button class="post-icons comment-btn" type="button" aria-label="Kommenter innlegg">
+            <img src="/assets/icons/comment.png" width="20" alt="" aria-hidden="true"/>
           </button>
           <span class="comment-counter muted">${
             post.comments?.length || 0
@@ -166,10 +176,10 @@ function renderPost(post: Post, canEdit: boolean): string {
         ${
           canEdit
             ? `<div class="edit-btns">
-         <button type="button" class="edit-post-btn edit-btns" data-id="${post.id}" data-user-id="${post.userId}">
+         <button type="button" class="edit-post-btn edit-btns" aria-label="Rediger innlegg" data-id="${post.id}" data-user-id="${post.userId}">
                 Rediger
               </button>
-              <button type="button" class="delete-post-btn edit-btns" data-id="${post.id}" data-user-id="${post.userId}">
+              <button type="button" class="delete-post-btn edit-btns" aria-label="Slett innlegg" data-id="${post.id}" data-user-id="${post.userId}">
                 Slett
               </button>
       </div>`
@@ -184,14 +194,17 @@ function renderPost(post: Post, canEdit: boolean): string {
       <div class="user">
         <img 
           src=${getProfilePicture(post.userId)}
-          alt="profilbilde"
+          alt=""
+          aria-hidden="true"
           class="profile-picture"
-          width="32px"
+          width="32"
         />
         <span class="user-name"></span>
       </div>
       <textarea
+      id="comment"
         class="comment"
+        aria-label="Skriv inn din kommentar"
         name="kommentar"
         rows="4"
         cols="30"
@@ -372,7 +385,7 @@ function showPosts(postList: Post[]) {
         localStorage.removeItem(`${currentUserId}dislikes${id}`);
         localStorage.removeItem(`${currentUserId}likes${id}`);
         await loadPosts();
-        alert("Innlegget er slettet.");
+        showSuccessMessage("Innlegget er slettet.");
       } catch (error) {
         console.error(error);
       }
