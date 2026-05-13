@@ -42,13 +42,18 @@
         <div class="general-info-content">
           <div class="general-info-left">
             <label for="event-title">Navn på arrangement</label>
-            <input type="text" id="event-title" name="event-title" required />
+            <input type="text" 
+              id="event-title" 
+              name="event-title" 
+              maxlength="50"
+              required />
 
             <label for="short-description">Kort beskrivelse</label>
             <input
               type="text"
               id="short-description"
               name="short-description"
+              maxlength="110"
               required
             />
 
@@ -91,6 +96,7 @@
                 id="tags"
                 name="tags"
                 placeholder="frontend, student, gratis"
+                maxlength="50"
               />
             </div>
           </div>
@@ -117,7 +123,7 @@
 
           <div class="field-group location-field">
             <label for="location">Lokasjon</label>
-            <input type="text" id="location" name="location" required />
+            <input type="text" id="location" name="location" maxlength="30" required />
           </div>
         </div>
       </section>
