@@ -1,5 +1,5 @@
-import type { User, Comment, Post } from "./types";
-import { deleteComment, createComment, updateComment } from "./api";
+import type { User, Comment, Post } from "../../../ts/types";
+import { deleteComment, createComment, updateComment } from "./postsApi";
 import {
   formatDate,
   getProfilePicture,
