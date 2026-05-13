@@ -1,7 +1,7 @@
 // KRISTIN TANGE
 
-import { users } from "./api";
-import type { User } from "./types";
+import { users } from "../../../ts/api";
+import type { User } from "../../../ts/types";
 
 export const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 export const params = new URLSearchParams(window.location.search);
@@ -64,9 +64,6 @@ export function showSuccessMessage(message: string): void {
 }
 
 export function resetPostOverlay(): void {
-  let editingPostId: number | null = null;
-  let originalTitle = "";
-  let originalTxt = "";
   const postHeading = document.getElementById(
     "form-heading"
   ) as HTMLHeadingElement;
@@ -81,6 +78,9 @@ export function resetPostOverlay(): void {
   ) as HTMLButtonElement;
   const postOverlay = document.getElementById("post-overlay") as HTMLElement;
 
+  let editingPostId: number | null = null;
+  let originalTitle = "";
+  let originalTxt = "";
   editingPostId = null;
   originalTitle = "";
   originalTxt = "";

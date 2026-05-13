@@ -1,6 +1,6 @@
 // KRISTIN TANGE
 
-import { fetchUsers, fetchSingleEvent } from "./api";
+import { fetchSingleEvent } from "./postsApi";
 import { loadPosts } from "./posts";
 import {
   formatDate,
@@ -10,7 +10,8 @@ import {
   currentUser,
   resetPostOverlay,
 } from "./helpers";
-import type { Meetup } from "./types";
+import type { Meetup } from "../../../ts/types";
+import { fetchUsers } from "../../../ts/api";
 import { showSuccessMessage } from "./helpers";
 
 const heroContainer = document.getElementById(

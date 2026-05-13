@@ -1,7 +1,7 @@
-// KRISTIN TANGE
+// KRISTIN TANGE (Remove name?)
 
-//  GLOBAL INTERFACES - move to shared api.ts?
-// OBS: Remember to update interfaces when we have agreed on the final structure
+//  GLOBAL INTERFACES
+// TODO Remember to update interfaces when we have agreed on the final structure
 export interface User {
   id: number;
   firstName: string;
@@ -44,10 +44,11 @@ export interface Post {
   updated: string;
 }
 
-// SINGLE EVENT INTERFACES
 export interface Comment {
   id: number;
   userId: number;
   comment: string;
   created: string;
 }
+
+// TODO ADD TYPE FOR: folder-item? support-ticket?

@@ -7,7 +7,7 @@ import {
   fetchSinglePost,
   createPost,
   updatePost,
-} from "./api";
+} from "./postsApi";
 import {
   formatDate,
   meetupId,
@@ -19,7 +19,7 @@ import {
   showSuccessMessage,
   resetPostOverlay,
 } from "./helpers";
-import type { Post } from "./types";
+import type { Post } from "../../../ts/types";
 import { showComments } from "./comment";
 
 const currentUserId = currentUser?.id;
