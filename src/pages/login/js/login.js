@@ -33,8 +33,19 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
+      //safe storage
+       const safeUser = {
+        firstName: user.firstName,
+          lastName: user.lastName,
+          username: user.username,
+          email: user.email,
+          description: user.description,
+          gender:user.gender
+      };
+
+
       // Save user to localStorage
-      localStorage.setItem("currentUser", JSON.stringify(user));
+      localStorage.setItem("currentUser", JSON.stringify(safeUser));
       localStorage.setItem("isLoggedIn", "true");
       
   
@@ -52,18 +63,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (registrerBtn) {
   registrerBtn.addEventListener("click", (event) => {
     event.preventDefault();
-    alert("reg");
-    // Create empty new user
-    const newUser = {
-      firstname:"",
-      lastname: "",
-      email: "",
-      password: "",
-      description: "", 
-    };
-
-    localStorage.setItem("currentUser", JSON.stringify(newUser));
-    localStorage.setItem("isLoggedIn", "false");
+  
+    localStorage.setItem("isNewUser", "true");
     
     // Navigate to profile page
     window.location.href = "profile.html";

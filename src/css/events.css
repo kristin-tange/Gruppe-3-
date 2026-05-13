@@ -58,7 +58,7 @@ button:hover {
   transform: scale(1.05);
 }
 
-.arrangementCard div {
+.card-content {
   margin: 1rem;
   display: flex;
   flex-direction: column;
@@ -70,6 +70,62 @@ button:hover {
   margin-bottom: -0.25rem;
   border-bottom-left-radius: 1rem;
   border-bottom-right-radius: 1rem;
+}
+
+.arrangementCard.selected {
+  outline: 3px solid var(--primary-color);
+  background-color: #e8f1ff;
+}
+
+.folderRow {
+  display: flex;
+  flex-direction: row;
+}
+
+.card-top-row {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.removeFromFolderBtn {
+  background: red;
+  margin: 1rem;
+  max-width: fit-content;
+  max-height: fit-content;
+  color: white;
+}
+
+.deleteFolderBtn {
+  background: red;
+  color: white;
+
+  width: 20%;
+  border-radius: 4px;
+  margin: 0.25rem;
+}
+
+.folderFilterBtn {
+  background: var(--primary-color);
+  color: white;
+  width: 80%;
+  border-radius: 4px;
+  margin: 0.25rem;
+}
+
+.deleteFolderBtn:hover {
+  background: darkred;
+}
+
+#addMeetupsBtn,
+#confirmSelectionBtn {
+  background: var(--primary-color);
+  border: none;
+  margin: 1rem;
+  color: white;
+  border-radius: 4px;
+  padding: 0.5rem;
+  margin-top: auto;
 }
 
 .card-link {
