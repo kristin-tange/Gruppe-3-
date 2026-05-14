@@ -1,8 +1,8 @@
 // Adrian Persen
 
 // API-url og API-nøkkel
-const SUPPORT_BASE_URL = "http://localhost:3000/api";
-const API_KEY = "group3api";
+import {BASE_URL, API_KEY} from "../../../ts/config"
+import type {User} from "../../../ts/types"
 
 declare const lucide: any;
 
@@ -27,7 +27,7 @@ const myTicketsSection = document.getElementById("my-tickets-section") as HTMLEl
 //Hjelpefunksjoner for innlogging
 //Henter brukeren som er logget inn
 //Henter bruker fra local storage
-function getCurrentUser() {
+function getCurrentUser(): User | null {
     const user = localStorage.getItem("currentUser");
 //Hvis ingen bruker finnes: returner null
     if (!user) {
@@ -132,7 +132,7 @@ interface SupportTicket {
 }
 
 async function createSupportTicket(ticket: SupportTicket): Promise<void> {
-  const response = await fetch(`${SUPPORT_BASE_URL}/supportTickets`, {
+  const response = await fetch(`${BASE_URL}/supportTickets`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -154,7 +154,7 @@ async function createSupportTicket(ticket: SupportTicket): Promise<void> {
 //Funksjon som henter support saker fra apiet
 
 async function getSupportTickets() {
-  const response = await fetch(`${SUPPORT_BASE_URL}/supportTickets`, {
+  const response = await fetch(`${BASE_URL}/supportTickets`, {
     headers: {
       Authorization: `Bearer ${API_KEY}`,
     },
@@ -183,6 +183,11 @@ async function loadTickets() {
   }
 
   const currentUser = getCurrentUser();
+
+  if (!currentUser) {
+    ticketsList.innerHTML = getLoginMessage();
+    return;
+  }
 
   const myTickets = tickets.filter((ticket: SupportTicket) => {
     return Number(ticket.userId) === Number(currentUser.id);
@@ -329,7 +334,7 @@ async function loadTickets() {
 }
 // sletter supportsak basert på id
 async function deleteTicket(id: number): Promise<void> {
-  const response = await fetch(`${SUPPORT_BASE_URL}/supportTickets/${id}`, {
+  const response = await fetch(`${BASE_URL}/supportTickets/${id}`, {
     method: "DELETE",
     headers: {
       Authorization: `Bearer ${API_KEY}`,
@@ -344,7 +349,7 @@ async function deleteTicket(id: number): Promise<void> {
 //Oppdaterer supportsak basert på id
 
 async function updateTicket(id: number, updatedTicket: SupportTicket): Promise<void> {
-  const response = await fetch(`${SUPPORT_BASE_URL}/supportTickets/${id}`, {
+  const response = await fetch(`${BASE_URL}/supportTickets/${id}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",

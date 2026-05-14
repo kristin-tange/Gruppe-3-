@@ -1,6 +1,8 @@
 // Adrian Persen
 
-const BASE_URL = "http://localhost:3000/api";
+import {fetchMeetups} from "../../../ts/api";
+import type {Meetup} from "../../../ts/types";
+
 //Forteller TS at lucide finnes i browseren
 declare const lucide: any;
 
@@ -41,27 +43,7 @@ prevButton.addEventListener("click", () => {
 });
 }
 
-//Array som lagrer meetupene fra API-et
 
-//Forteller TS hvordan meetup-objektene fra API-et ser ut
-interface Meetup {
-    id: number;
-    name: string;
-    summary: string;
-    image: string;
-}
-//Forteller TS at meetups er et array med Meetup-objekter
-let meetups: Meetup[] = [];
-
-async function fetchMeetups() {
-  const response = await fetch(`${BASE_URL}/meetups`);
-
-  if (!response.ok) { 
-    throw new Error("Kunne ikke hente data");
-  }
-
-  meetups = await response.json();
-}
 //Lager ny hero-slide
 //meetup: Meetup betyr at parameteren må følge Meetup-interfacet
 function createHeroSlide(meetup: Meetup): void {
@@ -89,7 +71,7 @@ if (heroSection && prevButton) {
 }
 //starter slider systemet
 async function init() {
-  await fetchMeetups();
+  const meetups = await fetchMeetups();
 //Filtrerer ut meetupene som skal brukes i hero-slideren
   const heroMeetups = meetups.filter((meetup) => {
     return meetup.id === 1 || meetup.id === 3;
