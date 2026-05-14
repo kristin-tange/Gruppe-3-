@@ -11,7 +11,6 @@ export interface User {
   password: string;
   email: string;
   gender: string;
-  age: number;
   image: string;
 }
 
