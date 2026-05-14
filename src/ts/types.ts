@@ -1,7 +1,3 @@
-// KRISTIN TANGE (Remove name?)
-
-//  GLOBAL INTERFACES
-// TODO Remember to update interfaces when we have agreed on the final structure
 export interface User {
   id: number;
   firstName: string;
