@@ -2,8 +2,21 @@
 
 main {
   max-width: 95vw;
+  flex: 1;
   display: block;
   margin: auto;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 #filterContainer {
@@ -20,7 +33,7 @@ button {
 
 button:hover {
   cursor: pointer;
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 
 #events-container {
@@ -54,7 +67,7 @@ button:hover {
 
 .arrangementCard:hover {
   cursor: pointer;
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 
 .card-content {
@@ -84,14 +97,14 @@ button:hover {
 .card-top-row {
   display: flex;
   justify-content: space-between;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 .removeFromFolderBtn {
   background: red;
   margin: 1rem;
-  max-width: fit-content;
-  max-height: fit-content;
+  max-width: 40%;
+  max-height: 32px;
   color: white;
 }
 

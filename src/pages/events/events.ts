@@ -1,14 +1,14 @@
 // Oscar Wirum
+import type { Meetup, Folder } from "../../ts/types";
+import { BASE_URL, API_KEY } from "../../ts/config";
 
-const BASE_URL = "http://localhost:3000/api";
-const API_KEY = "group3api";
 
-let meetups = [];
-let folders = [];
+let meetups: Meetup[] = [];
+let folders: Folder[] = [];
 
 const loggedIn = localStorage.getItem("isLoggedIn") === "true";
 let currentUser = null;
-let userId = null;
+let userId: number | null = null;
 
 if (loggedIn) {
   const storedUser = localStorage.getItem("currentUser");
@@ -18,13 +18,7 @@ if (loggedIn) {
   }
 }
 
-async function fetchMeetups() {
-  const response = await fetch(`${BASE_URL}/meetups`);
-  if (!response.ok) throw new Error("Failed to fetch meetups");
-  const data = await response.json();
-  meetups = data;
-  return meetups;
-}
+import { fetchMeetups } from "../../ts/api";
 
 async function fetchFolders() {
   try {
@@ -55,19 +49,23 @@ function getColumnCount() {
 }
 
 function displayMeetups(list = meetups) {
+  
+
   if (selectionMode && activeFolderId !== null) {
     const folder = folders.find(f => f.id === activeFolderId);
+    if(!folder) return;
     list = list.filter(event => !folder.events.includes(event.id));
   }
 
-  const eventsContainer = document.getElementById("events-container");
+  const eventsContainer = document.getElementById("events-container") as HTMLDivElement | null;
+  if (!eventsContainer) return;
   eventsContainer.innerHTML = "";
 
   const columns = getColumnCount();
-  const colElements = [];
+  const colElements: HTMLDivElement[] = [];
 
   for (let i = 0; i < columns; i++) {
-    const col = document.createElement("div");
+    const col = document.createElement("div") as HTMLDivElement;
     col.classList.add("column");
     colElements.push(col);
     eventsContainer.appendChild(col);
@@ -128,7 +126,7 @@ function displayMeetups(list = meetups) {
 
     ${
       activeFolderId !== null && !selectionMode
-        ? `<button class="removeFromFolderBtn removeFromFolderBtn btn" data-id="${event.id}">Fjern fra mappen</button>`
+        ? `<button class="removeFromFolderBtn removeFromFolderBtn btn" data-id="${event.id}">Fjern</button>`
         : ""
     }
   </div>
@@ -137,7 +135,8 @@ function displayMeetups(list = meetups) {
 
     colElements[(index + 1) % columns].appendChild(card);
 
-    card.dataset.eventId = event.id;
+    card.dataset.eventId = String(event.id);
+
 
     // Selection mode (velge flere meetups)
     card.addEventListener("click", e => {
@@ -157,7 +156,7 @@ function displayMeetups(list = meetups) {
   });
 
   // LEGG TIL MEETUPS I MAPPE
-
+  if (!folderCard) return;
   if (activeFolderId !== null && !selectionMode) {
     const addBtn = document.createElement("button");
     addBtn.id = "addMeetupsBtn";
@@ -178,13 +177,15 @@ function displayMeetups(list = meetups) {
 window.addEventListener("resize", () => displayMeetups());
 
 async function init() {
-  await fetchMeetups();
+  meetups = await fetchMeetups();
   await fetchFolders();
   displayMeetups();
 }
 
 document.addEventListener("click", async e => {
-  if (e.target.id === "createFolderBtn") {
+  const target = e.target as HTMLElement;
+  if (!(target instanceof HTMLElement)) return;
+  if (target.id === "createFolderBtn") {
     const name = prompt("Mappe navn;");
     if (!name) return;
 
@@ -208,7 +209,7 @@ document.addEventListener("click", async e => {
   }
 });
 
-async function updateFolder(folderId, updatedData) {
+async function updateFolder(folderId: number, updatedData: Partial<Folder>) {
   const response = await fetch(`${BASE_URL}/folders/${folderId}`, {
     method: "PATCH",
     headers: {
@@ -222,7 +223,7 @@ async function updateFolder(folderId, updatedData) {
   return await response.json();
 }
 
-async function deleteFolder(folderId) {
+async function deleteFolder(folderId: number) {
   const response = await fetch(`${BASE_URL}/folders/${folderId}`, {
     method: "DELETE",
     headers: {
@@ -234,8 +235,10 @@ async function deleteFolder(folderId) {
 }
 
 document.addEventListener("change", async e => {
-  if (e.target.id === "folderSelect") {
-    const folderId = Number(e.target.value);
+  const target = e.target as HTMLElement;
+  if (!(target instanceof HTMLSelectElement)) return;
+  if (target.id === "folderSelect") {
+    const folderId = Number(target.value);
     const eventId = Number(prompt("Hvilket meetup vil du legge til i mappen?"));
 
     if (!eventId) return;
@@ -256,11 +259,17 @@ document.addEventListener("change", async e => {
 });
 
 document.addEventListener("click", async e => {
-  if (e.target.classList.contains("removeFromFolderBtn")) {
+  const target = e.target as HTMLElement;
+  if (!(target instanceof HTMLElement)) return;
+
+  if (target.classList.contains("removeFromFolderBtn")) {
     e.preventDefault();
     e.stopPropagation();
 
-    const eventId = Number(e.target.dataset.id);
+    const eventId = Number(target.dataset.id);
+
+    if (activeFolderId === null) return;
+
     const folder = folders.find(f => f.id === activeFolderId);
     if (!folder) return;
 
@@ -272,7 +281,7 @@ document.addEventListener("click", async e => {
   }
 });
 
-function filterByFolder(folderId) {
+function filterByFolder(folderId: number) {
   const folder = folders.find(f => f.id === folderId);
   if (!folder || !folder.events) return;
 
@@ -280,19 +289,23 @@ function filterByFolder(folderId) {
   displayMeetups(filtered);
 }
 
-let activeFolderId = null;
-let selectionMode = false;
-let selectedMeetups = new Set();
+let activeFolderId: number | null = null;
+let selectionMode: boolean = false;
+let selectedMeetups: Set<number> = new Set();
 
 document.addEventListener("click", e => {
-  if (e.target.classList.contains("folderFilterBtn")) {
-    activeFolderId = Number(e.target.dataset.folder);
+  const target = e.target as HTMLElement;
+  if (!(target instanceof HTMLElement)) return;
+  if (target.classList.contains("folderFilterBtn")) {
+    activeFolderId = Number(target.dataset.folder);
     filterByFolder(activeFolderId);
   }
 });
 
 document.addEventListener("click", e => {
-  if (e.target.id === "addMeetupsBtn") {
+  const target = e.target as HTMLElement;
+  if (!(target instanceof HTMLElement)) return;
+  if (target.id === "addMeetupsBtn") {
     selectionMode = true;
     selectedMeetups.clear();
     displayMeetups();
@@ -300,10 +313,13 @@ document.addEventListener("click", e => {
 });
 
 document.addEventListener("click", async e => {
-  if (e.target.id === "confirmSelectionBtn") {
-    if (!activeFolderId) return;
+  const target = e.target as HTMLElement;
+  if (!(target instanceof HTMLElement)) return;
+  if (target.id === "confirmSelectionBtn") {
+    if (activeFolderId === null) return;
 
     const folder = folders.find(f => f.id === activeFolderId);
+    if (!folder) return;
     const updatedEvents = [
       ...new Set([...(folder.events || []), ...selectedMeetups]),
     ];
@@ -320,11 +336,15 @@ document.addEventListener("click", async e => {
 });
 
 document.addEventListener("click", async e => {
-  if (e.target.classList.contains("deleteFolderBtn")) {
+  const target = e.target as HTMLElement;
+  if (!(target instanceof HTMLElement)) return;
+  if (target.classList.contains("deleteFolderBtn")) {
     e.stopPropagation();
 
-    const folderId = Number(e.target.dataset.folder);
+    const folderId = Number(target.dataset.folder);
     const folder = folders.find(f => f.id === folderId);
+
+    if (!folder) return;
 
     if (!confirm(`Vil du slette "${folder.name}"?`)) return;
 
@@ -336,42 +356,42 @@ document.addEventListener("click", async e => {
   }
 });
 
-function filterMeetups(category) {
+function filterMeetups(category: string) {
   const filtered = meetups.filter(event => event.category === category);
   displayMeetups(filtered);
 }
 
-document.getElementById("filterAll").addEventListener("click", () => {
+document.getElementById("filterAll")!.addEventListener("click", () => {
   activeFolderId = null;
   selectionMode = false;
   displayMeetups();
 });
-document.getElementById("filterAcademia").addEventListener("click", () => {
+document.getElementById("filterAcademia")!.addEventListener("click", () => {
   activeFolderId = null;
   selectionMode = false;
   filterMeetups("Academia");
 });
-document.getElementById("filterEntertainment").addEventListener("click", () => {
+document.getElementById("filterEntertainment")!.addEventListener("click", () => {
   activeFolderId = null;
   selectionMode = false;
   filterMeetups("Entertainment");
 });
-document.getElementById("filterProfessional").addEventListener("click", () => {
+document.getElementById("filterProfessional")!.addEventListener("click", () => {
   activeFolderId = null;
   selectionMode = false;
   filterMeetups("Professional");
 });
-document.getElementById("filterLiterature").addEventListener("click", () => {
+document.getElementById("filterLiterature")!.addEventListener("click", () => {
   activeFolderId = null;
   selectionMode = false;
   filterMeetups("Literature");
 });
-document.getElementById("filterTechnology").addEventListener("click", () => {
+document.getElementById("filterTechnology")!.addEventListener("click", () => {
   activeFolderId = null;
   selectionMode = false;
   filterMeetups("Technology");
 });
-document.getElementById("filterSports").addEventListener("click", () => {
+document.getElementById("filterSports")!.addEventListener("click", () => {
   activeFolderId = null;
   selectionMode = false;
   filterMeetups("Sports");
