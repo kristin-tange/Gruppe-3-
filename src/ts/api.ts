@@ -1,11 +1,8 @@
 import type { Meetup, User } from "./types";
 import { BASE_URL } from "./config";
 
-// GLOBAL VARIABLES
 export let users: User[] = [];
 export let meetups: Meetup[] = [];
-// TODO: add let meetups ?
-// Anything else that's global?
 
 export async function fetchUsers(): Promise<User[]> {
   try {
