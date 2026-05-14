@@ -45,22 +45,6 @@
   }
 }
 
-/*---DARK MODE--- 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg-color: #121212;
-    --text-color: #d7d7c9;
-    --header-color: #2f2f2f;
-    --secondary-color: #4a4a4a;
-  }
-} */
-
-/* ROBOTO-FONT: LINKEN MÅ LEGGES I HEAD PÅ ALLE HTML-FILER 
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Public+Sans:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"> */
-
 /* ---GLOBAL STYLING--- */
 
 * {
@@ -96,7 +80,7 @@ p {
   font-size: var(--main-text);
   line-height: 1.6;
 }
-/* SIVA SANKARI */
+
 /* ---GLOBAL BUTTON STYLING--- */
 .btn {
   width: auto;
@@ -212,7 +196,7 @@ form textarea::placeholder {
     flex-direction: column;
   }
 }
-/* OSCAR WIRUM */
+
 /* category buttons: */
 .category {
   border: none;
