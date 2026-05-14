@@ -12,7 +12,7 @@ Formålet med prosjektperioden har vært å:
 * gjennomføre planene på en strukturert og tilfredstillende måte ved hjelp av Scrum, GitHub og GitHub Projects
 * levere en ferdig løsning i tråd med kundecase, scope og akseptansekriterier i kravspesifikasjonen
 
-Gruppen har også utformet en enkel og sammenhengende visuell profil med wireframes og styletile for å sikre et helhetlig og sammenhengende uttrykk. Videre har gruppen hatt fokus på semantisk html, aria-labels, tydelige brukermeldinger og media queries for å sikre god tilgjengelighet og responsivitet i ulike skjermstørrelser.
+Gruppa har også utformet en enkel og sammenhengende visuell profil med wireframes og styletile for å sikre et helhetlig og sammenhengende uttrykk. Videre har gruppa hatt fokus på semantisk html, aria-labels, tydelige brukermeldinger og media queries for å sikre god tilgjengelighet og responsivitet i ulike skjermstørrelser.
 
 Om Gatherly
 -----------
