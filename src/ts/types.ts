@@ -10,6 +10,8 @@ export interface User {
   image: string;
 }
 
+export type LoginUser = Pick<User, "id" | "email">;
+
 export interface Meetup {
   id: number;
   name: string;
@@ -19,8 +21,8 @@ export interface Meetup {
   description: string;
   tags: string[];
   category: string;
-  price?: string;
-  image?: string;
+  price: string;
+  image: string;
   imageAlt?: string;
   created: string;
   updated: string;
@@ -45,5 +47,3 @@ export interface Comment {
   comment: string;
   created: string;
 }
-
-// TODO ADD TYPE FOR: folder-item? support-ticket?
