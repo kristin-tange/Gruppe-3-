@@ -1,9 +1,7 @@
 // KRISTIN TANGE
 
 import { users } from "../../../ts/api";
-import type { User } from "../../../ts/types";
 
-export const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
 export const params = new URLSearchParams(window.location.search);
 export const meetupId = Number(params.get("id"));
 
@@ -15,6 +13,14 @@ export function getUserName(userId: number): string {
 export function getProfilePicture(userId: number): string {
   const user = users.find((u) => u.id === userId);
   return user?.image || "/assets/img/placeholder-profile.png";
+}
+
+export function getIsLoggedIn() {
+  return localStorage.getItem("isLoggedIn") === "true";
+}
+
+export function getCurrentUser() {
+  return JSON.parse(localStorage.getItem("currentUser") || "null");
 }
 
 export function formatDate(data: string): string {
@@ -33,10 +39,6 @@ export function formatTime(data: string): string {
     minute: "2-digit",
   });
 }
-
-export const currentUser: User | null = JSON.parse(
-  localStorage.getItem("currentUser") ?? "null"
-);
 
 const errorMessage = document.getElementById("error-message") as HTMLDivElement;
 const successMessage = document.getElementById(
