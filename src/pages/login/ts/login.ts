@@ -9,12 +9,8 @@ document.addEventListener("DOMContentLoaded", (): void => {
   const registrerBtn = document.getElementById("registrer") as HTMLButtonElement | null;
 
    const API_URL = `${BASE_URL}/users`;
-
- 
-  // -----------------------
   // Login existing user
-  // -----------------------
-   
+  
    if (logBtn){
       logBtn.addEventListener("click", async (event: Event): Promise<void> => {
 

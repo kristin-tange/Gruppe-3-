@@ -13,25 +13,24 @@ import {
   meetupId,
   getUserName,
   getProfilePicture,
-  currentUser,
-  isLoggedIn,
+  getCurrentUser,
+  getIsLoggedIn,
   showErrorMessage,
   showSuccessMessage,
-  resetPostOverlay,
+  resetEditMode,
 } from "./helpers";
 import type { Post } from "../../../ts/types";
 import { showComments } from "./comment";
 
-const currentUserId = currentUser?.id;
 const postOverlay = document.getElementById("post-overlay") as HTMLElement;
 const postForm = document.getElementById("post-form") as HTMLFormElement;
 const postHeading = document.getElementById(
   "form-heading"
 ) as HTMLHeadingElement;
-let postTitleInput = document.getElementById(
+const postTitleInput = document.getElementById(
   "new-post-title"
 ) as HTMLInputElement;
-let postTxtInput = document.getElementById(
+const postTxtInput = document.getElementById(
   "new-post-txt"
 ) as HTMLTextAreaElement;
 const publishBtn = document.getElementById("publish-btn") as HTMLButtonElement;
@@ -58,14 +57,14 @@ function showEditMode(post: Post) {
 }
 
 function loadReactions(
-  currentUserId: number,
   postId: number,
   likeBtn: HTMLButtonElement,
   dislikeBtn: HTMLButtonElement
 ): void {
+  const currentUserId = getCurrentUser()?.id;
+  if (!currentUserId) return;
   if (dislikeBtn) dislikeBtn.classList.remove("active");
   if (likeBtn) likeBtn.classList.remove("active");
-
   const userDislike = localStorage.getItem(`${currentUserId}dislikes${postId}`);
   const userLike = localStorage.getItem(`${currentUserId}likes${postId}`);
 
@@ -78,14 +77,19 @@ function loadReactions(
 }
 
 export async function loadPosts(): Promise<void> {
+  if (!meetupId) {
+    showErrorMessage("Kunne ikke hente arrangementet.");
+    return;
+  }
+
   showLoadingPosts();
   try {
     const posts = await fetchRelatedPosts(meetupId);
     setTimeout(() => {
       showPosts(posts);
-    }, 2000);
-  } catch (error) {
-    console.error("Kunne ikke hente poster:", error);
+    }, 1500);
+  } catch {
+    showErrorMessage("Kunne ikke hente poster.");
   }
 }
 
@@ -93,37 +97,40 @@ function showLoadingPosts(): void {
   postContainer.innerHTML = `<span>Laster innlegg...</span><div class="loading-container" aria-live="polite"><span class="spinner" aria-hidden="true"></span></div>`;
   postCounter.style.display = "none";
 }
+if (postForm) {
+  postForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const currentUser = getCurrentUser();
+    const title = postTitleInput.value.trim();
+    const txt = postTxtInput.value.trim();
 
-postForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  let title = postTitleInput.value.trim();
-  let txt = postTxtInput.value.trim();
+    try {
+      if (editingPostId !== null) {
+        if (title === originalTitle && txt === originalTxt) {
+          showErrorMessage("Ingen endringer å lagre.");
+          return;
+        }
+        await updatePost(editingPostId, {
+          postName: title,
+          text: txt,
+        });
+        showSuccessMessage("Innlegget er redigert.");
+        editingPostId = null;
+        originalTitle = "";
+        originalTxt = "";
+      } else {
+        if (!currentUser) return;
 
-  try {
-    if (editingPostId) {
-      if (title === originalTitle && txt === originalTxt) {
-        showErrorMessage("Ingen endringer å lagre.");
-        return;
+        await createPost(meetupId, title, txt, currentUser);
+        showSuccessMessage("Innlegget er publisert.");
       }
-      await updatePost(editingPostId, {
-        postName: title,
-        text: txt,
-      });
-      showSuccessMessage("Innlegget er redigert.");
-      editingPostId = null;
-    } else {
-      if (!currentUser) return;
-
-      await createPost(meetupId, title, txt, currentUser);
-      showSuccessMessage("Innlegget er publisert.");
+      await loadPosts();
+      resetEditMode();
+    } catch {
+      showErrorMessage("Kunne ikke publisere innlegg.");
     }
-    await loadPosts();
-    resetPostOverlay();
-  } catch (error) {
-    console.error("Kunne ikke lagre innlegg:", error);
-    showErrorMessage("Kunne ikke publisere innlegg.");
-  }
-});
+  });
+}
 
 function renderPost(post: Post, canEdit: boolean): string {
   const postArticle = `
@@ -202,7 +209,6 @@ function renderPost(post: Post, canEdit: boolean): string {
         <span class="user-name"></span>
       </div>
       <textarea
-      id="comment"
         class="comment"
         aria-label="Skriv inn din kommentar"
         name="kommentar"
@@ -228,6 +234,9 @@ function renderPost(post: Post, canEdit: boolean): string {
 }
 
 function showPosts(postList: Post[]) {
+  const currentUser = getCurrentUser();
+  const currentUserId = currentUser?.id;
+  const isLoggedIn = getIsLoggedIn();
   postContainer.innerHTML = "";
   postCounter.style.display = "inline-flex";
   postCounter.innerHTML = `${postList.length}`;
@@ -255,8 +264,7 @@ function showPosts(postList: Post[]) {
       ".likes-counter"
     ) as HTMLSpanElement;
 
-    if (currentUserId)
-      loadReactions(currentUserId, post.id, likeBtn, dislikeBtn);
+    if (currentUserId) loadReactions(post.id, likeBtn, dislikeBtn);
 
     let likeCount = post.likes || 0;
     let dislikeCount = post.dislikes || 0;
@@ -296,8 +304,8 @@ function showPosts(postList: Post[]) {
           }
           likesCounter.textContent = `${likeCount}`;
           await updatePostReactions(post.id, likeCount, dislikeCount);
-        } catch (error) {
-          console.error(error);
+        } catch {
+          showErrorMessage("Kunne ikke reagere på innlegg.");
         }
       });
     }
@@ -340,8 +348,8 @@ function showPosts(postList: Post[]) {
           dislikesCounter.textContent = `${dislikeCount}`;
 
           await updatePostReactions(post.id, likeCount, dislikeCount);
-        } catch (error) {
-          console.error(error);
+        } catch {
+          showErrorMessage("Kunne ikke reagere på innlegg.");
         }
       });
     }
@@ -359,8 +367,8 @@ function showPosts(postList: Post[]) {
         showEditMode(post);
 
         if (postOverlay) postOverlay.style.display = "block";
-      } catch (error) {
-        console.error(error);
+      } catch {
+        showErrorMessage("Kan ikke redigere innlegg.");
       }
     });
   });
@@ -386,8 +394,8 @@ function showPosts(postList: Post[]) {
         localStorage.removeItem(`${currentUserId}likes${id}`);
         await loadPosts();
         showSuccessMessage("Innlegget er slettet.");
-      } catch (error) {
-        console.error(error);
+      } catch {
+        showErrorMessage("Kunne ikke slette innlegg.");
       }
     });
   });

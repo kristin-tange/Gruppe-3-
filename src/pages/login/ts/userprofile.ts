@@ -205,6 +205,7 @@ const relativePath: string = url.pathname;
 
     const safeUser: LoginUser = {
       id: savedUser.id,
+      email: savedUser.email
      
     };
 
