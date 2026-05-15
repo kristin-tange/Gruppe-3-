@@ -6,10 +6,10 @@ import type {Meetup} from "../../../ts/types";
 //Forteller TS at lucide finnes i browseren
 declare const lucide: any;
 
-let slides = document.querySelectorAll(".hero-slide");
-const prevButton = document.querySelector(".hero-prev");
-const nextButton = document.querySelector(".hero-next");
-const heroSection = document.querySelector(".hero");
+let slides = document.querySelectorAll<HTMLElement>(".hero-slide");
+const prevButton = document.querySelector(".hero-prev") as HTMLButtonElement | null;
+const nextButton = document.querySelector(".hero-next") as HTMLButtonElement | null;
+const heroSection = document.querySelector(".hero") as HTMLElement | null;
 //Holder styr på hvilken slide som er aktiv
 let currentSlide = 0;
 
