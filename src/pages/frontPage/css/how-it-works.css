@@ -40,7 +40,6 @@
   height: 40px;
 }
 
-
 .step-text {
   line-height: 1.5;
 }
@@ -48,8 +47,6 @@
 .step-text p {
   font-size: var(--main-text);
 }
-
-/* tablet */
 
 @media (min-width: 768px) {
   .steps {
@@ -66,8 +63,6 @@
   }
 }
 
-/* Laptop /* desktop */ 
-
 @media (min-width: 768px) {
   .step {
     width: 550px;
@@ -80,10 +75,9 @@
   }
 
   .step-icon .lucide {
-  width: 60px;
-  height: 60px;
-}
-
+    width: 60px;
+    height: 60px;
+  }
 
   .step-text {
     line-height: 2.5;

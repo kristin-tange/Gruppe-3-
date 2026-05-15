@@ -36,7 +36,7 @@
       rgba(255, 255, 255, 0.7) 40%,
       rgba(255, 255, 255, 0.2) 100%
     ),
-    url(../../../../public/assets/img/Gatherly-hero.png) center / cover no-repeat;
+    url(/assets/img/Gatherly-hero.png) center / cover no-repeat;
 
   text-align: center;
 }
@@ -116,8 +116,6 @@
   margin: 0 auto;
 }
 
-/* tablet */
-
 @media (min-width: 768px) {
   .event-hero-content {
     max-width: 600px;
@@ -152,8 +150,6 @@
     font-size: 32px;
   }
 }
-
-/* desktop */
 
 @media (min-width: 1024px) {
   .hero h1 {
