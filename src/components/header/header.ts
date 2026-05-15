@@ -1,9 +1,11 @@
 // Oscar Wirum
 
-const header = document.querySelector("header");
+import { initBurgerMenu } from "./burger.ts";
+
+
+const header = document.querySelector("header") as HTMLElement;
 
 function isLoggedIn() {
-  //må gjøres om senere med API key
   return localStorage.getItem("isLoggedIn") === "true";
 }
 
@@ -40,6 +42,7 @@ function updateLoginArea() {
   logoutBtn.addEventListener("click", () => {
     localStorage.setItem("isLoggedIn", "false");
     localStorage.removeItem("currentUser");
+    localStorage.removeItem("apiKey");
   });
 }
 
@@ -50,15 +53,16 @@ function setActiveNavLink() {
   navLinks.forEach((link) => {
     link.classList.remove("active");
 
-    if (currentPath.includes(link.getAttribute("href"))) {
+    const href = link.getAttribute("href");
+    if (!href) return;
+    if (currentPath.includes(href)) {
       link.classList.add("active");
     }
   });
 }
 
-function logOut() {}
-
 function displayHeader() {
+
   header.innerHTML = `
     <div class="hamburger-backdrop"></div>
       <div id="menu-div"><button class="hamburger" aria-label="Åpne meny">
@@ -86,8 +90,6 @@ function displayHeader() {
   updateLoginArea();
 }
 
-//midlertidig switch for isLoggedIn - Bytt mellom true eller false for å se endring på siden.
-//localStorage.setItem("isLoggedIn", "true");
-
 displayHeader();
 setActiveNavLink();
+initBurgerMenu();

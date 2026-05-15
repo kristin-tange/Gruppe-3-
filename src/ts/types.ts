@@ -47,3 +47,13 @@ export interface Comment {
   comment: string;
   created: string;
 }
+
+export interface Folder {
+  id: number
+  name: string
+  events: number[]
+  userId: number
+  created: string
+  updated: string
+}
+

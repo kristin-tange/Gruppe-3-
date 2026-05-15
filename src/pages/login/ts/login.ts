@@ -1,24 +1,16 @@
 //siva
+import { BASE_URL, API_KEY } from "../../../ts/config";
+import type { User,LoginUser} from "../../../ts/types";
+
 
 document.addEventListener("DOMContentLoaded", (): void => {
 
   const logBtn = document.getElementById("loginBtn") as HTMLButtonElement | null;
   const registrerBtn = document.getElementById("registrer") as HTMLButtonElement | null;
 
-  const API_URL = "http://localhost:3000/api/users";
-  const API_KEY = "group3api";
+   const API_URL = `${BASE_URL}/users`;
 
-  interface User {
-    id: number;
-    firstName?: string;
-    lastName?: string;
-    username?: string;
-    email: string;
-    password?: string;
-    description?: string;
-    gender?:string;
-  }
-
+ 
   // -----------------------
   // Login existing user
   // -----------------------
@@ -59,14 +51,10 @@ document.addEventListener("DOMContentLoaded", (): void => {
       }
 
       //safe storage
-       const safeUser = {
-        id: user.id,
-          firstName: user.firstName,
-          lastName: user.lastName,
-          username: user.username,
-          email: user.email,
-          description: user.description,
-          gender:user.gender
+       const safeUser: LoginUser= {
+          id: user.id,
+          email: user.email
+          
       };
 
 

@@ -60,9 +60,9 @@ async function loadProfile() {
      // change profile image based on gender
       const gender = existingUser.gender;
 
-      if (gender === "mann") {
+      if (gender === "male") {
         profileImage.src = "/assets/img/profilepictureman.png";
-      } else if (gender === "kvinne") {
+      } else if (gender === "female") {
         profileImage.src = "/assets/img/profilepicturewoman.jpeg";
       }
 
