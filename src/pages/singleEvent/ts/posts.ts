@@ -88,8 +88,8 @@ export async function loadPosts(): Promise<void> {
     setTimeout(() => {
       showPosts(posts);
     }, 1500);
-  } catch (error) {
-    console.error("Kunne ikke hente poster:", error);
+  } catch {
+    showErrorMessage("Kunne ikke hente poster.");
   }
 }
 
@@ -126,8 +126,7 @@ if (postForm) {
       }
       await loadPosts();
       resetEditMode();
-    } catch (error) {
-      console.error("Kunne ikke lagre innlegg:", error);
+    } catch {
       showErrorMessage("Kunne ikke publisere innlegg.");
     }
   });
@@ -305,8 +304,7 @@ function showPosts(postList: Post[]) {
           }
           likesCounter.textContent = `${likeCount}`;
           await updatePostReactions(post.id, likeCount, dislikeCount);
-        } catch (error) {
-          console.error(error);
+        } catch {
           showErrorMessage("Kunne ikke reagere på innlegg.");
         }
       });
@@ -350,8 +348,7 @@ function showPosts(postList: Post[]) {
           dislikesCounter.textContent = `${dislikeCount}`;
 
           await updatePostReactions(post.id, likeCount, dislikeCount);
-        } catch (error) {
-          console.error(error);
+        } catch {
           showErrorMessage("Kunne ikke reagere på innlegg.");
         }
       });
@@ -370,9 +367,8 @@ function showPosts(postList: Post[]) {
         showEditMode(post);
 
         if (postOverlay) postOverlay.style.display = "block";
-      } catch (error) {
-        console.error(error);
-        showErrorMessage("Noe gikk galt.");
+      } catch {
+        showErrorMessage("Kan ikke redigere innlegg.");
       }
     });
   });
@@ -398,9 +394,8 @@ function showPosts(postList: Post[]) {
         localStorage.removeItem(`${currentUserId}likes${id}`);
         await loadPosts();
         showSuccessMessage("Innlegget er slettet.");
-      } catch (error) {
-        console.error(error);
-        showErrorMessage("Noe gikk galt.");
+      } catch {
+        showErrorMessage("Kunne ikke slette innlegg.");
       }
     });
   });

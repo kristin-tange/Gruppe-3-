@@ -84,8 +84,8 @@ function renderComment(
           await loadPosts();
           showSuccessMessage("Kommentaren er slettet.");
         }
-      } catch (error) {
-        console.error(error);
+      } catch {
+        showErrorMessage("Kommentaren kunne ikke slettes.");
       }
     });
   }
@@ -175,8 +175,7 @@ export function showComments(
       commentTxt.style.backgroundColor = "";
       commentBox.classList.add("hide-comment");
       await loadPosts();
-    } catch (error) {
-      console.error("Kunne ikke publisere kommentar:", error);
+    } catch {
       showErrorMessage("Kunne ikke publisere kommentar.");
     }
   });
