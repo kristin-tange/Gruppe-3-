@@ -6,14 +6,6 @@ Formål med prosjektet
 
 Gatherly er en demo-applikasjon utviklet av gruppe 3 i faget Frontend-utvikling emne 2 ved Gokstad Akademiet. Løsningen er bygget med Vite, TypeScript, vanilla HTML og CSS. Hvert gruppemedlem har fått ansvar for å utvikle én side i løsningen med full CRUD-funksjonalitet mot tildelt API ([CrudOps](https://github.com/vegarcodes/crudops)). Ansvarsfordeling og API er beskrevet nedenfor. 
 
-Formålet med prosjektperioden har vært å: 
-* etablere gode rutiner for gruppesamarbeid
-* utarbeide detaljerte planer for utviklingsarbeidet med tydelig avgrenset scope og definerte krav til utførelse
-* gjennomføre planene på en strukturert og tilfredstillende måte ved hjelp av Scrum, GitHub og GitHub Projects
-* levere en ferdig løsning i tråd med kundecase, scope og akseptansekriterier i kravspesifikasjonen
-
-Gruppa har også utformet en enkel og sammenhengende visuell profil med wireframes og styletile for å sikre et helhetlig og sammenhengende uttrykk. Videre har gruppa hatt fokus på semantisk html, aria-labels, tydelige brukermeldinger og media queries for å sikre god tilgjengelighet og responsivitet i ulike skjermstørrelser.
-
 Om Gatherly
 -----------
 
@@ -76,5 +68,27 @@ Tabellen under viser hvem som har hatt ansvar for å utvikle de ulike sidene i l
 | Arrangementer | events.html  | Oscar | folders |
 | Enkeltarrangement | singleEvent.html  | Kristin | posts |
 
+Mappestruktur
+-----------
+Prosjektet er strukturert med globale mapper for gjenbrukbare komponenter, styling og TypeScript-filer. Hver side i løsningen har deretter sin egen mappe som inneholder HTML-filer, CSS-filer og TypeScript-filer for den aktuelle siden, med unntak av index.html og index.ts som ligger i rotmappen. 
 
+```text
+src
+├── components
+│   ├── footer
+│   └── header
+├── css
+│   ├── global.css
+│   └── style.css
+├── pages
+│   ├── createEvent
+│   ├── events
+│   ├── frontPage
+│   ├── login
+│   └── singleEvent
+└── ts
+    ├── api.ts
+    ├── config.ts
+    └── types.ts
 
+```
