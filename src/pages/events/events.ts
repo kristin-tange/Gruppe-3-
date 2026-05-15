@@ -1,4 +1,5 @@
 // Oscar Wirum
+
 import type { Meetup, Folder } from "../../ts/types";
 import { BASE_URL, API_KEY } from "../../ts/config";
 
@@ -20,23 +21,25 @@ if (loggedIn) {
 
 import { fetchMeetups } from "../../ts/api";
 
-async function fetchFolders() {
+async function fetchFolders(): Promise<Folder[]> {
   try {
     if (!loggedIn) {
       folders = [];
-      return;
+      return [];
     }
 
     const response = await fetch(`${BASE_URL}/folders?userId=${userId}`);
     if (!response.ok) {
       console.warn("Folders API not ready yet");
       folders = [];
-      return;
+      return [];
     }
     folders = await response.json();
+    return folders;
   } catch (err) {
     console.warn("Error fetching folders:", err);
     folders = [];
+    return [];
   }
 }
 
@@ -70,8 +73,6 @@ function displayMeetups(list = meetups) {
     colElements.push(col);
     eventsContainer.appendChild(col);
   }
-
-  // FOLDER CARD
 
   let folderCard = null;
 
@@ -118,11 +119,9 @@ function displayMeetups(list = meetups) {
       <h2>${event.name}</h2>
       <p>${event.summary}</p>
     </div>
-    
   </a>
-
   <div class="card-top-row ">
-    <div id="filter${event.category}" class="card-content category tag">${event.category}</div>
+    <div id="filter${event.category}" class=" card-content category tag">${event.category}</div>
 
     ${
       activeFolderId !== null && !selectionMode
@@ -133,12 +132,11 @@ function displayMeetups(list = meetups) {
   <img src="${event.image}" alt="">
 `;
 
-    colElements[(index + 1) % columns].appendChild(card);
+    const columnIndex = loggedIn ? (index + 1) % columns : index % columns;
+    colElements[columnIndex].appendChild(card);
 
     card.dataset.eventId = String(event.id);
 
-
-    // Selection mode (velge flere meetups)
     card.addEventListener("click", e => {
       if (!selectionMode) return;
       e.preventDefault();
@@ -155,7 +153,6 @@ function displayMeetups(list = meetups) {
     });
   });
 
-  // LEGG TIL MEETUPS I MAPPE
   if (!folderCard) return;
   if (activeFolderId !== null && !selectionMode) {
     const addBtn = document.createElement("button");
@@ -163,8 +160,6 @@ function displayMeetups(list = meetups) {
     addBtn.textContent = "Legg til meetups i denne mappen";
     folderCard.appendChild(addBtn);
   }
-
-  // LAGRE VALGTE MEETUPS
 
   if (selectionMode) {
     const okBtn = document.createElement("button");
@@ -174,12 +169,20 @@ function displayMeetups(list = meetups) {
   }
 }
 
-window.addEventListener("resize", () => displayMeetups());
-
 async function init() {
   meetups = await fetchMeetups();
   await fetchFolders();
-  displayMeetups();
+
+  const params = new URLSearchParams(window.location.search);
+  const category = params.get("category");
+
+  if (category) {
+    activeFolderId = null;
+    selectionMode = false;
+    filterMeetups(category);
+  } else {
+    displayMeetups();
+  }
 }
 
 document.addEventListener("click", async e => {
@@ -234,30 +237,6 @@ async function deleteFolder(folderId: number) {
   if (!response.ok) throw new Error("Kunne ikke slette mappe");
 }
 
-document.addEventListener("change", async e => {
-  const target = e.target as HTMLElement;
-  if (!(target instanceof HTMLSelectElement)) return;
-  if (target.id === "folderSelect") {
-    const folderId = Number(target.value);
-    const eventId = Number(prompt("Hvilket meetup vil du legge til i mappen?"));
-
-    if (!eventId) return;
-
-    const folder = folders.find(f => f.id === folderId);
-    if (!folder) return;
-
-    const updatedEvents = [...new Set([...(folder.events || []), eventId])];
-
-    const updatedFolder = await updateFolder(folderId, {
-      events: updatedEvents,
-    });
-
-    folder.events = updatedFolder.events;
-
-    alert("Meetup lagt til i mappen!");
-  }
-});
-
 document.addEventListener("click", async e => {
   const target = e.target as HTMLElement;
   if (!(target instanceof HTMLElement)) return;
@@ -297,6 +276,7 @@ document.addEventListener("click", e => {
   const target = e.target as HTMLElement;
   if (!(target instanceof HTMLElement)) return;
   if (target.classList.contains("folderFilterBtn")) {
+    history.replaceState(null, "", "events.html");
     activeFolderId = Number(target.dataset.folder);
     filterByFolder(activeFolderId);
   }
@@ -362,36 +342,43 @@ function filterMeetups(category: string) {
 }
 
 document.getElementById("filterAll")!.addEventListener("click", () => {
+  history.replaceState(null, "", "events.html");
   activeFolderId = null;
   selectionMode = false;
   displayMeetups();
 });
 document.getElementById("filterAcademia")!.addEventListener("click", () => {
+  history.replaceState(null, "", "events.html");
   activeFolderId = null;
   selectionMode = false;
   filterMeetups("Academia");
 });
 document.getElementById("filterEntertainment")!.addEventListener("click", () => {
+  history.replaceState(null, "", "events.html");
   activeFolderId = null;
   selectionMode = false;
   filterMeetups("Entertainment");
 });
 document.getElementById("filterProfessional")!.addEventListener("click", () => {
+  history.replaceState(null, "", "events.html");
   activeFolderId = null;
   selectionMode = false;
   filterMeetups("Professional");
 });
 document.getElementById("filterLiterature")!.addEventListener("click", () => {
+  history.replaceState(null, "", "events.html");
   activeFolderId = null;
   selectionMode = false;
   filterMeetups("Literature");
 });
 document.getElementById("filterTechnology")!.addEventListener("click", () => {
+  history.replaceState(null, "", "events.html");
   activeFolderId = null;
   selectionMode = false;
   filterMeetups("Technology");
 });
 document.getElementById("filterSports")!.addEventListener("click", () => {
+  history.replaceState(null, "", "events.html");
   activeFolderId = null;
   selectionMode = false;
   filterMeetups("Sports");

@@ -1,6 +1,6 @@
 <!-- Adrian Persen -->
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="nb">
   <head>
     <meta charset="UTF-8" />
@@ -10,8 +10,6 @@
     <link rel="stylesheet" href="src/pages/frontPage/css/categories.css" />
     <link rel="stylesheet" href="src/pages/frontPage/css/how-it-works.css" />
     <link rel="stylesheet" href="src/pages/frontPage/css/support.css" />
-    
-    
 
     <!-- ROBOTO-FONT -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -28,166 +26,202 @@
     <title>Gatherly</title>
   </head>
 
-
-
   <body>
-    <header>
-
-    </header>
+    <header></header>
 
     <main>
-        <section class="hero">
+      <section class="hero">
+        <div class="hero-slide active slide-1">
+          <div class="hero-content">
+            <h1>Gatherly</h1>
+            <p>Oppdag arrangementer, bli med og del opplevelser med andre.</p>
+            <a class="arrangement-link" href="src/pages/events/events.html"
+              >Utforsk arrangementer</a
+            >
+          </div>
+        </div>
 
-          <div class="hero-slide active slide-1">
-            <div class="hero-content">
-              <h1>Gatherly</h1>
-            <p>Oppdag arrangementer, bli med og del opplevelser med andre.
-            </p>
-            <a class="arrangement-link" href="src/pages/events/events.html">Utforsk arrangementer</a>
-            </div>
-            </div>
+        <button class="hero-prev" aria-label="Forrige slide">
+          <i data-lucide="chevron-left"></i>
+        </button>
+        <button class="hero-next" aria-label="Neste slide">
+          <i data-lucide="chevron-right"></i>
+        </button>
+      </section>
 
-            <button class="hero-prev" aria-label="Forrige slide"><i data-lucide="chevron-left"></i></button>
-            <button class="hero-next" aria-label="Neste slide"><i data-lucide="chevron-right"></i></button>
-        </section>
+      <section class="categories">
+        <div class="container">
+          <h2>Kategorier</h2>
 
-        <section class="categories">
-            
-            <div class="container">
-                <h2>Kategorier</h2>
+          <ul class="category-grid">
+            <li>
+              <a
+                href="./src/pages/events/events.html?category=Academia"
+                class="category-card academia"
+                aria-label="Utforsk kategorien Akademisk"
+              >
+                <h3>Akademisk</h3>
+              </a>
+            </li>
+            <li>
+              <a
+                href="./src/pages/events/events.html?category=Entertainment"
+                class="category-card entertainment"
+                aria-label="Utforsk kategorien Underholdning"
+              >
+                <h3>Underholdning</h3>
+              </a>
+            </li>
+            <li>
+              <a
+                href="./src/pages/events/events.html?category=Professional"
+                class="category-card professional"
+                aria-label="Utforsk kategorien Profesjonell"
+              >
+                <h3>Profesjonell</h3>
+              </a>
+            </li>
+            <li>
+              <a
+                href="./src/pages/events/events.html?category=Literature"
+                class="category-card literature"
+                aria-label="Utforsk kategorien Litteratur"
+              >
+                <h3>Litteratur</h3>
+              </a>
+            </li>
+            <li>
+              <a
+                href="./src/pages/events/events.html?category=Technology"
+                class="category-card technology"
+                aria-label="Utforsk kategorien Teknologi"
+              >
+                <h3>Teknologi</h3>
+              </a>
+            </li>
+            <li>
+              <a
+                href="./src/pages/events/events.html?category=Sports"
+                class="category-card sports"
+                aria-label="Utforsk kategorien Sport"
+              >
+                <h3>Sport</h3>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
 
-                <ul class="category-grid">
-                    <li>
-                        <a href="./src/pages/events/events.html" class="category-card academia" aria-label="Utforsk kategorien Akademisk">
-                            <h3>Akademisk</h3>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./src/pages/events/events.html" class="category-card entertainment" aria-label="Utforsk kategorien Underholdning">
-                            <h3>Underholdning</h3>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./src/pages/events/events.html" class="category-card professional" aria-label="Utforsk kategorien Profesjonell">
-                            <h3>Profesjonell</h3>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./src/pages/events/events.html" class="category-card literature" aria-label="Utforsk kategorien Litteratur">
-                            <h3>Litteratur</h3>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./src/pages/events/events.html" class="category-card technology" aria-label="Utforsk kategorien Teknologi">
-                            <h3>Teknologi</h3>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./src/pages/events/events.html" class="category-card sports" aria-label="Utforsk kategorien Sport">
-                            <h3>Sport</h3>
-                        </a>
-                    </li>
-                </ul>
-
-</div>
-
-
-           
-        </section>
-
-        <section class="how-it-works">
-            
-                <h2>Hvordan fungerer Gatherly?</h2>
-<div class="steps-wrapper">
-                <ol class="steps">
-                    <li class="step">
-                        <div class="step-icon"><i data-lucide="search"></i></div>
-                        <div class="step-text">
-                        <h3>Finn arrangementer</h3>
-                        <p>Utforsk ulike kategorier og oppdag arrangementer som passer for deg.</p>
-                        </div>
-                    </li>
-                    <li class="step">
-                        <div class="step-icon"><i data-lucide="calendar-plus"></i></div>
-                        <div class="step-text">
-                        <h3>Opprett arrangement</h3>
-                        <p>Arrangører kan enkelt publisere og administrere sine egne arrangementer</p>
-                        </div>
-                    </li>
-                    <li class="step">
-                        <div class="step-icon"><i data-lucide="ticket"></i></div>
-                        <div class="step-text">
-                        <h3>Meld deg på</h3>
-                        <p>Ser du et arrangement du liker? Meld deg enkelt på med et klikk!</p>
-                        </div>
-                    </li>
-                    <li class="step">
-                        <div class="step-icon"><i data-lucide="users"></i></div>
-                        <div class="step-text">
-                        <h3>Engasjer deg</h3>
-                        <p>Delta i kommentarfelt, eller publiser artikler for å dele dine tanker</p>
-                        </div>
-                    </li>
-
-                  </ol>
-</div>
-        </section>
-
+      <section class="how-it-works">
+        <h2>Hvordan fungerer Gatherly?</h2>
+        <div class="steps-wrapper">
+          <ol class="steps">
+            <li class="step">
+              <div class="step-icon"><i data-lucide="search"></i></div>
+              <div class="step-text">
+                <h3>Finn arrangementer</h3>
+                <p>
+                  Utforsk ulike kategorier og oppdag arrangementer som passer
+                  for deg.
+                </p>
+              </div>
+            </li>
+            <li class="step">
+              <div class="step-icon"><i data-lucide="calendar-plus"></i></div>
+              <div class="step-text">
+                <h3>Opprett arrangement</h3>
+                <p>
+                  Arrangører kan enkelt publisere og administrere sine egne
+                  arrangementer
+                </p>
+              </div>
+            </li>
+            <li class="step">
+              <div class="step-icon"><i data-lucide="ticket"></i></div>
+              <div class="step-text">
+                <h3>Meld deg på</h3>
+                <p>
+                  Ser du et arrangement du liker? Meld deg enkelt på med et
+                  klikk!
+                </p>
+              </div>
+            </li>
+            <li class="step">
+              <div class="step-icon"><i data-lucide="users"></i></div>
+              <div class="step-text">
+                <h3>Engasjer deg</h3>
+                <p>
+                  Delta i kommentarfelt, eller publiser artikler for å dele dine
+                  tanker
+                </p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
     </main>
 
-  <button id="support-btn" aria-label="Send inn en support-ticket">
-    <i data-lucide="message-circle-more"></i>
-  </button>
+    <button id="support-btn" aria-label="Send inn en support-ticket">
+      <i data-lucide="message-circle-more"></i>
+    </button>
 
-  <div id="support-box">
+    <div id="support-box">
+      <div class="form-container">
+        <div class="support-header">
+          <h2>Support</h2>
+          <button id="close-support-btn" aria-label="Lukk support-boksen">
+            &times;
+          </button>
+        </div>
 
-    <div class="form-container">
+        <div class="support-tabs">
+          <button class="support-tab active" id="send-ticket-tab">
+            Send inn sak
+          </button>
+          <button class="support-tab" id="my-tickets-tab">Mine saker</button>
+        </div>
 
-    <div class="support-header">
-      <h2>Support</h2>
-      <button id="close-support-btn" aria-label="Lukk support-boksen">&times;</button>
+        <section id="send-ticket-section">
+          <form id="support-form">
+            <div class="form-group">
+              <label for="title">Tittel:</label>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                maxlength="80"
+                required
+                placeholder="Kort tittel på saken"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="message">Hva gjelder saken?</label>
+              <textarea
+                id="message"
+                name="message"
+                rows="4"
+                maxlength="500"
+                required
+                placeholder="Beskriv saken..."
+              ></textarea>
+            </div>
+
+            <button type="submit" id="submit-support-btn">Send inn</button>
+          </form>
+        </section>
+
+        <section id="my-tickets-section" class="hidden">
+          <div class="tickets-header">
+            <h3>Mine saker</h3>
+          </div>
+
+          <div id="tickets-list"></div>
+        </section>
+      </div>
     </div>
 
-<div class="support-tabs">
-      <button class="support-tab active" id="send-ticket-tab">Send inn sak</button>
-      <button class="support-tab" id="my-tickets-tab">Mine saker</button>
-    </div>
-
-    <section id="send-ticket-section">
-
-    <form id="support-form">
-<div class="form-group">
-      <label for="title">Tittel:</label>
-      <input type="text" id="title" name="title" maxlength="80" required placeholder="Kort tittel på saken">
-</div>
-
-<div class="form-group">
-      <label for="message">Hva gjelder saken?</label>
-      <textarea id="message" name="message" rows="4" maxlength="500" required placeholder="Beskriv saken..."></textarea>
-</div>     
-
-      <button type="submit" id="submit-support-btn">Send inn</button>
-    </form>
-    </section>
-
-    <section id="my-tickets-section" class="hidden">
-      <div class="tickets-header">
-        <h3>Mine saker</h3>
-      </div>
-
-      <div id="tickets-list">
-      </div>
-    </section>
-
-  </div>
-</div>
-
-
-<footer>
- 
-    </footer>
-
-
+    <footer></footer>
 
 <script src="https://unpkg.com/lucide@latest"></script>
 <script type="module" src="src/pages/frontPage/ts/hero-slider.ts"></script>
@@ -197,4 +231,3 @@
     <script type="module" src="index.ts" defer></script>
   </body>
 </html>
- 
