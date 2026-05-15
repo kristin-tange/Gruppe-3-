@@ -1,7 +1,3 @@
-// KRISTIN TANGE (Remove name?)
-
-//  GLOBAL INTERFACES
-// TODO Remember to update interfaces when we have agreed on the final structure
 export interface User {
   id: number;
   firstName: string;
@@ -11,9 +7,10 @@ export interface User {
   password: string;
   email: string;
   gender: string;
-  age: number;
   image: string;
 }
+
+export type LoginUser = Pick<User, "id" | "email">;
 
 export interface Meetup {
   id: number;
@@ -24,8 +21,8 @@ export interface Meetup {
   description: string;
   tags: string[];
   category: string;
-  price?: string;
-  image?: string;
+  price: string;
+  image: string;
   imageAlt?: string;
   created: string;
   updated: string;
@@ -60,4 +57,3 @@ export interface Folder {
   updated: string
 }
 
-// TODO ADD TYPE FOR: folder-item? support-ticket?

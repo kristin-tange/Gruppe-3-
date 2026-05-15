@@ -47,16 +47,10 @@ function renderComment(
               </button>`
                 : ""
             }
-             
-            </div>
           </div>`;
 
-  const commentsContainer = postArticle.querySelector(
-    ".comment-list"
-  ) as HTMLDivElement;
-  const commentBox = postArticle.querySelector(
-    ".add-comment"
-  ) as HTMLFormElement;
+  const commentsContainer = postArticle.querySelector(".comment-list");
+  const commentBox = postArticle.querySelector(".add-comment");
 
   const commentTxt = postArticle.querySelector(
     ".comment"
@@ -64,10 +58,11 @@ function renderComment(
   const postCommentBtn = postArticle.querySelector(
     ".post-comment-btn"
   ) as HTMLButtonElement;
-
   const editCommentBtn = commentElement.querySelector(".edit-comment-btn");
+
   if (editCommentBtn) {
     editCommentBtn.addEventListener("click", async () => {
+      if (!commentTxt || !commentBox) return;
       editingCommentId = comment.id;
       commentTxt.value = comment.comment;
       commentBox.classList.remove("hide-comment");
@@ -94,7 +89,7 @@ function renderComment(
       }
     });
   }
-
+  if (!commentsContainer) return;
   commentsContainer.appendChild(commentElement);
 }
 
@@ -106,7 +101,7 @@ export function showComments(
 ) {
   const commentForm = postArticle.querySelector(
     ".add-comment"
-  ) as HTMLButtonElement;
+  ) as HTMLFormElement;
   const commentTxt = postArticle.querySelector(
     ".comment"
   ) as HTMLTextAreaElement;
@@ -119,6 +114,11 @@ export function showComments(
   const exitCommentBtn = postArticle.querySelector(
     ".exit-comment-btn"
   ) as HTMLButtonElement;
+  const postCommentBtn = postArticle.querySelector(
+    ".post-comment-btn"
+  ) as HTMLButtonElement;
+
+  if (!commentForm || !commentBox || !commentTxt) return;
 
   if (commentBtn) {
     commentBtn.addEventListener("click", () => {
@@ -145,13 +145,17 @@ export function showComments(
       commentBox.classList.add("hide-comment");
       commentTxt.value = "";
       commentTxt.style.backgroundColor = "";
+      editingCommentId = null;
+      if (postCommentBtn) {
+        postCommentBtn.textContent = "Send";
+      }
     });
   }
 
-  commentForm?.addEventListener("submit", async (e) => {
+  commentForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const newComment: string | null = commentTxt?.value.trim();
+    const newComment: string = commentTxt.value.trim();
 
     if (!newComment || !currentUser) return;
 
@@ -160,6 +164,9 @@ export function showComments(
         await updateComment(post.id, editingCommentId, newComment);
         showSuccessMessage("Kommentaren er redigert.");
         editingCommentId = null;
+        if (postCommentBtn) {
+          postCommentBtn.textContent = "Send";
+        }
       } else {
         await createComment(post.id, newComment, currentUser);
         showSuccessMessage("Kommentaren er publisert.");

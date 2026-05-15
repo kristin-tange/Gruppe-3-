@@ -76,7 +76,7 @@
           <div id="loading-state"></div>
         </div>
 
-        <aside id="post-overlay" aria-labelledby="form-heading">
+        <dialog id="post-overlay" aria-labelledby="form-heading">
           <form id="post-form" class="form-container">
             <button
               id="close-btn"
@@ -124,22 +124,18 @@
               </button>
             </div>
           </form>
-        </aside>
+        </dialog>
       </section>
     </main>
 
     <footer></footer>
 
-    <script type="module" src="/src/js/header.js"></script>
-    <script type="module" src="/src/js/burger.js"></script>
-    <script type="module" src="/src/js/footer.js"></script>
+    <script type="module" src="/src/ts/components/header.ts"></script>
+    <script type="module" src="/src/ts/components/footer.ts"></script>
 
     <script
       type="module"
       src="/src/pages/singleEvent/ts/singleEvent.ts"
     ></script>
-
-    <script type="module" src="/src/pages/singleEvent/ts/posts.ts"></script>
-    <script type="module" src="/src/pages/singleEvent/ts/comment.ts"></script>
   </body>
 </html>
