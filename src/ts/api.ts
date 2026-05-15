@@ -1,3 +1,5 @@
+//Collaborative Typescript for use on multiple pages
+
 import type { Meetup, User } from "./types";
 import { BASE_URL } from "./config";
 

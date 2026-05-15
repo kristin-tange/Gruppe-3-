@@ -1,3 +1,5 @@
+//Collaborative Typescript for use on multiple pages
+
 export interface User {
   id: number;
   firstName: string;
@@ -57,3 +59,15 @@ export interface Folder {
   updated: string
 }
 
+export interface SupportTicket {
+    id?: number
+    title: string;
+    name: string;
+    email: string;
+    message: string;
+    userId: number;
+    created?: string;
+    updated?: string;
+}
+
+// TODO ADD TYPE FOR: folder-item? support-ticket?

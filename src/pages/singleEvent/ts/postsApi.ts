@@ -14,6 +14,7 @@ export async function fetchSingleEvent(meetupId: number): Promise<Meetup> {
     }
     return await response.json();
   } catch (error) {
+    console.error(error);
     throw error;
   }
 }
@@ -29,6 +30,7 @@ export async function fetchPosts(): Promise<Post[]> {
     posts = await response.json();
     return posts;
   } catch (error) {
+    console.error(error);
     throw error;
   }
 }
@@ -43,6 +45,7 @@ export async function fetchSinglePost(id: number): Promise<Post> {
 
     return await response.json();
   } catch (error) {
+    console.error(error);
     throw error;
   }
 }
@@ -89,6 +92,7 @@ export async function createPost(
     const createdPost = await response.json();
     return createdPost;
   } catch (error) {
+    console.error(error);
     throw error;
   }
 }
@@ -112,6 +116,7 @@ export async function updatePost(
     }
     return await response.json();
   } catch (error) {
+    console.error(error);
     throw error;
   }
 }
@@ -146,6 +151,7 @@ export async function deletePost(id: number): Promise<void> {
       throw new Error(`Kunne ikke slette innlegg: ${response.status}`);
     }
   } catch (error) {
+    console.error(error);
     throw error;
   }
 }

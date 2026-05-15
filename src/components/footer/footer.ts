@@ -1,6 +1,6 @@
 // Jan-Roger Kviteberg
 
-function displayFooter() {
+function displayFooter(): void {
   const footer = document.querySelector("footer");
 
   if (!footer) {
@@ -15,9 +15,11 @@ function displayFooter() {
       <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" class="social-link">
         <img src="/assets/icons/facebook.png" alt="Facebook" class="icon" />
       </a>
+
       <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" class="social-link">
         <img src="/assets/icons/instagram.png" alt="Instagram" class="icon" />
       </a>
+
       <a href="mailto:post@gatherly.no" class="social-link">
         <img src="/assets/icons/mail.png" alt="Email" class="icon" />
       </a>

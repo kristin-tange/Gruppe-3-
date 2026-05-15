@@ -21,9 +21,7 @@
   list-style: none;
 }
 
-
-
-  .category-card {
+.category-card {
   height: 80px;
   border-radius: var(--card-radius);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -39,7 +37,6 @@
 .category-card:hover {
   cursor: pointer;
   transform: scale(1.05);
-
 }
 
 .category-grid h3 {
@@ -75,8 +72,6 @@
   background: var(--sports-cat);
 }
 
-/* tablet */
-
 @media (min-width: 768px) {
   .category-grid {
     grid-template-columns: repeat(3, 1fr);
@@ -84,12 +79,8 @@
   }
 }
 
-/* desktop */
-
 @media (min-width: 1024px) {
-
   .category-card {
     height: 120px;
-    
   }
 }

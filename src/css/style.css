@@ -1,3 +1,3 @@
 @import "./global.css";
-@import "src/components/header/header.css";
-@import "src/components/footer/footer.css";
+@import "../components/header/header.css";
+@import "../components/footer/footer.css";

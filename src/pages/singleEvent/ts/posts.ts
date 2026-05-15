@@ -13,8 +13,8 @@ import {
   meetupId,
   getUserName,
   getProfilePicture,
-  currentUser,
-  isLoggedIn,
+  getCurrentUser,
+  getIsLoggedIn,
   showErrorMessage,
   showSuccessMessage,
   resetEditMode,
@@ -22,7 +22,6 @@ import {
 import type { Post } from "../../../ts/types";
 import { showComments } from "./comment";
 
-const currentUserId = currentUser?.id;
 const postOverlay = document.getElementById("post-overlay") as HTMLElement;
 const postForm = document.getElementById("post-form") as HTMLFormElement;
 const postHeading = document.getElementById(
@@ -58,14 +57,14 @@ function showEditMode(post: Post) {
 }
 
 function loadReactions(
-  currentUserId: number,
   postId: number,
   likeBtn: HTMLButtonElement,
   dislikeBtn: HTMLButtonElement
 ): void {
+  const currentUserId = getCurrentUser()?.id;
+  if (!currentUserId) return;
   if (dislikeBtn) dislikeBtn.classList.remove("active");
   if (likeBtn) likeBtn.classList.remove("active");
-
   const userDislike = localStorage.getItem(`${currentUserId}dislikes${postId}`);
   const userLike = localStorage.getItem(`${currentUserId}likes${postId}`);
 
@@ -82,14 +81,15 @@ export async function loadPosts(): Promise<void> {
     showErrorMessage("Kunne ikke hente arrangementet.");
     return;
   }
+
   showLoadingPosts();
   try {
     const posts = await fetchRelatedPosts(meetupId);
     setTimeout(() => {
       showPosts(posts);
     }, 1500);
-  } catch (error) {
-    console.error("Kunne ikke hente poster:", error);
+  } catch {
+    showErrorMessage("Kunne ikke hente poster.");
   }
 }
 
@@ -100,6 +100,7 @@ function showLoadingPosts(): void {
 if (postForm) {
   postForm.addEventListener("submit", async (e) => {
     e.preventDefault();
+    const currentUser = getCurrentUser();
     const title = postTitleInput.value.trim();
     const txt = postTxtInput.value.trim();
 
@@ -125,8 +126,7 @@ if (postForm) {
       }
       await loadPosts();
       resetEditMode();
-    } catch (error) {
-      console.error("Kunne ikke lagre innlegg:", error);
+    } catch {
       showErrorMessage("Kunne ikke publisere innlegg.");
     }
   });
@@ -234,6 +234,9 @@ function renderPost(post: Post, canEdit: boolean): string {
 }
 
 function showPosts(postList: Post[]) {
+  const currentUser = getCurrentUser();
+  const currentUserId = currentUser?.id;
+  const isLoggedIn = getIsLoggedIn();
   postContainer.innerHTML = "";
   postCounter.style.display = "inline-flex";
   postCounter.innerHTML = `${postList.length}`;
@@ -261,8 +264,7 @@ function showPosts(postList: Post[]) {
       ".likes-counter"
     ) as HTMLSpanElement;
 
-    if (currentUserId)
-      loadReactions(currentUserId, post.id, likeBtn, dislikeBtn);
+    if (currentUserId) loadReactions(post.id, likeBtn, dislikeBtn);
 
     let likeCount = post.likes || 0;
     let dislikeCount = post.dislikes || 0;
@@ -302,8 +304,7 @@ function showPosts(postList: Post[]) {
           }
           likesCounter.textContent = `${likeCount}`;
           await updatePostReactions(post.id, likeCount, dislikeCount);
-        } catch (error) {
-          console.error(error);
+        } catch {
           showErrorMessage("Kunne ikke reagere på innlegg.");
         }
       });
@@ -347,8 +348,7 @@ function showPosts(postList: Post[]) {
           dislikesCounter.textContent = `${dislikeCount}`;
 
           await updatePostReactions(post.id, likeCount, dislikeCount);
-        } catch (error) {
-          console.error(error);
+        } catch {
           showErrorMessage("Kunne ikke reagere på innlegg.");
         }
       });
@@ -367,9 +367,8 @@ function showPosts(postList: Post[]) {
         showEditMode(post);
 
         if (postOverlay) postOverlay.style.display = "block";
-      } catch (error) {
-        console.error(error);
-        showErrorMessage("Noe gikk galt.");
+      } catch {
+        showErrorMessage("Kan ikke redigere innlegg.");
       }
     });
   });
@@ -395,9 +394,8 @@ function showPosts(postList: Post[]) {
         localStorage.removeItem(`${currentUserId}likes${id}`);
         await loadPosts();
         showSuccessMessage("Innlegget er slettet.");
-      } catch (error) {
-        console.error(error);
-        showErrorMessage("Noe gikk galt.");
+      } catch {
+        showErrorMessage("Kunne ikke slette innlegg.");
       }
     });
   });
