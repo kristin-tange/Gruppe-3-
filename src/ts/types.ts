@@ -1,3 +1,5 @@
+//Collaborative Typescript for use on multiple pages
+
 export interface User {
   id: number;
   firstName: string;
