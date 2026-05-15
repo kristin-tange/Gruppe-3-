@@ -2,7 +2,7 @@
 
 // API-url og API-nøkkel
 import {BASE_URL, API_KEY} from "../../../ts/config"
-import type {User} from "../../../ts/types"
+import type {User, SupportTicket} from "../../../ts/types"
 
 declare const lucide: any;
 
@@ -37,12 +37,12 @@ function getCurrentUser(): User | null {
     return JSON.parse(user);
 }
 //Sjekker om brukeren er logget inn
-function userIsLoggedIn() {
+function userIsLoggedIn(): boolean {
   return localStorage.getItem("isLoggedIn") === "true";
 }
 
 //Lager en melding som vises hvis brukeren ikke er logget inn
-function getLoginMessage() {
+function getLoginMessage(): string {
   return `
     <div class="support-login-message">
     <p>Du må være logget inn for å bruke support.</p>
@@ -122,15 +122,6 @@ window.addEventListener("click", (e) => {
 
 //Funksjon som sender en ny support sak til API-et
 
-interface SupportTicket {
-    id?: number
-    title: string;
-    name: string;
-    email: string;
-    message: string;
-    userId: number;
-}
-
 async function createSupportTicket(ticket: SupportTicket): Promise<void> {
   const response = await fetch(`${BASE_URL}/supportTickets`, {
     method: "POST",
@@ -153,7 +144,7 @@ async function createSupportTicket(ticket: SupportTicket): Promise<void> {
 
 //Funksjon som henter support saker fra apiet
 
-async function getSupportTickets() {
+async function getSupportTickets(): Promise<SupportTicket[]> {
   const response = await fetch(`${BASE_URL}/supportTickets`, {
     headers: {
       Authorization: `Bearer ${API_KEY}`,
@@ -169,7 +160,7 @@ async function getSupportTickets() {
 
 //Funksjon som henter og viser sakene som tilhører innlogget bruker
 
-async function loadTickets() {
+async function loadTickets(): Promise<void> {
 
     if (!ticketsList) {
         return;
@@ -322,7 +313,7 @@ async function loadTickets() {
       //Endrer tekst så bruker kan se at saken redigeres
       sendTicketTab.textContent = "Rediger sak";
 
-      const submitSupportBtn = document.getElementById("submit-support-btn");
+      const submitSupportBtn = document.getElementById("submit-support-btn") as HTMLButtonElement | null;
 
       if (submitSupportBtn) {
         submitSupportBtn.textContent = "Lagre endringer";
