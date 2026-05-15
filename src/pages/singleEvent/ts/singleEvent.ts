@@ -8,11 +8,11 @@ import {
   meetupId,
   isLoggedIn,
   currentUser,
-  resetPostOverlay,
+  resetEditMode,
+  showSuccessMessage,
 } from "./helpers";
 import type { Meetup } from "../../../ts/types";
 import { fetchUsers } from "../../../ts/api";
-import { showSuccessMessage } from "./helpers";
 
 const heroContainer = document.getElementById(
   "hero-container"
@@ -27,7 +27,7 @@ const closeOverlayBtn = document.getElementById(
   "close-btn"
 ) as HTMLButtonElement;
 const postOverlay = document.getElementById("post-overlay") as HTMLElement;
-let postTitleInput = document.getElementById(
+const postTitleInput = document.getElementById(
   "new-post-title"
 ) as HTMLInputElement;
 
@@ -128,27 +128,31 @@ function showSingleEvent(event: Meetup): void {
   });
 }
 
-overlayBtn.addEventListener("click", () => {
-  if (!isLoggedIn) {
-    const isConfirmed = confirm(
-      "Du må være innlogget for å opprette innlegg. Ønsker du å logge inn?"
-    );
+if (overlayBtn) {
+  overlayBtn.addEventListener("click", () => {
+    if (!isLoggedIn) {
+      const isConfirmed = confirm(
+        "Du må være innlogget for å opprette innlegg. Ønsker du å logge inn?"
+      );
 
-    if (!isConfirmed) return;
+      if (!isConfirmed) return;
 
-    window.location.href = "/src/pages/login/login.html";
-    return;
-  }
+      window.location.href = "/src/pages/login/login.html";
+      return;
+    }
 
-  postOverlay.style.display = "block";
-  postTitleInput.focus();
-});
+    postOverlay.style.display = "block";
+    postTitleInput.focus();
+  });
+}
 
-closeOverlayBtn.addEventListener("click", () => {
-  postOverlay.style.display = "none";
-  resetPostOverlay();
-  overlayBtn.focus();
-});
+if (closeOverlayBtn) {
+  closeOverlayBtn.addEventListener("click", () => {
+    postOverlay.style.display = "none";
+    resetEditMode();
+    overlayBtn.focus();
+  });
+}
 
 async function init(): Promise<void> {
   await fetchUsers();

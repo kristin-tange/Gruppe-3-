@@ -1,31 +1,38 @@
 // Jan-Roger Kviteberg
 
-const BASE_URL = "http://localhost:3000/api";
-const API_KEY = "group3api";
+import { BASE_URL, API_KEY } from "../../ts/config";
+import type { Meetup } from "../../ts/types";
 
 localStorage.setItem("apiKey", API_KEY);
 
-const createEventForm = document.querySelector("#create-event-form");
-const meetupIdInput = document.querySelector("#meetup-id");
-const submitEventBtn = document.querySelector("#submit-event-btn");
-const resetFormBtn = document.querySelector("#reset-form-btn");
-const statusMessage = document.querySelector("#event-status-message");
-const meetupsList = document.querySelector("#meetups-list");
-const existingEventsSection = document.querySelector(".existing-events-section");
+type MeetupFormData = Omit<Meetup, "id">;
 
-const eventTitleInput = document.querySelector("#event-title");
-const summaryInput = document.querySelector("#short-description");
-const categoryInput = document.querySelector("#category");
-const priceInput = document.querySelector("#price");
-const tagsInput = document.querySelector("#tags");
-const dateInput = document.querySelector("#date");
-const timeInput = document.querySelector("#time");
-const locationInput = document.querySelector("#location");
-const descriptionInput = document.querySelector("#description");
+interface CategoryImage {
+  image: string;
+  imageAlt: string;
+}
 
-let meetups = [];
+const createEventForm = document.querySelector("#create-event-form") as HTMLFormElement | null;
+const meetupIdInput = document.querySelector("#meetup-id") as HTMLInputElement;
+const submitEventBtn = document.querySelector("#submit-event-btn") as HTMLButtonElement;
+const resetFormBtn = document.querySelector("#reset-form-btn") as HTMLButtonElement | null;
+const statusMessage = document.querySelector("#event-status-message") as HTMLParagraphElement;
+const meetupsList = document.querySelector("#meetups-list") as HTMLDivElement | null;
+const existingEventsSection = document.querySelector(".existing-events-section") as HTMLElement | null;
 
-const categoryImages = {
+const eventTitleInput = document.querySelector("#event-title") as HTMLInputElement;
+const summaryInput = document.querySelector("#short-description") as HTMLInputElement;
+const categoryInput = document.querySelector("#category") as HTMLSelectElement;
+const priceInput = document.querySelector("#price") as HTMLSelectElement;
+const tagsInput = document.querySelector("#tags") as HTMLInputElement;
+const dateInput = document.querySelector("#date") as HTMLInputElement;
+const timeInput = document.querySelector("#time") as HTMLInputElement;
+const locationInput = document.querySelector("#location") as HTMLInputElement;
+const descriptionInput = document.querySelector("#description") as HTMLTextAreaElement;
+
+let meetups: Meetup[] = [];
+
+const categoryImages: Record<string, CategoryImage> = {
   Academia: {
     image: "/assets/img/categories/academia1.jpg",
     imageAlt: "Academic event",
@@ -52,15 +59,15 @@ const categoryImages = {
   },
 };
 
-function isUserLoggedIn() {
+function isUserLoggedIn(): boolean {
   return localStorage.getItem("isLoggedIn") === "true";
 }
 
-function showStatusMessage(message) {
+function showStatusMessage(message: string): void {
   statusMessage.textContent = message;
 }
 
-function showLoginRequiredMessage() {
+function showLoginRequiredMessage(): void {
   statusMessage.innerHTML = `
     Du må være logget inn for å opprette, redigere eller slette arrangementer.
     <br />
@@ -70,10 +77,14 @@ function showLoginRequiredMessage() {
   statusMessage.classList.add("login-required-message");
 }
 
-function lockCreateEventPage() {
-  const formElements = createEventForm.querySelectorAll(
-    "input, select, textarea, button"
-  );
+function lockCreateEventPage(): void {
+  if (!createEventForm) {
+    return;
+  }
+
+  const formElements = createEventForm.querySelectorAll<
+    HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | HTMLButtonElement
+  >("input, select, textarea, button");
 
   formElements.forEach((element) => {
     element.disabled = true;
@@ -86,7 +97,7 @@ function lockCreateEventPage() {
   }
 }
 
-function formatDate(dateString) {
+function formatDate(dateString: string): string {
   if (!dateString) {
     return "Ukjent dato";
   }
@@ -104,7 +115,7 @@ function formatDate(dateString) {
   });
 }
 
-function formatTime(dateString) {
+function formatTime(dateString: string): string {
   if (!dateString) {
     return "Ukjent tid";
   }
@@ -121,7 +132,7 @@ function formatTime(dateString) {
   });
 }
 
-function getDateValue(dateString) {
+function getDateValue(dateString: string): string {
   if (!dateString || !dateString.includes("T")) {
     return "";
   }
@@ -129,7 +140,7 @@ function getDateValue(dateString) {
   return dateString.split("T")[0];
 }
 
-function getTimeValue(dateString) {
+function getTimeValue(dateString: string): string {
   if (!dateString || !dateString.includes("T")) {
     return "";
   }
@@ -137,14 +148,14 @@ function getTimeValue(dateString) {
   return dateString.split("T")[1].slice(0, 5);
 }
 
-function resetFormMode() {
+function resetFormMode(): void {
   meetupIdInput.value = "";
   submitEventBtn.textContent = "Publiser";
   statusMessage.classList.remove("login-required-message");
   showStatusMessage("");
 }
 
-async function fetchMeetups() {
+async function fetchMeetups(): Promise<void> {
   try {
     const response = await fetch(`${BASE_URL}/meetups`);
 
@@ -152,7 +163,7 @@ async function fetchMeetups() {
       throw new Error(`Could not fetch meetups. Status: ${response.status}`);
     }
 
-    meetups = await response.json();
+    meetups = await response.json() as Meetup[];
     displayMeetups();
   } catch (error) {
     console.error("Error fetching meetups:", error);
@@ -160,7 +171,11 @@ async function fetchMeetups() {
   }
 }
 
-function displayMeetups() {
+function displayMeetups(): void {
+  if (!meetupsList) {
+    return;
+  }
+
   meetupsList.innerHTML = "";
 
   if (meetups.length === 0) {
@@ -177,8 +192,8 @@ function displayMeetups() {
         <h3 class="meetup-item-title">${meetup.name}</h3>
         <p class="meetup-item-meta">
           ${meetup.category} | ${meetup.price || "Ingen pris"} | ${
-      meetup.location
-    } | ${formatDate(meetup.date)} kl. ${formatTime(meetup.date)}
+            meetup.location
+          } | ${formatDate(meetup.date)} kl. ${formatTime(meetup.date)}
         </p>
         <p>${meetup.summary}</p>
       </div>
@@ -197,7 +212,7 @@ function displayMeetups() {
   });
 }
 
-function getMeetupFromForm(existingMeetup = null) {
+function getMeetupFromForm(existingMeetup: Meetup | null = null): MeetupFormData {
   const tags = tagsInput.value
     .split(",")
     .map((tag) => tag.trim())
@@ -214,7 +229,7 @@ function getMeetupFromForm(existingMeetup = null) {
     category: categoryInput.value,
     location: locationInput.value.trim(),
     date: eventDateTime,
-    tags: tags,
+    tags,
     image: selectedCategoryImage?.image ?? "",
     imageAlt: selectedCategoryImage?.imageAlt ?? "",
     price: priceInput.value,
@@ -223,7 +238,7 @@ function getMeetupFromForm(existingMeetup = null) {
   };
 }
 
-async function createMeetup(meetup) {
+async function createMeetup(meetup: MeetupFormData): Promise<void> {
   try {
     const response = await fetch(`${BASE_URL}/meetups`, {
       method: "POST",
@@ -238,12 +253,12 @@ async function createMeetup(meetup) {
       throw new Error(`Could not create meetup. Status: ${response.status}`);
     }
 
-    const createdMeetup = await response.json();
+    const createdMeetup = await response.json() as Meetup;
 
     console.log("Created meetup:", createdMeetup);
     showStatusMessage("Arrangementet ble opprettet.");
 
-    createEventForm.reset();
+    createEventForm?.reset();
     resetFormMode();
 
     await fetchMeetups();
@@ -253,7 +268,7 @@ async function createMeetup(meetup) {
   }
 }
 
-async function updateMeetup(id, meetup) {
+async function updateMeetup(id: string, meetup: MeetupFormData): Promise<void> {
   try {
     const response = await fetch(`${BASE_URL}/meetups/${id}`, {
       method: "PATCH",
@@ -268,12 +283,12 @@ async function updateMeetup(id, meetup) {
       throw new Error(`Could not update meetup. Status: ${response.status}`);
     }
 
-    const updatedMeetup = await response.json();
+    const updatedMeetup = await response.json() as Meetup;
 
     console.log("Updated meetup:", updatedMeetup);
     showStatusMessage("Arrangementet ble oppdatert.");
 
-    createEventForm.reset();
+    createEventForm?.reset();
     resetFormMode();
 
     await fetchMeetups();
@@ -283,7 +298,7 @@ async function updateMeetup(id, meetup) {
   }
 }
 
-async function deleteMeetup(id) {
+async function deleteMeetup(id: string): Promise<void> {
   try {
     const response = await fetch(`${BASE_URL}/meetups/${id}`, {
       method: "DELETE",
@@ -305,15 +320,15 @@ async function deleteMeetup(id) {
   }
 }
 
-function fillFormForEdit(id) {
-  const meetup = meetups.find((meetup) => meetup.id == id);
+function fillFormForEdit(id: string): void {
+  const meetup = meetups.find((meetup) => meetup.id === Number(id));
 
   if (!meetup) {
     showStatusMessage("Fant ikke arrangementet som skulle redigeres.");
     return;
   }
 
-  meetupIdInput.value = meetup.id;
+  meetupIdInput.value = String(meetup.id);
   eventTitleInput.value = meetup.name ?? "";
   summaryInput.value = meetup.summary ?? "";
   categoryInput.value = meetup.category ?? "";
@@ -333,7 +348,7 @@ function fillFormForEdit(id) {
   });
 }
 
-function handleCreateEvent(event) {
+function handleCreateEvent(event: SubmitEvent): void {
   event.preventDefault();
 
   if (!isUserLoggedIn()) {
@@ -342,19 +357,21 @@ function handleCreateEvent(event) {
   }
 
   const meetupId = meetupIdInput.value;
-  const existingMeetup = meetups.find((meetup) => meetup.id == meetupId);
+  const existingMeetup =
+    meetups.find((meetup) => meetup.id === Number(meetupId)) ?? null;
+
   const meetup = getMeetupFromForm(existingMeetup);
 
   console.log("Sending meetup:", meetup);
 
   if (meetupId) {
-    updateMeetup(meetupId, meetup);
+    void updateMeetup(meetupId, meetup);
   } else {
-    createMeetup(meetup);
+    void createMeetup(meetup);
   }
 }
 
-function initCreateEventPage() {
+function initCreateEventPage(): void {
   if (!createEventForm) {
     console.error("Create event form not found.");
     return;
@@ -367,8 +384,8 @@ function initCreateEventPage() {
   }
 
   if (meetupsList) {
-    meetupsList.addEventListener("click", async function (event) {
-      const clickedElement = event.target;
+    meetupsList.addEventListener("click", async (event: MouseEvent) => {
+      const clickedElement = event.target as HTMLElement;
 
       if (!isUserLoggedIn()) {
         lockCreateEventPage();
@@ -377,6 +394,10 @@ function initCreateEventPage() {
 
       if (clickedElement.classList.contains("delete-meetup-btn")) {
         const meetupId = clickedElement.dataset.id;
+
+        if (!meetupId) {
+          return;
+        }
 
         const isConfirmed = confirm(
           "Er du sikker på at du vil slette dette arrangementet?"
@@ -389,6 +410,11 @@ function initCreateEventPage() {
 
       if (clickedElement.classList.contains("edit-meetup-btn")) {
         const meetupId = clickedElement.dataset.id;
+
+        if (!meetupId) {
+          return;
+        }
+
         fillFormForEdit(meetupId);
       }
     });
@@ -399,7 +425,7 @@ function initCreateEventPage() {
     return;
   }
 
-  fetchMeetups();
+  void fetchMeetups();
 }
 
 initCreateEventPage();

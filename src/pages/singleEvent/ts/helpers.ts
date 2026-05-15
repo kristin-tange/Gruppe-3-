@@ -14,7 +14,7 @@ export function getUserName(userId: number): string {
 
 export function getProfilePicture(userId: number): string {
   const user = users.find((u) => u.id === userId);
-  return user ? user.image : "/assets/img/placeholder-profile.png";
+  return user?.image || "/assets/img/placeholder-profile.png";
 }
 
 export function formatDate(data: string): string {
@@ -44,9 +44,11 @@ const successMessage = document.getElementById(
 ) as HTMLDivElement;
 
 export function showErrorMessage(message: string): void {
+  if (!errorMessage) return;
+
   errorMessage.textContent = message;
 
-  errorMessage?.classList.remove("hide-message");
+  errorMessage.classList.remove("hide-message");
 
   setTimeout(() => {
     errorMessage?.classList.add("hide-message");
@@ -54,6 +56,8 @@ export function showErrorMessage(message: string): void {
 }
 
 export function showSuccessMessage(message: string): void {
+  if (!successMessage) return;
+
   successMessage.textContent = message;
 
   successMessage.classList.remove("hide-message");
@@ -63,7 +67,7 @@ export function showSuccessMessage(message: string): void {
   }, 3000);
 }
 
-export function resetPostOverlay(): void {
+export function resetEditMode(): void {
   const postHeading = document.getElementById(
     "form-heading"
   ) as HTMLHeadingElement;
@@ -77,13 +81,6 @@ export function resetPostOverlay(): void {
     "publish-btn"
   ) as HTMLButtonElement;
   const postOverlay = document.getElementById("post-overlay") as HTMLElement;
-
-  let editingPostId: number | null = null;
-  let originalTitle = "";
-  let originalTxt = "";
-  editingPostId = null;
-  originalTitle = "";
-  originalTxt = "";
 
   postTitleInput.value = "";
   postTxtInput.value = "";
